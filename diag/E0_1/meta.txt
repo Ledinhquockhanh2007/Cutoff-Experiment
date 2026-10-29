@@ -1,0 +1,10 @@
+tag=E0_1 rounds=300 sizes=65536 affinity= start=2026-10-28T23:50:35.7099269+07:00
+Power Scheme GUID: 381b4222-f694-41f0-9685-ff5bb260df2e  (Balanced)
+
+    Current AC Power Setting Index: 0x00000050
+
+
+openjdk version "25.0.4.1" 2026-08-18 LTS
+OpenJDK Runtime Environment Microsoft-14951867 (build 25.0.4.1+1-LTS)
+OpenJDK 64-Bit Server VM Microsoft-14951867 (build 25.0.4.1+1-LTS, mixed mode, sharing)
+end=2026-10-28T23:53:10.8746868+07:00 java_exit= seconds=150

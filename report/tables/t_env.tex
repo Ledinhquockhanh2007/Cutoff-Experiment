@@ -1,0 +1,16 @@
+% Bảng: môi trường thí nghiệm (results_run3/env_fork1.txt + thông tin máy)
+% Sinh tự động bởi report/make_tables.py, KHÔNG sửa tay.
+\begin{tabular}{lp{0.75\linewidth}}
+\toprule
+Thành phần & Cấu hình \\
+\midrule
+Máy & Lenovo Legion 5 15AHP10 (R7000 AHP10, model 83M0) \\
+CPU & AMD Ryzen 7 H 255, 8 nhân / 16 luồng, xung cơ bản 3.8 GHz; L1 512 KB, L2 8 MB (1 MB/nhân), L3 16 MB \\
+RAM & 16 GB DDR5-5600, SODIMM, single-channel (1/2 khe) \\
+Hệ điều hành & Windows 11 Home 26H2 (build 26300.9711), x64; gói nguồn Balanced \\
+JDK & Microsoft OpenJDK 25.0.4.1 (OpenJDK 64-Bit Server VM) \\
+Cờ JVM & \texttt{-Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch} \\
+Khởi chạy & \texttt{start /b /wait /high}; run 3 thêm \texttt{/affinity C00} (nhân 5) \\
+Python & pandas, numpy, scipy, matplotlib (xem \texttt{scripts/requirements.txt}) \\
+\bottomrule
+\end{tabular}

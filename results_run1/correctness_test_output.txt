@@ -1,0 +1,18 @@
+GROUP                                                                  PASS  FAIL
+00. JVM runs with -ea                                                     1     0  PASS
+01. DataGenerator: values, encoding, determinism, plan                  266     0  PASS
+02. isSorted (N=0..300 x cutoff=1..70 x 5 distributions)             105350     0  PASS
+03. output is a permutation of input (vs Arrays.sort)                105350     0  PASS
+04. MergeCutoff == MergeCutoffCounted (same objects, same order)     105350     0  PASS
+05. stability (Item(key, idx))                                       126420     0  PASS
+06. cutoff < 1 -> IllegalArgumentException                               32     0  PASS
+07. 1/2 N lgN <= C <= N lgN (cutoff=1, N=2^k)                            85     0  PASS
+08. S = N(lgN - m) (N=2^k, cutoff=2^m, m<k)                             403     0  PASS
+09. S = simulated recursion tree (independent)                       105350     0  PASS
+10. A = 4S + 2C + 4E                                                 105668     0  PASS
+11. E = inversions of original array on leaves (independent)         105350     0  PASS
+12. insertion alone: sorted / reversed, k=1..50                         100     0  PASS
+13. no unexpected exception                                          105350     0  PASS
+14. MergeCutoff (timed version) has same tree: compares match        105350     0  PASS
+
+TOTAL: 970425 checks, 0 failed -> PASS  (5.7 s)

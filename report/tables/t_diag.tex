@@ -1,0 +1,15 @@
+% Bảng: chuỗi chẩn đoán hai mức hiệu năng (số liệu từ diag/ và results_run3/diag)
+% Sinh tự động bởi report/make_tables.py, KHÔNG sửa tay.
+\begin{tabular}{lp{0.33\linewidth}p{0.42\linewidth}}
+\toprule
+Bước & Cách làm & Kết quả đo \\
+\midrule
+PrintCompilation & 2 JVM, \texttt{-XX:+PrintCompilation} & không có sự kiện biên dịch MergeCutoff quanh lúc chuyển mức \\
+Pilot A/B & pilot sau 10 phút nghỉ; pilot chạy liền sau & cả hai không nhảy ở warm-up \\
+E0\_1, E0\_2 & WarmupProbe 300 / 900 vòng + typeperf & 296/300 và 900/900 vòng nhanh; xung $\approx$121\% \\
+E6 & Benchmark như \texttt{run\_all.bat} + typeperf & 3.4--130.9 s trên nhân 0 ở 77--79\%; sau đó nhân 5/7 ở 125--128\% \\
+T2\_c0 & ghim nhân 0 (\texttt{/affinity 3}) & nhân 0 ở 124--127\%, nhanh \\
+T2\_c5 & ghim nhân 5 (\texttt{/affinity C00}) & nhân 5 ở $\approx$128\%, nhanh \\
+run 3 & 3 fork, ghim nhân 5 + typeperf suốt lượt & 100\% mẫu trên nhân 5; xung trung vị 129.0--129.5\% \\
+\bottomrule
+\end{tabular}
