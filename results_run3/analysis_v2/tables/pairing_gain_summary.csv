@@ -1,0 +1,5 @@
+scale,n_cells,red_total_median_pct,red_total_p10_pct,red_total_p90_pct,red_within_median_pct,red_within_p10_pct,red_within_p90_pct
+2^12,816,90.76,76.9,95.82,-0.18,-19.39,28.55
+2^16,1968,90.0,69.76,98.05,1.1,-26.57,39.34
+2^19,816,93.96,81.96,97.88,6.06,-26.41,53.44
+all,3600,91.26,73.41,97.7,1.31,-25.15,40.37

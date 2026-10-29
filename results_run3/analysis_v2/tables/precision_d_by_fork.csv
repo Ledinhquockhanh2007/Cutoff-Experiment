@@ -1,0 +1,4 @@
+scale,d_fork1_pct,d_fork2_pct,d_fork3_pct,d_mean_pct,d_sd_pct,d_se_pct,ci95_fork_lo_pct,ci95_fork_hi_pct,ci95_contains_zero
+2^12,2.012,1.955,2.243,2.07,0.153,0.088,1.69,2.45,False
+2^16,1.232,1.022,1.331,1.195,0.158,0.091,0.803,1.587,False
+2^19,0.486,0.886,1.699,1.024,0.618,0.357,-0.512,2.559,True

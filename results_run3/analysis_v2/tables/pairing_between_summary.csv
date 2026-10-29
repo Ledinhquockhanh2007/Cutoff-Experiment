@@ -1,0 +1,5 @@
+scale,n_cells,sd_b_tc_median_pct,sd_b_r_median_pct,sd_b_ratio_median,sd_b_reduction_median_pct,var_b_reduction_median_pct
+2^12,816,5.29,0.8,0.14,86.0,98.04
+2^16,1968,4.11,0.69,0.157,84.1,97.47
+2^19,816,7.68,1.01,0.134,86.56,98.19
+all,3600,4.97,0.77,0.146,85.26,97.83
