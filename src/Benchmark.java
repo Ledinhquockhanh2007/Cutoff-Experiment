@@ -79,6 +79,9 @@ public final class Benchmark
 
    static int fork;
    static boolean pilot;
+   static int fixedK = -1;
+   static int onlyScale = -1;
+   static int limitDatasets = -1;
    static long sink = 0;
    static long runOrder = 0;
    static long gcFlagged = 0;
@@ -290,6 +293,9 @@ public final class Benchmark
       sb.append("start_time=").append(ZonedDateTime.now()).append('\n');
       sb.append("mode=").append(pilot ? "pilot" : "full").append('\n');
       sb.append("fork=").append(fork).append('\n');
+      if (fixedK > 0) sb.append("fixed_k=").append(fixedK).append('\n');
+      if (onlyScale > 0) sb.append("only_scale=").append(onlyScale).append('\n');
+      if (limitDatasets > 0) sb.append("limit_datasets=").append(limitDatasets).append('\n');
       for (String k : new String[]{"java.version", "java.vm.name", "java.vm.version", "java.vendor",
                                    "os.name", "os.version", "os.arch"})
          sb.append(k).append('=').append(System.getProperty(k)).append('\n');
@@ -327,7 +333,7 @@ public final class Benchmark
          double tot = 0;
          for (int c : shuffled(FULL_GRID, trialSeed(0, 5000 + r)))
          {
-            long t = measure(base, c, 1);
+            long t = measure(base, c, fixedK > 0 ? fixedK : 1);
             tot += t;
             rows.append(fork).append(",jvm_warmup,").append(JVM_WARMUP_N).append(',').append(c).append(',')
                 .append(r).append(',').append(t).append('\n');
@@ -369,10 +375,20 @@ public final class Benchmark
       int[] grid = gridFor(ds.dist());
       int reps = pilot ? PILOT_R : repsFor(ds);
 
-      // dò sơ bộ để chọn K cho warm-up (không ghi lại)
-      long probe = Long.MAX_VALUE;
-      for (int i = 0; i < 3; i++) probe = Math.min(probe, measure(base, grid[grid.length / 2], 1));
-      int kw = kFor(probe);
+      int kw, k;
+      if (fixedK > 0)
+      {
+         kw = fixedK;
+         k = fixedK;
+      }
+      else
+      {
+         // dò sơ bộ để chọn K cho warm-up (không ghi lại)
+         long probe = Long.MAX_VALUE;
+         for (int i = 0; i < 3; i++) probe = Math.min(probe, measure(base, grid[grid.length / 2], 1));
+         kw = kFor(probe);
+         k = -1;
+      }
 
       StringBuilder warmRows = new StringBuilder();
       long minLast = Long.MAX_VALUE;
@@ -384,7 +400,7 @@ public final class Benchmark
                     .append(c).append(',').append(r).append(',').append(t).append('\n');
             if (r == DATASET_WARMUP_ROUNDS) minLast = Math.min(minLast, t);
          }
-      int k = kFor(minLast);              // K cố định cho mọi CUTOFF của bộ này
+      if (fixedK <= 0) k = kFor(minLast);              // K cố định cho mọi CUTOFF của bộ này
       long tw1 = System.nanoTime();
 
       StringBuilder rawRows = new StringBuilder();
@@ -434,6 +450,12 @@ public final class Benchmark
       return measurements * (double) ds.n() * (Math.log(ds.n()) / Math.log(2));
    }
 
+   static int parseScale(String s)
+   {
+      if (s.startsWith("2^")) return 1 << Integer.parseInt(s.substring(2));
+      return Integer.parseInt(s);
+   }
+
    public static void main(String[] args) throws IOException
    {
       if (assertionsEnabled())
@@ -449,11 +471,14 @@ public final class Benchmark
       {
          switch (args[i])
          {
-            case "--fork"    -> fork = Integer.parseInt(args[++i]);
-            case "--pilot"   -> pilot = true;
-            case "--resume"  -> resume = true;
-            case "--data"    -> dataDir = Paths.get(args[++i]);
-            case "--results" -> resultsDir = Paths.get(args[++i]);
+            case "--fork"           -> fork = Integer.parseInt(args[++i]);
+            case "--pilot"          -> pilot = true;
+            case "--resume"         -> resume = true;
+            case "--data"           -> dataDir = Paths.get(args[++i]);
+            case "--results"        -> resultsDir = Paths.get(args[++i]);
+            case "--fixed-k"        -> fixedK = Integer.parseInt(args[++i]);
+            case "--only-scale"     -> onlyScale = parseScale(args[++i]);
+            case "--limit-datasets" -> limitDatasets = Integer.parseInt(args[++i]);
             default -> { System.err.println("unknown argument: " + args[i]); System.exit(2); }
          }
       }
@@ -473,12 +498,23 @@ public final class Benchmark
 
       List<DS> all = readManifest(dataDir);
       List<DS> chosen = pilot ? pilotSubset(all) : all;
+      if (onlyScale > 0)
+      {
+         List<DS> filtered = new ArrayList<>();
+         for (DS ds : chosen)
+            if (ds.dist().equals("random") && ds.scale() == onlyScale) filtered.add(ds);
+         chosen = filtered;
+      }
       List<DS> order = new ArrayList<>(chosen);
       Random ro = new Random(1000 + fork);
       for (int i = 0; i < order.size(); i++)                  // Knuth shuffle thứ tự bộ dữ liệu
       {
          int j = ro.nextInt(i + 1);
          DS t = order.get(i); order.set(i, order.get(j)); order.set(j, t);
+      }
+      if (limitDatasets > 0 && limitDatasets < order.size())
+      {
+         order = new ArrayList<>(order.subList(0, limitDatasets));
       }
 
       Map<String, Integer> expected = new HashMap<>();

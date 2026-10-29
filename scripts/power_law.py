@@ -349,8 +349,8 @@ def compute_fork_scale_interaction(df_run3: pd.DataFrame, cutoffs: list[int]) ->
     for c in cutoffs:
         sub_c = df_calc[df_calc["cutoff"] == c]
 
-        # (i) & (ii) Tính theo từng thang
-        for sname in ["2^12", "2^16", "2^19"]:
+        # (i) & (ii) Tính theo từng thang (chỉ 2^16 và 2^19 theo T03-0)
+        for sname in ["2^16", "2^19"]:
             sub_s = sub_c[sub_c["scale"] == sname]
 
             gm_forks = []
@@ -388,8 +388,9 @@ def compute_fork_scale_interaction(df_run3: pd.DataFrame, cutoffs: list[int]) ->
                 "local_b_3fork_sd": sd_b_forks,
             })
 
-        # (iii) Phân rã phương sai 2-way ANOVA trên 72 N x 3 forks = 216 điểm của cutoff c
-        t_bar_cells = sub_c.groupby(["fork", "N", "scale"])["time_ns"].apply(
+        # (iii) Phân rã phương sai 2-way ANOVA trên 48 N x 3 forks = 144 điểm của cutoff c (chỉ 2^16 + 2^19)
+        sub_c_scales = sub_c[sub_c["scale"].isin(["2^16", "2^19"])]
+        t_bar_cells = sub_c_scales.groupby(["fork", "N", "scale"])["time_ns"].apply(
             lambda x: np.exp(np.mean(np.log(x)))
         ).reset_index()
         t_bar_cells["log_t_norm"] = np.log(t_bar_cells["time_ns"]) - np.log(t_bar_cells["N"] * np.log2(t_bar_cells["N"]))
@@ -409,11 +410,11 @@ def compute_fork_scale_interaction(df_run3: pd.DataFrame, cutoffs: list[int]) ->
         ss_inter = float(ss_cells - ss_scale - ss_fork)
         ss_within = float(np.sum((y - cell_means)**2))
 
-        df_tot = len(y) - 1            # 215
-        df_scale = 3 - 1               # 2
+        df_tot = len(y) - 1            # 143
+        df_scale = 2 - 1               # 1
         df_fork = 3 - 1                # 2
-        df_inter = (3 - 1) * (3 - 1)   # 4
-        df_within = 9 * (24 - 1)       # 207
+        df_inter = (2 - 1) * (3 - 1)   # 2
+        df_within = 6 * (24 - 1)       # 138
 
         ms_within = ss_within / df_within
         ms_scale = ss_scale / df_scale
@@ -503,9 +504,12 @@ def compute_algorithmic_exponents(
                 lr_f = stats.linregress(np.log(t_f["N"].values), np.log(t_f["time_ns"].values))
                 b_forks.append(float(lr_f.slope))
 
+            note = "dai N hep (he so 1.94); JVM khac voi cac thang con lai" if sname == "2^12" else ""
+
             rows.append({
                 "cutoff": c,
                 "scale": sname,
+                "note": note,
                 "N_min": int(sub_cnt_s["N"].min()),
                 "N_max": int(sub_cnt_s["N"].max()),
                 "N_geom": N_geom,
@@ -661,11 +665,12 @@ def compute_cache_step_analysis(df_run3: pd.DataFrame, counts_df: pd.DataFrame) 
 
 
 # ──────────────────────────────────────────────────────────────── vẽ đồ thị
-def plot_power_law_runs(fits_dict: dict, t_bars_dict: dict, out_dir: Path):
-    """Hình 1: Đồ thị log-log T_bar theo N cho 3 lượt chạy (c=1)."""
+def plot_power_law_runs(fits_dict: dict, t_bars_dict: dict, out_dir: Path, primary_label: str = "run 3 (ghim nhân 5)"):
+    """Hình 1: Đồ thị log-log T_bar theo N cho các lượt chạy (c=1)."""
     fig, ax = plt.subplots(figsize=(6.4, 4.2))
 
     run_styles = {
+        primary_label: {"color": "#2a78d6", "marker": "o", "label": f"{primary_label}: đo"},
         "run 3 (ghim nhân 5)": {"color": "#2a78d6", "marker": "o", "label": "run 3 (ghim nhân 5, nhanh)"},
         "run 2": {"color": "#eb6834", "marker": "s", "label": "run 2 (không ghim, chậm)"},
         "run 1": {"color": "#1baf7a", "marker": "^", "label": "run 1 (không ghim, chậm)"},
@@ -780,18 +785,18 @@ def plot_cache_step(cache_df: pd.DataFrame, out_dir: Path):
 # ──────────────────────────────────────────────────────────────── main
 def main():
     parser = argparse.ArgumentParser(
-        description="power_law.py – Phân tích mô hình lũy thừa T = a*N^b và số mũ cục bộ (T02b).",
+        description="power_law.py – Phân tích mô hình lũy thừa T = a*N^b và số mũ cục bộ (T02b/T03-0).",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    parser.add_argument("--run3-dir", type=Path, default=Path("results_run3"),
-                        help="Thư mục dữ liệu run 3 (ghim nhân 5, chính)")
+    parser.add_argument("--results", "--run3-dir", dest="results_dir", type=Path, default=Path("results_run3"),
+                        help="Thư mục dữ liệu chính (mặc định: results_run3)")
     parser.add_argument("--run2-dir", type=Path, default=Path("results"),
                         help="Thư mục dữ liệu run 2")
     parser.add_argument("--run1-dir", type=Path, default=Path("results_run1"),
                         help="Thư mục dữ liệu run 1")
-    parser.add_argument("--counts-file", type=Path, default=Path("results_run3/counts.csv"),
-                        help="File counts.csv chứa số đếm thuật toán")
-    parser.add_argument("--out-dir", type=Path, default=Path("results_run3/analysis_v2"),
+    parser.add_argument("--counts-file", type=Path, default=None,
+                        help="File counts.csv chứa số đếm thuật toán (mặc định: <results>/counts.csv)")
+    parser.add_argument("--out", "--out-dir", dest="out_dir", type=Path, default=Path("results_run3/analysis_v2"),
                         help="Thư mục xuất bảng và hình ảnh")
     parser.add_argument("--cutoffs", type=str, default="1,7,10,30",
                         help="Danh sách các cutoff cần phân tích (phân tách bởi dấu phẩy)")
@@ -808,17 +813,29 @@ def main():
     out_tables.mkdir(parents=True, exist_ok=True)
     out_figures.mkdir(parents=True, exist_ok=True)
 
+    if args.counts_file is None:
+        counts_path = args.results_dir / "counts.csv"
+        if not counts_path.exists():
+            counts_path = Path("results_run3/counts.csv")
+    else:
+        counts_path = args.counts_file
+
+    is_final = "final" in str(args.results_dir).lower()
+    primary_label = "results_final (ghim nhân 5)" if is_final else "run 3 (ghim nhân 5)"
+    primary_short = "results_final" if is_final else "run 3"
+
     print("================================================================================")
-    print("power_law.py – Khởi động phân tích mô hình lũy thừa T = a*N^b (T02b)")
-    print(f"  Thư mục đầu vào: run 3={args.run3_dir}, run 2={args.run2_dir}, run 1={args.run1_dir}")
-    print(f"  File số đếm:     {args.counts_file}")
-    print(f"  Thư mục đầu ra:  {args.out_dir}")
-    print(f"  Cutoffs:         {cutoffs}")
+    print("power_law.py – Khởi động phân tích mô hình lũy thừa T = a*N^b (T02b/T03-0)")
+    print(f"  Thư mục dữ liệu chính: {args.results_dir} ({primary_label})")
+    print(f"  Thư mục run 2 / run 1: run 2={args.run2_dir}, run 1={args.run1_dir}")
+    print(f"  File số đếm:           {counts_path}")
+    print(f"  Thư mục đầu ra:        {args.out_dir}")
+    print(f"  Cutoffs:               {cutoffs}")
     print("================================================================================")
 
     # 1. Tải dữ liệu các lượt chạy
     runs_map = {
-        "run 3 (ghim nhân 5)": (args.run3_dir, "run 3 (ghim nhân 5)"),
+        primary_label: (args.results_dir, primary_label),
         "run 2": (args.run2_dir, "run 2"),
         "run 1": (args.run1_dir, "run 1"),
     }
@@ -832,129 +849,222 @@ def main():
         else:
             print(f"  [WARN] Không tìm thấy thư mục {rdir}, bỏ qua {rlabel}.")
 
-    if "run 3 (ghim nhân 5)" not in raw_dfs:
-        sys.exit("Lỗi: Không có dữ liệu run 3 (lượt chính). Dừng.")
+    if primary_label not in raw_dfs:
+        sys.exit(f"Lỗi: Không có dữ liệu {primary_label} (lượt chính). Dừng.")
 
-    counts_df = load_counts_data(args.counts_file)
-    print(f"Tải dữ liệu số đếm từ {args.counts_file}...")
+    counts_df = load_counts_data(counts_path)
+    print(f"Tải dữ liệu số đếm từ {counts_path}...")
     print(f"  → Đã tải {len(counts_df)} dòng số đếm (random).")
 
     # 2. Hồi quy theo từng fork riêng của mỗi run
     print("\n--- Hồi quy theo từng fork riêng (khảo sát dao động giữa-JVM) ---")
     fork_rows = []
-    fork_bs_by_run = {}
+    fork_bs_72 = {}
+    fork_bs_48 = {}
+
     for rlabel, df_run in raw_dfs.items():
-        fork_bs_by_run[rlabel] = {}
+        fork_bs_72[rlabel] = {}
+        fork_bs_48[rlabel] = {}
+        df_run_48 = df_run[df_run["scale"].isin(["2^16", "2^19"])]
+
         for c in cutoffs:
-            fork_bs_by_run[rlabel][c] = []
+            fork_bs_72[rlabel][c] = []
+            fork_bs_48[rlabel][c] = []
             for f in sorted(df_run["fork"].unique()):
-                df_fork = df_run[df_run["fork"] == f]
-                t_bar_f = compute_t_bar_per_n(df_fork, c)
-                log_N_f = np.log(t_bar_f["N"].to_numpy())
-                log_T_f = t_bar_f["mean_log_t"].to_numpy()
-                fit_f = fit_power_law_ols(log_N_f, log_T_f)
-                fork_bs_by_run[rlabel][c].append(fit_f["b"])
+                # Hồi quy trên 72 N
+                df_fork_72 = df_run[df_run["fork"] == f]
+                t_bar_f_72 = compute_t_bar_per_n(df_fork_72, c)
+                log_N_f_72 = np.log(t_bar_f_72["N"].to_numpy())
+                log_T_f_72 = t_bar_f_72["mean_log_t"].to_numpy()
+                fit_f_72 = fit_power_law_ols(log_N_f_72, log_T_f_72)
+                fork_bs_72[rlabel][c].append(fit_f_72["b"])
+
                 fork_rows.append({
                     "run": rlabel,
+                    "scope": "72 N (toàn dải)",
+                    "note": "Hồi quy 72 N" if rlabel == primary_label else "72 N (tham khảo)",
                     "fork": f,
                     "cutoff": c,
-                    "b": fit_f["b"],
-                    "se_b": fit_f["se_b"],
-                    "ci_b_lo": fit_f["ci_b_lo"],
-                    "ci_b_hi": fit_f["ci_b_hi"],
-                    "a_ns": fit_f["a_ns"],
-                    "ci_a_lo": fit_f["ci_a_lo"],
-                    "ci_a_hi": fit_f["ci_a_hi"],
-                    "corr_log_a_b": fit_f["corr_log_a_b"],
-                    "R2": fit_f["R2"],
-                    "max_abs_rel_res_pct": fit_f["max_abs_rel_res_pct"],
+                    "n_N": 72,
+                    "b": fit_f_72["b"],
+                    "se_b": fit_f_72["se_b"],
+                    "ci_b_lo": fit_f_72["ci_b_lo"],
+                    "ci_b_hi": fit_f_72["ci_b_hi"],
+                    "a_ns": fit_f_72["a_ns"],
+                    "ci_a_lo": fit_f_72["ci_a_lo"],
+                    "ci_a_hi": fit_f_72["ci_a_hi"],
+                    "corr_log_a_b": fit_f_72["corr_log_a_b"],
+                    "R2": fit_f_72["R2"],
+                    "max_abs_rel_res_pct": fit_f_72["max_abs_rel_res_pct"],
                 })
-            fork_bs_by_run[rlabel][c] = np.array(fork_bs_by_run[rlabel][c])
+
+                # Hồi quy trên 48 N (2^16 + 2^19, dùng để so sánh sạch giữa các lượt)
+                df_fork_48 = df_run_48[df_run_48["fork"] == f]
+                t_bar_f_48 = compute_t_bar_per_n(df_fork_48, c)
+                log_N_f_48 = np.log(t_bar_f_48["N"].to_numpy())
+                log_T_f_48 = t_bar_f_48["mean_log_t"].to_numpy()
+                fit_f_48 = fit_power_law_ols(log_N_f_48, log_T_f_48)
+                fork_bs_48[rlabel][c].append(fit_f_48["b"])
+
+                fork_rows.append({
+                    "run": rlabel,
+                    "scope": "48 N (2^16 + 2^19)",
+                    "note": "48 N dùng so sánh giữa các lượt (sạch K=1)",
+                    "fork": f,
+                    "cutoff": c,
+                    "n_N": 48,
+                    "b": fit_f_48["b"],
+                    "se_b": fit_f_48["se_b"],
+                    "ci_b_lo": fit_f_48["ci_b_lo"],
+                    "ci_b_hi": fit_f_48["ci_b_hi"],
+                    "a_ns": fit_f_48["a_ns"],
+                    "ci_a_lo": fit_f_48["ci_a_lo"],
+                    "ci_a_hi": fit_f_48["ci_a_hi"],
+                    "corr_log_a_b": fit_f_48["corr_log_a_b"],
+                    "R2": fit_f_48["R2"],
+                    "max_abs_rel_res_pct": fit_f_48["max_abs_rel_res_pct"],
+                })
+
+            fork_bs_72[rlabel][c] = np.array(fork_bs_72[rlabel][c])
+            fork_bs_48[rlabel][c] = np.array(fork_bs_48[rlabel][c])
+
     fork_df = pd.DataFrame(fork_rows)
     fork_csv = out_tables / "power_law_per_fork.csv"
     fork_df.to_csv(fork_csv, index=False)
     print(f"  → Đã lưu {fork_csv}")
 
-    # 3. Hồi quy OLS 72 điểm cho từng lượt và cutoff (B1)
-    print("\n--- 1. Hồi quy OLS T = a*N^b trên 72 điểm N (random) (B1) ---")
+    # 3. Hồi quy OLS cho từng lượt và cutoff (B1)
+    print("\n--- 1. Hồi quy OLS T = a*N^b trên N (random) (B1) ---")
     fit_rows = []
-    fits_dict = {}
-    t_bars_dict = {}
+    fits_72 = {}
+    fits_48 = {}
+    t_bars_72 = {}
+    t_bars_48 = {}
+
+    tcrit_df2 = stats.t.ppf(0.975, df=2)
 
     for rlabel, df_run in raw_dfs.items():
-        fits_dict[rlabel] = {}
-        t_bars_dict[rlabel] = {}
+        fits_72[rlabel] = {}
+        fits_48[rlabel] = {}
+        t_bars_72[rlabel] = {}
+        t_bars_48[rlabel] = {}
+
+        df_run_48 = df_run[df_run["scale"].isin(["2^16", "2^19"])]
+
         for c in cutoffs:
-            t_bar = compute_t_bar_per_n(df_run, c)
-            t_bars_dict[rlabel][c] = t_bar
+            # Hồi quy 72 N
+            t_bar_72 = compute_t_bar_per_n(df_run, c)
+            t_bars_72[rlabel][c] = t_bar_72
+            log_N_72 = np.log(t_bar_72["N"].to_numpy())
+            log_T_72 = t_bar_72["mean_log_t"].to_numpy()
+            fit_72 = fit_power_law_ols(log_N_72, log_T_72)
+            fits_72[rlabel][c] = fit_72
 
-            log_N = np.log(t_bar["N"].to_numpy())
-            log_T = t_bar["mean_log_t"].to_numpy()
-            fit = fit_power_law_ols(log_N, log_T)
-            fits_dict[rlabel][c] = fit
+            f_bs_72 = fork_bs_72[rlabel][c]
+            b_m_72 = float(np.mean(f_bs_72))
+            b_s_72 = float(np.std(f_bs_72, ddof=1))
+            b_se_72 = b_s_72 / math.sqrt(len(f_bs_72))
 
-            # Thống kê fork cho b
-            f_bs = fork_bs_by_run[rlabel][c]
-            tcrit_df2 = stats.t.ppf(0.975, df=2)
-            b_m = float(np.mean(f_bs))
-            b_s = float(np.std(f_bs, ddof=1))
-            b_se = b_s / math.sqrt(len(f_bs))
-
-            row_data = {
+            row_72 = {
                 "run": rlabel,
+                "scope": "72 N (chính)" if rlabel == primary_label else "72 N (tham khảo)",
+                "note": "Hồi quy chính 72 N (gộp 24 N thang 2^12 từ run 4 với 48 N từ run 3; đều ghim nhân 5)" if rlabel == primary_label else "72 N (run 1/2 còn K thiết kế ở 2^12)",
                 "cutoff": c,
-                "n_N": fit["n_N"],
-                "b": fit["b"],
-                "se_b": fit["se_b"],
-                "ci_b_lo": fit["ci_b_lo"],
-                "ci_b_hi": fit["ci_b_hi"],
-                "b_mean_3forks": b_m,
-                "b_sd_3forks": b_s,
-                "ci95_b_3forks_lo": b_m - tcrit_df2 * b_se,
-                "ci95_b_3forks_hi": b_m + tcrit_df2 * b_se,
-                "a_ns": fit["a_ns"],
-                "se_log_a": fit["se_log_a"],
-                "ci_a_lo": fit["ci_a_lo"],
-                "ci_a_hi": fit["ci_a_hi"],
-                "corr_log_a_b": fit["corr_log_a_b"],
-                "R2": fit["R2"],
-                "max_abs_rel_res_pct": fit["max_abs_rel_res_pct"],
+                "n_N": 72,
+                "b": fit_72["b"],
+                "se_b": fit_72["se_b"],
+                "ci_b_lo": fit_72["ci_b_lo"],
+                "ci_b_hi": fit_72["ci_b_hi"],
+                "b_mean_3forks": b_m_72,
+                "b_sd_3forks": b_s_72,
+                "ci95_b_3forks_lo": b_m_72 - tcrit_df2 * b_se_72,
+                "ci95_b_3forks_hi": b_m_72 + tcrit_df2 * b_se_72,
+                "a_ns": fit_72["a_ns"],
+                "se_log_a": fit_72["se_log_a"],
+                "ci_a_lo": fit_72["ci_a_lo"],
+                "ci_a_hi": fit_72["ci_a_hi"],
+                "corr_log_a_b": fit_72["corr_log_a_b"],
+                "R2": fit_72["R2"],
+                "max_abs_rel_res_pct": fit_72["max_abs_rel_res_pct"],
             }
-            # Thêm các cột T_hat tại N tham chiếu
             for nr in N_REFS:
-                tr = fit["t_refs"][nr]
-                row_data[f"T_hat_{nr}_ms"] = tr["T_hat_ms"]
-                row_data[f"ci95_T_{nr}_lo_ms"] = tr["ci_T_lo_ms"]
-                row_data[f"ci95_T_{nr}_hi_ms"] = tr["ci_T_hi_ms"]
+                tr = fit_72["t_refs"][nr]
+                row_72[f"T_hat_{nr}_ms"] = tr["T_hat_ms"]
+                row_72[f"ci95_T_{nr}_lo_ms"] = tr["ci_T_lo_ms"]
+                row_72[f"ci95_T_{nr}_hi_ms"] = tr["ci_T_hi_ms"]
+            fit_rows.append(row_72)
 
-            fit_rows.append(row_data)
-            print(f"  {rlabel:20s} c={c:2d}: b = {fit['b']:.6f} (forks mean={b_m:.4f}, SD={b_s:.4f}), "
-                  f"a = {fit['a_ns']:.3f} ns, corr(ln a, b) = {fit['corr_log_a_b']:.4f}")
+            # Hồi quy 48 N (2^16 + 2^19)
+            t_bar_48 = compute_t_bar_per_n(df_run_48, c)
+            t_bars_48[rlabel][c] = t_bar_48
+            log_N_48 = np.log(t_bar_48["N"].to_numpy())
+            log_T_48 = t_bar_48["mean_log_t"].to_numpy()
+            fit_48 = fit_power_law_ols(log_N_48, log_T_48)
+            fits_48[rlabel][c] = fit_48
+
+            f_bs_48 = fork_bs_48[rlabel][c]
+            b_m_48 = float(np.mean(f_bs_48))
+            b_s_48 = float(np.std(f_bs_48, ddof=1))
+            b_se_48 = b_s_48 / math.sqrt(len(f_bs_48))
+
+            row_48 = {
+                "run": rlabel,
+                "scope": "48 N (2^16 + 2^19)",
+                "note": "48 N (2^16 + 2^19, sạch K=1, dùng để so sánh giữa các lượt)",
+                "cutoff": c,
+                "n_N": 48,
+                "b": fit_48["b"],
+                "se_b": fit_48["se_b"],
+                "ci_b_lo": fit_48["ci_b_lo"],
+                "ci_b_hi": fit_48["ci_b_hi"],
+                "b_mean_3forks": b_m_48,
+                "b_sd_3forks": b_s_48,
+                "ci95_b_3forks_lo": b_m_48 - tcrit_df2 * b_se_48,
+                "ci95_b_3forks_hi": b_m_48 + tcrit_df2 * b_se_48,
+                "a_ns": fit_48["a_ns"],
+                "se_log_a": fit_48["se_log_a"],
+                "ci_a_lo": fit_48["ci_a_lo"],
+                "ci_a_hi": fit_48["ci_a_hi"],
+                "corr_log_a_b": fit_48["corr_log_a_b"],
+                "R2": fit_48["R2"],
+                "max_abs_rel_res_pct": fit_48["max_abs_rel_res_pct"],
+            }
+            for nr in N_REFS:
+                tr = fit_48["t_refs"][nr]
+                row_48[f"T_hat_{nr}_ms"] = tr["T_hat_ms"]
+                row_48[f"ci95_T_{nr}_lo_ms"] = tr["ci_T_lo_ms"]
+                row_48[f"ci95_T_{nr}_hi_ms"] = tr["ci_T_hi_ms"]
+            fit_rows.append(row_48)
+
+            print(f"  {rlabel:25s} c={c:2d} (72 N): b = {fit_72['b']:.6f} (forks={b_m_72:.4f}, SD={b_s_72:.4f}), a = {fit_72['a_ns']:.3f} ns | (48 N): b = {fit_48['b']:.6f}")
 
     fits_df = pd.DataFrame(fit_rows)
     fits_csv = out_tables / "power_law_fits.csv"
     fits_df.to_csv(fits_csv, index=False)
     print(f"  → Đã lưu {fits_csv}")
 
-    # 4. Bảng so sánh giữa các lượt (run vs run 3) (B1, B2)
-    print("\n--- 2. So sánh giữa các lượt chạy: tỉ số thời gian T_hat và kiểm Welch trên b (B1, B2) ---")
+    # 4. Bảng so sánh giữa các lượt (run vs primary) trên 48 điểm N (B1, B2)
+    # QUY TẮC T03-0 (2a): So sánh giữa các lượt chỉ dùng 48 điểm N của 2^16 + 2^19
+    print("\n--- 2. So sánh giữa các lượt chạy trên 48 điểm N (2^16 + 2^19): tỉ số T_hat và kiểm Welch (B1, B2) ---")
     comp_rows = []
-    ref_label = "run 3 (ghim nhân 5)"
+    ref_label = primary_label
 
     for rlabel in ["run 2", "run 1"]:
-        if rlabel not in fits_dict:
+        if rlabel not in fits_48:
             continue
         for c in cutoffs:
             cmp_res = compare_two_runs(
-                fits_dict[rlabel][c],
-                fits_dict[ref_label][c],
-                fork_bs_by_run[rlabel][c],
-                fork_bs_by_run[ref_label][c],
+                fits_48[rlabel][c],
+                fits_48[ref_label][c],
+                fork_bs_48[rlabel][c],
+                fork_bs_48[ref_label][c],
             )
             comp_data = {
                 "comparison": f"{rlabel} vs {ref_label}",
                 "run": rlabel,
                 "cutoff": c,
+                "n_N": 48,
+                "scope": "48 N (2^16 + 2^19)",
                 "delta_b_ols": cmp_res["delta_b"],
                 "se_delta_b_ols": cmp_res["se_delta_b"],
                 "ci_delta_b_ols_lo": cmp_res["ci_delta_b_lo"],
@@ -975,7 +1085,7 @@ def main():
                 "welch_p_val": cmp_res["welch_p_val"],
                 "welch_df": cmp_res["welch_df"],
                 "welch_significant_05": cmp_res["welch_sig"],
-                "note": "Khong so sanh a truc tiep do tuong quan am manh voi b; delta_b nam trong dao dong giua fork (Welch p > 0.05)",
+                "note": "Chi dung 48 diem N cua 2^16 + 2^19 (run 1/2 con K thiet ke o 2^12; JVM cua 2^12 o results_final khac voi cac thang con lai). Welch df=2 theo 3 fork.",
             }
             # Tỉ số thời gian tại các N tham chiếu
             for nr in N_REFS:
@@ -986,7 +1096,7 @@ def main():
 
             comp_rows.append(comp_data)
             r65 = cmp_res["ratio_refs"][65536]
-            print(f"  {rlabel} vs run 3, c={c:2d}: delta_b={cmp_res['delta_b']:+.4f} "
+            print(f"  {rlabel} vs {primary_short} (48 N), c={c:2d}: delta_b={cmp_res['delta_b']:+.4f} "
                   f"(Welch t={cmp_res['welch_t_stat']:.3f}, p={cmp_res['welch_p_val']:.3f}), "
                   f"ratio_a={cmp_res['ratio_a']:.3f}x, ratio_T(65536)={r65['ratio']:.3f}x [{r65['ci_lo']:.3f}x, {r65['ci_hi']:.3f}x]")
 
@@ -995,9 +1105,9 @@ def main():
     comp_df.to_csv(comp_csv, index=False)
     print(f"  → Đã lưu {comp_csv}")
 
-    # 5. Tương tác Fork × Thang (B3)
-    print("\n--- 3. Tương tác fork × thang trên run 3 (B3) ---")
-    inter_df, anova_df = compute_fork_scale_interaction(raw_dfs["run 3 (ghim nhân 5)"], cutoffs)
+    # 5. Tương tác Fork × Thang (B3) (chỉ trên 2^16 + 2^19)
+    print(f"\n--- 3. Tương tác fork × thang trên {primary_label} (B3, chỉ 2^16 + 2^19) ---")
+    inter_df, anova_df = compute_fork_scale_interaction(raw_dfs[primary_label], cutoffs)
     inter_csv = out_tables / "power_law_fork_scale_interaction.csv"
     anova_csv = out_tables / "power_law_fork_scale_anova.csv"
     inter_df.to_csv(inter_csv, index=False)
@@ -1013,8 +1123,8 @@ def main():
                   f"Fork 3 = {r['geom_mean_T_per_NlgN_fork3_ns']:.2f} ({r['ratio_to_mean_fork3']:.3f}) | Mean = {r['geom_mean_T_per_NlgN_3fork_mean_ns']:.2f}")
 
     # 6. Số mũ thuật toán từ counts.csv (B4)
-    print("\n--- 4. Số mũ thuật toán b_alg từ counts.csv và phần vượt (B4) ---")
-    alg_df = compute_algorithmic_exponents(raw_dfs["run 3 (ghim nhân 5)"], counts_df, cutoffs)
+    print(f"\n--- 4. Số mũ thuật toán b_alg từ counts.csv và phần vượt (B4) trên {primary_label} ---")
+    alg_df = compute_algorithmic_exponents(raw_dfs[primary_label], counts_df, cutoffs)
     alg_csv = out_tables / "power_law_algorithmic_exponents.csv"
     local_csv = out_tables / "power_law_local_exponent.csv"
     alg_df.to_csv(alg_csv, index=False)
@@ -1024,18 +1134,19 @@ def main():
         sub_a = alg_df[alg_df["cutoff"] == c]
         print(f"    Cutoff {c}:")
         for _, r in sub_a.iterrows():
+            note_str = f" [{r['note']}]" if r.get('note') else ""
             print(f"      Thang {r['scale']}: b_time = {r['b_time_T_bar']:.4f} (SD_fork={r['b_time_sd_between_forks']:.4f}) | "
                   f"b_ml = {r['b_merged_len']:.4f} (vượt {r['excess_vs_merged_len']:+.4f}) | "
-                  f"b_acc = {r['b_accesses']:.4f} (vượt {r['excess_vs_accesses']:+.4f})")
+                  f"b_acc = {r['b_accesses']:.4f} (vượt {r['excess_vs_accesses']:+.4f}){note_str}")
 
     # 7. Phân tích bậc Cache theo từng fork (B5)
-    print("\n--- 5. Bậc cache theo từng fork, chuẩn hóa T / merged_len (B5) ---")
-    cache_fork_df = compute_cache_step_by_fork(raw_dfs["run 3 (ghim nhân 5)"], counts_df, cutoffs)
+    print(f"\n--- 5. Bậc cache theo từng fork, chuẩn hóa T / merged_len (B5) trên {primary_label} ---")
+    cache_fork_df = compute_cache_step_by_fork(raw_dfs[primary_label], counts_df, cutoffs)
     cache_fork_csv = out_tables / "power_law_cache_by_fork.csv"
     cache_fork_df.to_csv(cache_fork_csv, index=False)
     print(f"  → Đã lưu {cache_fork_csv}")
 
-    cache_df = compute_cache_step_analysis(raw_dfs["run 3 (ghim nhân 5)"], counts_df)
+    cache_df = compute_cache_step_analysis(raw_dfs[primary_label], counts_df)
     cache_csv = out_tables / "power_law_cache_step.csv"
     cache_df.to_csv(cache_csv, index=False)
     print(f"  → Đã lưu {cache_csv}")
@@ -1050,11 +1161,11 @@ def main():
 
     # 8. Vẽ đồ thị kết quả
     print("\n--- 6. Vẽ đồ thị kết quả ---")
-    plot_power_law_runs(fits_dict, t_bars_dict, args.out_dir)
+    plot_power_law_runs(fits_72, t_bars_72, args.out_dir, primary_label)
     plot_local_exponents(alg_df, args.out_dir)
     plot_cache_step(cache_df, args.out_dir)
 
-    print("\nHoàn tất phân tích power_law.py (T02b)!")
+    print(f"\nHoàn tất phân tích power_law.py trên {primary_label} (T03-0)!")
     print("================================================================================")
 
 

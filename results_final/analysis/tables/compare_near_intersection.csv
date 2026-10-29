@@ -1,0 +1,8 @@
+distribution,scale,near_intersection_all,best_cutoffs,every_best_in_intersection
+random,2^12,19 20 21 22 23 24 25 26 27 28 29 30 31 32 40 48,40 / 29,True
+random,2^16,13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 40 48,31 / 31,True
+random,2^19,11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 40 48 64,27 / 27,True
+sorted,2^16,64,64 / 64,True
+reversed,2^16,6 8 10 12,8 / 8,True
+nearly_sorted,2^16,64,64 / 64,True
+few_distinct,2^16,20 24 32 48,32 / 32,True

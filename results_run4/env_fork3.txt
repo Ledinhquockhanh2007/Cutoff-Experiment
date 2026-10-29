@@ -1,0 +1,74 @@
+=== session start (fresh) ===
+start_time=2026-10-29T22:00:01.782928100+07:00[Asia/Saigon]
+mode=full
+fork=3
+fixed_k=1
+only_scale=4096
+java.version=25.0.4.1
+java.vm.name=OpenJDK 64-Bit Server VM
+java.vm.version=25.0.4.1+1-LTS
+java.vendor=Microsoft
+os.name=Windows 11
+os.version=10.0
+os.arch=amd64
+availableProcessors=16
+maxMemory=2075918336
+physical_memory_total=16438054912
+physical_memory_free_at_start=5185785856
+jvm_input_arguments=[-Xms2g, -Xmx2g, -XX:+UseSerialGC, -XX:+AlwaysPreTouch]
+gc_collectors=[Copy, MarkSweepCompact]
+assertions=disabled
+target_batch_ns=2000000, k_max=1000, dataset_warmup_rounds=3
+dataset_order_seed=1003 (java.util.Random, Knuth shuffle)
+cutoff_order_seed=mix64((fork*1e8 + dataset_seed)*1e4 + t); t=trial | 1000+warmup_round | jvm: seed 0, 5000+round
+dataset_order (index distribution N seed):
+  1 random 6137 10006137
+  2 random 6889 10006889
+  3 random 7959 10007959
+  4 random 6693 10006693
+  5 random 7732 10007732
+  6 random 4732 10004732
+  7 random 5161 10005161
+  8 random 7512 10007512
+  9 random 4871 10004871
+  10 random 4467 10004467
+  11 random 5468 10005468
+  12 random 5628 10005628
+  13 random 7090 10007090
+  14 random 6502 10006502
+  15 random 4598 10004598
+  16 random 6317 10006317
+  17 random 5962 10005962
+  18 random 7298 10007298
+  19 random 4216 10004216
+  20 random 5014 10005014
+  21 random 4340 10004340
+  22 random 5312 10005312
+  23 random 4096 10004096
+  24 random 5793 10005793
+jvm_warmup: N=65536 seed=777 rounds=7 converged=true time=3.4s round_totals_ms=[494.2 358.2 349.8 349.8 345.4 347.4 348.7]
+dataset random N=6137 seed=10006137 R=10 grid=35 K_warmup=1 K=1 load=0.02s warmup=0.3s measure=1.0s gc_flagged=0
+dataset random N=6889 seed=10006889 R=10 grid=35 K_warmup=1 K=1 load=0.00s warmup=0.3s measure=1.0s gc_flagged=0
+dataset random N=7959 seed=10007959 R=10 grid=35 K_warmup=1 K=1 load=0.00s warmup=0.3s measure=1.0s gc_flagged=0
+dataset random N=6693 seed=10006693 R=10 grid=35 K_warmup=1 K=1 load=0.00s warmup=0.3s measure=1.0s gc_flagged=0
+dataset random N=7732 seed=10007732 R=10 grid=35 K_warmup=1 K=1 load=0.00s warmup=0.3s measure=1.0s gc_flagged=0
+dataset random N=4732 seed=10004732 R=10 grid=35 K_warmup=1 K=1 load=0.00s warmup=0.3s measure=0.9s gc_flagged=0
+dataset random N=5161 seed=10005161 R=10 grid=35 K_warmup=1 K=1 load=0.00s warmup=0.3s measure=0.9s gc_flagged=0
+dataset random N=7512 seed=10007512 R=10 grid=35 K_warmup=1 K=1 load=0.00s warmup=0.3s measure=1.0s gc_flagged=0
+dataset random N=4871 seed=10004871 R=10 grid=35 K_warmup=1 K=1 load=0.00s warmup=0.3s measure=0.9s gc_flagged=0
+dataset random N=4467 seed=10004467 R=10 grid=35 K_warmup=1 K=1 load=0.00s warmup=0.3s measure=0.9s gc_flagged=0
+dataset random N=5468 seed=10005468 R=10 grid=35 K_warmup=1 K=1 load=0.00s warmup=0.3s measure=0.9s gc_flagged=0
+dataset random N=5628 seed=10005628 R=10 grid=35 K_warmup=1 K=1 load=0.00s warmup=0.3s measure=0.9s gc_flagged=0
+dataset random N=7090 seed=10007090 R=10 grid=35 K_warmup=1 K=1 load=0.00s warmup=0.3s measure=1.0s gc_flagged=0
+dataset random N=6502 seed=10006502 R=10 grid=35 K_warmup=1 K=1 load=0.00s warmup=0.3s measure=0.9s gc_flagged=0
+dataset random N=4598 seed=10004598 R=10 grid=35 K_warmup=1 K=1 load=0.00s warmup=0.3s measure=0.8s gc_flagged=0
+dataset random N=6317 seed=10006317 R=10 grid=35 K_warmup=1 K=1 load=0.00s warmup=0.3s measure=0.9s gc_flagged=0
+dataset random N=5962 seed=10005962 R=10 grid=35 K_warmup=1 K=1 load=0.00s warmup=0.3s measure=0.9s gc_flagged=0
+dataset random N=7298 seed=10007298 R=10 grid=35 K_warmup=1 K=1 load=0.00s warmup=0.3s measure=1.0s gc_flagged=0
+dataset random N=4216 seed=10004216 R=10 grid=35 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.8s gc_flagged=0
+dataset random N=5014 seed=10005014 R=10 grid=35 K_warmup=1 K=1 load=0.00s warmup=0.3s measure=0.9s gc_flagged=0
+dataset random N=4340 seed=10004340 R=10 grid=35 K_warmup=1 K=1 load=0.00s warmup=0.3s measure=0.8s gc_flagged=0
+dataset random N=5312 seed=10005312 R=10 grid=35 K_warmup=1 K=1 load=0.00s warmup=0.3s measure=0.9s gc_flagged=0
+dataset random N=4096 seed=10004096 R=10 grid=35 K_warmup=1 K=1 load=0.00s warmup=0.3s measure=0.8s gc_flagged=0
+dataset random N=5793 seed=10005793 R=10 grid=35 K_warmup=1 K=1 load=0.00s warmup=0.3s measure=0.9s gc_flagged=0
+end_time=2026-10-29T22:00:33.984522+07:00[Asia/Saigon] elapsed=0:00:32 gc_during_run_flagged=0 sink=11164621615945

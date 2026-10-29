@@ -1,0 +1,8 @@
+distribution,scale,run_a,run_b,n_cutoffs,pearson_r,max_abs_diff_pct,mean_diff_pct,near_intersection
+random,2^12,results_final (K=1 sach),run 3 (goc),35,0.9894518162221267,4.11106905600962,-2.464649178476517,19 20 21 22 23 24 25 26 27 28 29 30 31 32 40 48
+random,2^16,results_final (K=1 sach),run 3 (goc),35,1.0,0.0,0.0,13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 40 48
+random,2^19,results_final (K=1 sach),run 3 (goc),35,1.0,0.0,0.0,11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 40 48 64
+sorted,2^16,results_final (K=1 sach),run 3 (goc),13,1.0,0.0,0.0,64
+reversed,2^16,results_final (K=1 sach),run 3 (goc),13,1.0,0.0,0.0,6 8 10 12
+nearly_sorted,2^16,results_final (K=1 sach),run 3 (goc),13,1.0,0.0,0.0,64
+few_distinct,2^16,results_final (K=1 sach),run 3 (goc),13,1.0,0.0,0.0,20 24 32 48
