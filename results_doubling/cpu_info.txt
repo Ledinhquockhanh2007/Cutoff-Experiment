@@ -1,0 +1,34 @@
+=== CPU Information (Win32_Processor) ===
+Name          : AMD Ryzen 7 H 255 w/ Radeon 780M Graphics
+NumberOfCores : 8
+L2CacheSize   : 8192 KB (8 MB tổng, 1 MB / core)
+L3CacheSize   : 16384 KB (16 MB)
+
+=== Java Memory & Pointer Flags (Microsoft JDK 25.0.4.1) ===
+Command: java -Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch -XX:+PrintFlagsFinal -version
+bool UseCompressedOops = true {product lp64_product} {ergonomic}
+bool UseCompressedClassPointers = true {product lp64_product} {ergonomic}
+
+=== Phân tích dung lượng bộ nhớ cho Integer[] ===
+Với UseCompressedOops = true (con trỏ 32-bit nén trong heap 2 GB):
+- Mỗi phần tử mảng con trỏ (Comparable[] a): 4 byte
+- Mảng phụ trợ (Comparable[] aux): 4 byte / phần tử
+- Đối tượng java.lang.Integer:
+  * Object header: 12 byte (mark word 8 byte + compressed class pointer 4 byte)
+  * Trường giá trị primitive (int value): 4 byte
+  * Đệm căn chỉnh (padding 8-byte alignment): 0 byte
+  * Tổng đối tượng Integer: 16 byte
+- Tổng dung lượng bộ nhớ cho mỗi phần tử N trong quá trình sắp xếp:
+  4 byte (mảng a) + 4 byte (mảng aux) + 16 byte (đối tượng Integer) = 24 byte / phần tử.
+(Nếu chỉ tính mảng con trỏ a và aux: 8 byte / phần tử; nếu tính cả đối tượng: 24 byte / phần tử).
+
+Bảng dung lượng theo N:
+- N = 2^19 (524 288):
+  * Mảng con trỏ a + aux (8 B/pt): 4 194 304 B = 4.00 MB
+  * Tổng cả đối tượng Integer (24 B/pt): 12 582 912 B = 12.00 MB
+- N = 2^20 (1 048 576):
+  * Mảng con trỏ a + aux (8 B/pt): 8 388 608 B = 8.00 MB
+  * Tổng cả đối tượng Integer (24 B/pt): 25 165 824 B = 24.00 MB (vượt L3 cache 16 MB)
+- N = 2^22 (4 194 304):
+  * Mảng con trỏ a + aux (8 B/pt): 33 554 432 B = 32.00 MB (chỉ riêng mảng con trỏ đã vượt L3 cache)
+  * Tổng cả đối tượng Integer (24 B/pt): 100 663 296 B = 96.00 MB (vượt xa L3 cache)

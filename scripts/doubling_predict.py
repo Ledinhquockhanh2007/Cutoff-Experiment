@@ -426,22 +426,17 @@ def main():
     print("=" * 80)
 
 
-def generate_addendum(args):
+def compute_that_p3c(coef_file: Path | str | None = None) -> dict[tuple[int, int], float]:
     """
-    T04c: Bổ sung đăng ký dự đoán P3c (nội suy tuyến tính alpha)
-    Xuất vào:
-      - handoff/preregistration/T04_predictions_addendum.csv
-      - handoff/preregistration/T04_extrapolation_addendum.csv
-      - handoff/preregistration/T04_addendum.md
-    KHÔNG sửa các file đã commit ở 0aa6ca4.
+    Tính That_P3c cho mọi (k, c) với k = K_MIN..K_MAX và c in GRID.
+    Hàm này dùng để import vào doubling_analyze.py (yêu cầu B6).
     """
-    print("=" * 80)
-    print("T04c: BỔ SUNG ĐĂNG KÝ DỰ ĐOÁN PREDICTOR P3c (NỘI SUY TUYẾN TÍNH)")
-    print("=" * 80)
-
-    if not args.coef_file.exists():
-        raise FileNotFoundError(f"Không tìm thấy file hệ số {args.coef_file}")
-    df_coef = pd.read_csv(args.coef_file)
+    if coef_file is None:
+        coef_file = PROJECT_ROOT / "results_final/analysis_v2/tables/cost_model_M2_coef.csv"
+    coef_file = Path(coef_file)
+    if not coef_file.exists():
+        raise FileNotFoundError(f"Không tìm thấy file hệ số {coef_file}")
+    df_coef = pd.read_csv(coef_file)
     w1 = float(df_coef[df_coef["parameter"] == "ML_b1"]["coef"].values[0])
     w2 = float(df_coef[df_coef["parameter"] == "ML_b2"]["coef"].values[0])
     w3 = float(df_coef[df_coef["parameter"] == "ML_b3"]["coef"].values[0])
@@ -460,12 +455,6 @@ def generate_addendum(args):
         else:
             return a19
 
-    print("Quy tắc alpha(k) nội suy tuyến tính cho P3c:")
-    print(f"  k <= 12        : alpha = alpha12 = {a12:.6f}")
-    print(f"  12 <= k <= 16  : nội suy tuyến tính alpha12 ({a12:.4f}) -> alpha16 ({a16:.4f})")
-    print(f"  16 <= k <= 19  : nội suy tuyến tính alpha16 ({a16:.4f}) -> alpha19 ({a19:.4f})")
-    print(f"  k >= 19        : alpha = alpha19 = {a19:.6f} (bão hòa)")
-
     that_p3c = {}
     for k in range(K_MIN, K_MAX + 1):
         n = 1 << k
@@ -475,6 +464,41 @@ def generate_addendum(args):
             e_rand = st[5] / 2.0
             ml_b456 = b4 + b5 + b6
             that_p3c[(k, c)] = w1 * b1 + w2 * b2 + w3 * b3 + beta * e_rand + alpha_p3c(k) * ml_b456
+    return that_p3c
+
+
+def predict_t_p3c(k: int, c: int, coef_file: Path | str | None = None) -> float:
+    """Tính That_P3c(2^k, c) cho kích thước 2^k và cutoff c."""
+    return compute_that_p3c(coef_file)[(k, c)]
+
+
+def generate_addendum(args):
+    """
+    T04c: Bổ sung đăng ký dự đoán P3c (nội suy tuyến tính alpha)
+    Xuất vào:
+      - handoff/preregistration/T04_predictions_addendum.csv
+      - handoff/preregistration/T04_extrapolation_addendum.csv
+      - handoff/preregistration/T04_addendum.md
+    KHÔNG sửa các file đã commit ở 0aa6ca4.
+    """
+    print("=" * 80)
+    print("T04c: BỔ SUNG ĐĂNG KÝ DỰ ĐOÁN PREDICTOR P3c (NỘI SUY TUYẾN TÍNH)")
+    print("=" * 80)
+
+    if not args.coef_file.exists():
+        raise FileNotFoundError(f"Không tìm thấy file hệ số {args.coef_file}")
+    df_coef = pd.read_csv(args.coef_file)
+    a12 = float(df_coef[df_coef["parameter"] == "ML_b456_12"]["coef"].values[0])
+    a16 = float(df_coef[df_coef["parameter"] == "ML_b456_16"]["coef"].values[0])
+    a19 = float(df_coef[df_coef["parameter"] == "ML_b456_19"]["coef"].values[0])
+
+    print("Quy tắc alpha(k) nội suy tuyến tính cho P3c:")
+    print(f"  k <= 12        : alpha = alpha12 = {a12:.6f}")
+    print(f"  12 <= k <= 16  : nội suy tuyến tính alpha12 ({a12:.4f}) -> alpha16 ({a16:.4f})")
+    print(f"  16 <= k <= 19  : nội suy tuyến tính alpha16 ({a16:.4f}) -> alpha19 ({a19:.4f})")
+    print(f"  k >= 19        : alpha = alpha19 = {a19:.6f} (bão hòa)")
+
+    that_p3c = compute_that_p3c(args.coef_file)
 
     # 1. T04_predictions_addendum.csv
     pred_rows = []
