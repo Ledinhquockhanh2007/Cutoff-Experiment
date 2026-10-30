@@ -43,8 +43,23 @@ SPARSE_GRID = [1, 2, 4, 6, 8, 10, 12, 16, 20, 24, 32, 48, 64]
 SCALES = [2**12, 2**16, 2**19]
 SCALE_LABELS = {2**12: "2^12", 2**16: "2^16", 2**19: "2^19"}
 
-# Best cutoffs per scale (random) from rq1_best_cutoff.csv
-BEST_CUTOFF_RANDOM = {2**12: 29, 2**16: 31, 2**19: 27}
+def load_best_cutoffs(results_dir: Path) -> dict[int, int]:
+    """Đọc c* cho phân bố random từ <results>/analysis/tables/rq1_best_cutoff.csv."""
+    rq1_file = results_dir / "analysis" / "tables" / "rq1_best_cutoff.csv"
+    if not rq1_file.exists():
+        raise FileNotFoundError(
+            f"Không tìm thấy file {rq1_file}. "
+            "Bắt buộc phải có rq1_best_cutoff.csv để xác định c* theo đúng quy ước T01."
+        )
+    rq1 = pd.read_csv(rq1_file)
+    bests = {}
+    for S in SCALES:
+        lbl = SCALE_LABELS[S]
+        row = rq1[(rq1["distribution"] == "random") & (rq1["scale"] == lbl)]
+        if len(row) == 0:
+            raise ValueError(f"Không tìm thấy dòng cho distribution='random', scale='{lbl}' trong {rq1_file}")
+        bests[S] = int(row["best_cutoff"].iloc[0])
+    return bests
 
 # j=0 and j=12 N values per scale (exact: round(S * 2**(j/24)))
 def nj(S, j):
@@ -292,14 +307,14 @@ def descriptive_stats_one(sub: pd.DataFrame, dist: str, scale_lbl: str, N: int, 
     }
 
 
-def make_desc_random(df: pd.DataFrame) -> pd.DataFrame:
+def make_desc_random(df: pd.DataFrame, best_cutoffs: dict[int, int]) -> pd.DataFrame:
     """desc_random.csv: random × 3 thang × 2 N × 5 cutoff."""
     rows = []
     rdf = df[df["distribution"] == "random"]
     for S in SCALES:
         scale_lbl = SCALE_LABELS[S]
         j0_N, j12_N = SCALE_N_J0_J12[S]
-        best_c = BEST_CUTOFF_RANDOM[S]
+        best_c = best_cutoffs[S]
         cutoffs_sel = sorted(set([1, 7, 10, 30, best_c]))
         for N in [j0_N, j12_N]:
             for c in cutoffs_sel:
@@ -858,7 +873,9 @@ def main():
 
     # ── Thống kê mô tả random ──
     print("[2/6] Thống kê mô tả random...")
-    desc_rnd = make_desc_random(df)
+    best_cutoffs = load_best_cutoffs(results_dir)
+    print(f"  c* tối ưu đọc từ {results_dir / 'analysis/tables/rq1_best_cutoff.csv'}: {best_cutoffs}")
+    desc_rnd = make_desc_random(df, best_cutoffs)
     save_csv(desc_rnd, out_tables / "desc_random.csv")
 
     # ── Thống kê mô tả other ──
