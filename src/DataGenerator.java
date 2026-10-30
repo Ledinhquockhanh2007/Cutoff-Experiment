@@ -45,6 +45,8 @@ public final class DataGenerator
    public static final int[] RANDOM_SCALES = {1 << 12, 1 << 16, 1 << 19};
    public static final int OTHER_SCALE = 1 << 16;
    public static final int NS_PER_SCALE = 24;
+   public static final int DOUBLING_MIN_K = 10;
+   public static final int DOUBLING_MAX_K = 22;
    public static final List<String> DISTRIBUTIONS =
       List.of("random", "sorted", "reversed", "nearly_sorted", "few_distinct");
    public static final String MANIFEST_HEADER = "distribution,N,seed,file,sha256";
@@ -86,6 +88,17 @@ public final class DataGenerator
          if (d.equals("random")) continue;
          for (int n : scaleNs(OTHER_SCALE))
             specs.add(new Spec(d, n, seedFor(d, n)));
+      }
+      return specs;
+   }
+
+   public static List<Spec> planDoubling()
+   {
+      List<Spec> specs = new ArrayList<>();
+      for (int k = DOUBLING_MIN_K; k <= DOUBLING_MAX_K; k++)
+      {
+         int n = 1 << k;
+         specs.add(new Spec("random", n, seedFor("random", n)));
       }
       return specs;
    }
@@ -172,10 +185,10 @@ public final class DataGenerator
 
    // ------------------------------------------------------------------ modes
 
-   static void generateAll(Path out, boolean zip) throws IOException
+   static void generateAll(Path out, boolean zip, boolean doubling) throws IOException
    {
       long t0 = System.nanoTime();
-      List<Spec> specs = plan();
+      List<Spec> specs = doubling ? planDoubling() : plan();
       StringBuilder manifest = new StringBuilder(MANIFEST_HEADER).append('\n');
       for (Spec s : specs)
       {
@@ -193,7 +206,7 @@ public final class DataGenerator
       System.out.printf("Generated %d files + manifest.csv in %s (%.1f s)%n",
                         specs.size(), out, (System.nanoTime() - t0) / 1e9);
       System.out.printf("sha256(manifest.csv) = %s%n", sha256(m));
-      System.out.printf("data/ size      : %,d bytes (%.1f MB)%n", raw, raw / 1048576.0);
+      System.out.printf("%s/ size      : %,d bytes (%.1f MB)%n", out.getFileName(), raw, raw / 1048576.0);
       if (zip)
       {
          Path z = zipDir(out);
@@ -201,6 +214,11 @@ public final class DataGenerator
          System.out.printf("%s size: %,d bytes (%.1f MB), %.1f%% of raw%n",
                            z.getFileName(), zs, zs / 1048576.0, 100.0 * zs / raw);
       }
+   }
+
+   static void generateAll(Path out, boolean zip) throws IOException
+   {
+      generateAll(out, zip, false);
    }
 
    static Path zipDir(Path out) throws IOException
@@ -226,7 +244,7 @@ public final class DataGenerator
    }
 
    /** @return số lỗi */
-   static int verify(Path out) throws IOException
+   static int verify(Path out, boolean doubling) throws IOException
    {
       List<String> lines = Files.readAllLines(out.resolve("manifest.csv"), StandardCharsets.UTF_8);
       int fail = 0, ok = 0;
@@ -235,7 +253,7 @@ public final class DataGenerator
          System.out.println("FAIL manifest header");
          return 1;
       }
-      List<Spec> expected = plan();
+      List<Spec> expected = doubling ? planDoubling() : plan();
       if (lines.size() - 1 != expected.size())
       {
          System.out.printf("FAIL manifest has %d rows, plan has %d%n", lines.size() - 1, expected.size());
@@ -271,21 +289,31 @@ public final class DataGenerator
       return fail;
    }
 
+   static int verify(Path out) throws IOException
+   {
+      return verify(out, false);
+   }
+
    public static void main(String[] args) throws IOException
    {
-      Path out = Paths.get("data");
-      boolean verify = false, zip = true;
+      Path out = null;
+      boolean verify = false, zip = true, doubling = false;
       for (int i = 0; i < args.length; i++)
       {
          switch (args[i])
          {
-            case "--verify" -> verify = true;
-            case "--no-zip" -> zip = false;
-            case "--out"    -> out = Paths.get(args[++i]);
+            case "--verify"   -> verify = true;
+            case "--no-zip"   -> zip = false;
+            case "--doubling" -> doubling = true;
+            case "--out"      -> out = Paths.get(args[++i]);
             default -> { System.err.println("unknown argument: " + args[i]); System.exit(2); }
          }
       }
-      if (verify) System.exit(verify(out) == 0 ? 0 : 1);
-      generateAll(out, zip);
+      if (out == null)
+      {
+         out = doubling ? Paths.get("data_doubling") : Paths.get("data");
+      }
+      if (verify) System.exit(verify(out, doubling) == 0 ? 0 : 1);
+      generateAll(out, zip, doubling);
    }
 }

@@ -67,7 +67,14 @@ public final class Benchmark
       String key() { return dist + "," + n; }
    }
 
-   static int[] gridFor(String dist) { return dist.equals("random") ? FULL_GRID : SPARSE_GRID; }
+   static int[] customGrid = null;
+   static String customGridStr = null;
+
+   static int[] gridFor(String dist)
+   {
+      if (dist.equals("random")) return customGrid != null ? customGrid : FULL_GRID;
+      return SPARSE_GRID;
+   }
 
    static int repsFor(DS ds)
    {
@@ -183,7 +190,8 @@ public final class Benchmark
          DS ds = new DS(c[0], Integer.parseInt(c[1]), Long.parseLong(c[2]), c[3], c[4]);
          boolean ok = switch (ds.dist())
          {
-            case "random" -> ds.scale() == (1 << 12) || ds.scale() == (1 << 16) || ds.scale() == (1 << 19);
+            case "random" -> (ds.scale() == (1 << 12) || ds.scale() == (1 << 16) || ds.scale() == (1 << 19))
+                          || (ds.n() == ds.scale() && ds.scale() >= (1 << 10) && ds.scale() <= (1 << 22));
             case "sorted", "reversed", "nearly_sorted", "few_distinct" -> ds.scale() == (1 << 16);
             default -> false;
          };
@@ -294,6 +302,7 @@ public final class Benchmark
       sb.append("mode=").append(pilot ? "pilot" : "full").append('\n');
       sb.append("fork=").append(fork).append('\n');
       if (fixedK > 0) sb.append("fixed_k=").append(fixedK).append('\n');
+      if (customGridStr != null) sb.append("grid=").append(customGridStr).append('\n');
       if (onlyScale > 0) sb.append("only_scale=").append(onlyScale).append('\n');
       if (limitDatasets > 0) sb.append("limit_datasets=").append(limitDatasets).append('\n');
       for (String k : new String[]{"java.version", "java.vm.name", "java.vm.version", "java.vendor",
@@ -477,6 +486,13 @@ public final class Benchmark
             case "--data"           -> dataDir = Paths.get(args[++i]);
             case "--results"        -> resultsDir = Paths.get(args[++i]);
             case "--fixed-k"        -> fixedK = Integer.parseInt(args[++i]);
+            case "--grid"           -> {
+               customGridStr = args[++i];
+               String[] parts = customGridStr.split(",");
+               customGrid = new int[parts.length];
+               for (int j = 0; j < parts.length; j++)
+                  customGrid[j] = Integer.parseInt(parts[j].trim());
+            }
             case "--only-scale"     -> onlyScale = parseScale(args[++i]);
             case "--limit-datasets" -> limitDatasets = Integer.parseInt(args[++i]);
             default -> { System.err.println("unknown argument: " + args[i]); System.exit(2); }

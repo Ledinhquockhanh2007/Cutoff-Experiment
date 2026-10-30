@@ -33,6 +33,9 @@ bin/
 build/
 data/
 data.zip
+data_doubling/
+data_doubling.zip
+results_doubling*/
 run1.zip
 run2.zip
 report/report.zip

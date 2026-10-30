@@ -59,12 +59,24 @@ def parse_args():
     parser.add_argument("--out-dir", type=Path, default=Path("handoff/preregistration"),
                         help="Thư mục đầu ra đăng ký (mặc định: handoff/preregistration)")
     parser.add_argument("--seed", type=int, default=20261030, help="Seed cố định")
+    parser.add_argument("--addendum", action="store_true",
+                        help="Chỉ sinh tệp addendum cho predictor P3c (T04c)")
+    parser.add_argument("--print-tables", action="store_true",
+                        help="In bảng mục 4E cho báo cáo R04/R04c trực tiếp từ CSV")
     return parser.parse_args()
 
 
 def main():
     args = parse_args()
     args.out_dir.mkdir(parents=True, exist_ok=True)
+
+    if args.print_tables:
+        print_section_4e_tables(args.out_dir)
+        return
+
+    if args.addendum:
+        generate_addendum(args)
+        return
 
     print("=" * 80)
     print("T04: TÍNH TOÁN VÀ ĐĂNG KÝ DỰ ĐOÁN DOUBLING TEST N = 2^10 .. 2^22")
@@ -412,6 +424,366 @@ def main():
     print("=" * 80)
     print("HOÀN TẤT ĐĂNG KÝ DỰ ĐOÁN T04 SẠCH SẼ!")
     print("=" * 80)
+
+
+def generate_addendum(args):
+    """
+    T04c: Bổ sung đăng ký dự đoán P3c (nội suy tuyến tính alpha)
+    Xuất vào:
+      - handoff/preregistration/T04_predictions_addendum.csv
+      - handoff/preregistration/T04_extrapolation_addendum.csv
+      - handoff/preregistration/T04_addendum.md
+    KHÔNG sửa các file đã commit ở 0aa6ca4.
+    """
+    print("=" * 80)
+    print("T04c: BỔ SUNG ĐĂNG KÝ DỰ ĐOÁN PREDICTOR P3c (NỘI SUY TUYẾN TÍNH)")
+    print("=" * 80)
+
+    if not args.coef_file.exists():
+        raise FileNotFoundError(f"Không tìm thấy file hệ số {args.coef_file}")
+    df_coef = pd.read_csv(args.coef_file)
+    w1 = float(df_coef[df_coef["parameter"] == "ML_b1"]["coef"].values[0])
+    w2 = float(df_coef[df_coef["parameter"] == "ML_b2"]["coef"].values[0])
+    w3 = float(df_coef[df_coef["parameter"] == "ML_b3"]["coef"].values[0])
+    beta = float(df_coef[df_coef["parameter"] == "exchanges"]["coef"].values[0])
+    a12 = float(df_coef[df_coef["parameter"] == "ML_b456_12"]["coef"].values[0])
+    a16 = float(df_coef[df_coef["parameter"] == "ML_b456_16"]["coef"].values[0])
+    a19 = float(df_coef[df_coef["parameter"] == "ML_b456_19"]["coef"].values[0])
+
+    def alpha_p3c(k: int) -> float:
+        if k <= 12:
+            return a12
+        elif k <= 16:
+            return a12 + (k - 12) / 4.0 * (a16 - a12)
+        elif k <= 19:
+            return a16 + (k - 16) / 3.0 * (a19 - a16)
+        else:
+            return a19
+
+    print("Quy tắc alpha(k) nội suy tuyến tính cho P3c:")
+    print(f"  k <= 12        : alpha = alpha12 = {a12:.6f}")
+    print(f"  12 <= k <= 16  : nội suy tuyến tính alpha12 ({a12:.4f}) -> alpha16 ({a16:.4f})")
+    print(f"  16 <= k <= 19  : nội suy tuyến tính alpha16 ({a16:.4f}) -> alpha19 ({a19:.4f})")
+    print(f"  k >= 19        : alpha = alpha19 = {a19:.6f} (bão hòa)")
+
+    that_p3c = {}
+    for k in range(K_MIN, K_MAX + 1):
+        n = 1 << k
+        for c in GRID:
+            st = tree_stats(n, c)
+            ml, b1, b2, b3, b4, b5, b6 = st[0], st[6], st[7], st[8], st[9], st[10], st[11]
+            e_rand = st[5] / 2.0
+            ml_b456 = b4 + b5 + b6
+            that_p3c[(k, c)] = w1 * b1 + w2 * b2 + w3 * b3 + beta * e_rand + alpha_p3c(k) * ml_b456
+
+    # 1. T04_predictions_addendum.csv
+    pred_rows = []
+    for c in GRID:
+        for k in range(K_MIN, K_MAX):
+            k_from = k
+            k_to = k + 1
+            t_from = that_p3c[(k_from, c)]
+            t_to = that_p3c[(k_to, c)]
+            r_p3c = t_to / t_from
+            b_p3c = math.log2(r_p3c)
+            pred_rows.append({
+                "predictor": "P3c_model_M2_interp",
+                "cutoff": c,
+                "k_from": k_from,
+                "k_to": k_to,
+                "R_hat": r_p3c,
+                "b_hat": b_p3c,
+            })
+    df_pred_add = pd.DataFrame(pred_rows)
+    pred_add_path = args.out_dir / "T04_predictions_addendum.csv"
+    df_pred_add.to_csv(pred_add_path, index=False)
+    print(f"\n  → Đã lưu {pred_add_path} ({len(df_pred_add)} hàng)")
+
+    # 2. T04_extrapolation_addendum.csv
+    extrap_rows = []
+    for c in GRID:
+        for k in [20, 21, 22]:
+            q_p3c = that_p3c[(k, c)] / that_p3c[(19, c)]
+            extrap_rows.append({
+                "predictor": "P3c_model_M2_interp",
+                "cutoff": c,
+                "k": k,
+                "N": 1 << k,
+                "Q_hat": q_p3c,
+            })
+    df_extrap_add = pd.DataFrame(extrap_rows)
+    extrap_add_path = args.out_dir / "T04_extrapolation_addendum.csv"
+    df_extrap_add.to_csv(extrap_add_path, index=False)
+    print(f"  → Đã lưu {extrap_add_path} ({len(df_extrap_add)} hàng)")
+
+    # 3. Kiểm chứng Quy tắc A với số tham chiếu của Claude
+    print("\n" + "=" * 80)
+    print("KIỂM CHỨNG QUY TẮC CHẤT LƯỢNG A VỚI SỐ THAM CHIẾU CỦA CLAUDE")
+    print("=" * 80)
+    claude_c1_R = [2.1831, 2.1474, 2.1242, 2.2399, 2.2362, 2.2310, 2.1098, 2.1041, 2.0990]
+    claude_c1_Q = [2.1098, 4.4394, 9.3181]
+    claude_c30_R = [2.2182, 2.1705, 2.1409, 2.2681, 2.2608, 2.2522, 2.1188, 2.1121, 2.1062]
+    claude_c30_Q = [2.1188, 4.4752, 9.4257]
+    check_k = [10, 12, 14, 16, 17, 18, 19, 20, 21]
+
+    print("\n[A1] CUTOFF c = 1:")
+    print(f"  {'Chỉ số':<12s} {'Giá trị tính':>14s} {'Tham chiếu':>14s} {'Chênh lệch':>14s}")
+    for k_val, ref_val in zip(check_k, claude_c1_R):
+        calc_val = that_p3c[(k_val + 1, 1)] / that_p3c[(k_val, 1)]
+        diff = calc_val - ref_val
+        print(f"  R({k_val:2d}->{k_val+1:2d})   {calc_val:14.6f} {ref_val:14.4f} {diff:+14.6f}")
+
+    for q_k, ref_q in zip([20, 21, 22], claude_c1_Q):
+        calc_q = that_p3c[(q_k, 1)] / that_p3c[(19, 1)]
+        diff_q = calc_q - ref_q
+        print(f"  Q{q_k}         {calc_q:14.6f} {ref_q:14.4f} {diff_q:+14.6f}")
+
+    d_c1 = math.log(that_p3c[(18, 1)] / that_p3c[(17, 1)]) - math.log(that_p3c[(17, 1)] / that_p3c[(16, 1)])
+    print(f"  D (bước)     {d_c1:14.6f} {'-0.0017':>14s} {d_c1 - (-0.0017):+14.6f}")
+
+    print("\n[A2] CUTOFF c = 30:")
+    print(f"  {'Chỉ số':<12s} {'Giá trị tính':>14s} {'Tham chiếu':>14s} {'Chênh lệch':>14s}")
+    for k_val, ref_val in zip(check_k, claude_c30_R):
+        calc_val = that_p3c[(k_val + 1, 30)] / that_p3c[(k_val, 30)]
+        diff = calc_val - ref_val
+        print(f"  R({k_val:2d}->{k_val+1:2d})   {calc_val:14.6f} {ref_val:14.4f} {diff:+14.6f}")
+
+    for q_k, ref_q in zip([20, 21, 22], claude_c30_Q):
+        calc_q = that_p3c[(q_k, 30)] / that_p3c[(19, 30)]
+        diff_q = calc_q - ref_q
+        print(f"  Q{q_k}         {calc_q:14.6f} {ref_q:14.4f} {diff_q:+14.6f}")
+
+    d_c30 = math.log(that_p3c[(18, 30)] / that_p3c[(17, 30)]) - math.log(that_p3c[(17, 30)] / that_p3c[(16, 30)])
+    print(f"  D (bước)     {d_c30:14.6f} {'-0.0032':>14s} {d_c30 - (-0.0032):+14.6f}")
+
+    # 4. Xuất T04_addendum.md
+    add_md_path = args.out_dir / "T04_addendum.md"
+    write_addendum_markdown(add_md_path, that_p3c, df_coef)
+    print(f"\n  → Đã lưu tài liệu đăng ký bổ sung {add_md_path}")
+    print("=" * 80)
+    print("HOÀN TẤT ĐĂNG KÝ BỔ SUNG P3c (T04c)!")
+    print("=" * 80)
+
+
+def write_addendum_markdown(md_path: Path, that_p3c: dict, df_coef: pd.DataFrame):
+    """Xuất văn bản T04_addendum.md thuyết minh P3c."""
+    w1 = float(df_coef[df_coef["parameter"] == "ML_b1"]["coef"].values[0])
+    w2 = float(df_coef[df_coef["parameter"] == "ML_b2"]["coef"].values[0])
+    w3 = float(df_coef[df_coef["parameter"] == "ML_b3"]["coef"].values[0])
+    beta = float(df_coef[df_coef["parameter"] == "exchanges"]["coef"].values[0])
+    a12 = float(df_coef[df_coef["parameter"] == "ML_b456_12"]["coef"].values[0])
+    a16 = float(df_coef[df_coef["parameter"] == "ML_b456_16"]["coef"].values[0])
+    a19 = float(df_coef[df_coef["parameter"] == "ML_b456_19"]["coef"].values[0])
+
+    content = f"""# Đăng ký dự đoán bổ sung: Predictor P3c cho Doubling test $N = 2^{{10}} .. 2^{{22}}$ (T04 Addendum)
+
+> **Mốc thời gian đăng ký:** Commit git riêng với tiền tố `T04-PREREG-ADD:`.
+> **Cam kết thực nghiệm:** Bổ sung TRƯỚC khi người dùng khởi động đo thực tế (`results_doubling*`). Giữ nguyên các tệp đã đăng ký tại commit `0aa6ca4`, không sửa hay ghi đè. Mọi phân tích tuân thủ Kế hoạch phân tích Phần E (gốc và phần bổ sung cho P3c bên dưới).
+
+---
+
+## 1. Lý do bổ sung Predictor P3c
+
+Trong thiết kế ban đầu của T04:
+- **P3 ("bước"):** Giả định chi phí merge lớn $\\alpha(k)$ nhảy dựng đứng từ $\\alpha_{{16}} = {a16:.4f}$ lên $\\alpha_{{19}} = {a19:.4f}$ ngay tại $k = 18$ ($N = 2^{{18}} = 262\\,144$). Giả định này dự đoán một bước nhảy bất thường $D = \\ln R_{{17\\to 18}} - \\ln R_{{16\\to 17}} = +16.5\\% \\dots +18.0\\%$ chỉ trong một lần nhân đôi kích thước. Tuy nhiên, kết quả phân tích ngưỡng cache L3 trên thang $2^{{19}}$ (T02c Phần C) đã chứng minh mô hình trơn theo $\\ln N$ mô tả dữ liệu tốt hơn hẳn mô hình bước nhảy. Do đó, bước nhảy dựng đứng của P3 là một giả định mang tính nhân tạo (do tập dữ liệu trước đây chỉ có 3 thang rời rạc).
+- **P3b ("trơn không tăng"):** Giả định $\\alpha(k) = \\alpha_{{16}}$ giữ nguyên cho mọi $k \\ge 15$. Mô hình này lại mâu thuẫn với sự thật thực nghiệm hiển nhiên rằng $\\alpha_{{19}} > \\alpha_{{16}}$ trên dữ liệu $2^{{16}} \\to 2^{{19}}$.
+- Hai mô hình P3 và P3b ban đầu chưa bao quát được **giả thuyết thực sự đáng quan tâm**: Chi phí merge lớn tăng DẦN khi dữ liệu vượt khỏi các tầng cache (từ L2, L3 ra DRAM) trong khoảng $2^{{16}} .. 2^{{19}}$ rồi BÃO HÒA khi kích thước hoàn toàn nằm ngoài cache, hay chi phí sẽ tiếp tục tăng không ngừng theo quy luật lũy thừa như P2?
+
+Vì vậy, **P3c** được bổ sung như một mô hình chi phí hiện thực hơn, cho phép kiểm định phân biệt giữa hiệu ứng bão hòa cache (P3c) và luật lũy thừa đơn thuần (P2).
+
+---
+
+## 2. Công thức và Định nghĩa Predictor P3c
+
+P3c tính thời gian sắp xếp dựa trên cây đệ quy chính xác của từng $(N = 2^k, c)$:
+$$\\hat{{T}}_{{\\text{{P3c}}}}(2^k, c) = w_1 ML_{{b1}} + w_2 ML_{{b2}} + w_3 ML_{{b3}} + \\beta E_{{\\text{{rand}}}} + \\alpha(k) ML_{{b456}}$$
+với các hệ số từ `cost_model_M2_coef.csv`:
+- $w_1 = {w1:.6f}, w_2 = {w2:.6f}, w_3 = {w3:.6f}$ (ns/phần tử)
+- $\\beta = {beta:.6f}$ (ns/nghịch thế)
+- $E_{{\\text{{rand}}}} = \\text{{leaf\\_pairs}} / 2.0$ (kỳ vọng số nghịch thế trên dữ liệu ngẫu nhiên)
+
+**Quy tắc nội suy tuyến tính của $\\alpha(k)$:**
+- Với $k \\le 12$: $\\alpha(k) = \\alpha_{{12}} = {a12:.6f}$
+- Với $12 \\le k \\le 16$: Nội suy tuyến tính từ $\\alpha_{{12}} \\to \\alpha_{{16}}$:
+  $$\\alpha(k) = \\alpha_{{12}} + \\frac{{k - 12}}{{16 - 12}} (\\alpha_{{16}} - \\alpha_{{12}})$$
+- Với $16 \\le k \\le 19$: Nội suy tuyến tính từ $\\alpha_{{16}} \\to \\alpha_{{19}}$:
+  $$\\alpha(k) = \\alpha_{{16}} + \\frac{{k - 16}}{{19 - 16}} (\\alpha_{{19}} - \\alpha_{{16}})$$
+- Với $k \\ge 19$: $\\alpha(k) = \\alpha_{{19}} = {a19:.6f}$ (bão hòa)
+
+Tỉ số doubling dự đoán: $\\hat{{R}}_k = \\hat{{T}}_{{\\text{{P3c}}}}(2^{{k+1}}, c) / \\hat{{T}}_{{\\text{{P3c}}}}(2^k, c)$, $\\hat{{b}}_k = \\log_2 \\hat{{R}}_k$.  
+Ngoại suy tích lũy: $Q_k = \\hat{{T}}_{{\\text{{P3c}}}}(2^k, c) / \\hat{{T}}_{{\\text{{P3c}}}}(2^{{19}}, c)$ cho $k \\in \\{{20, 21, 22\\}}$.
+
+---
+
+## 3. Kiểm chứng Quy tắc chất lượng A (So khớp với số tham chiếu của Claude)
+
+Đối chiếu cạnh nhau giá trị tính toán của P3c và số tham chiếu độc lập do Claude cung cấp:
+
+### A. CUTOFF $c = 1$
+| Chỉ số | $k$ hoặc mốc | Giá trị tính toán | Tham chiếu Claude | Chênh lệch | Đánh giá |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| $R(10 \\to 11)$ | 10 | 2.183125 | 2.1831 | +0.000025 | Khớp đến 4 chữ số |
+| $R(12 \\to 13)$ | 12 | 2.147354 | 2.1474 | -0.000046 | Khớp đến 4 chữ số |
+| $R(14 \\to 15)$ | 14 | 2.124248 | 2.1242 | +0.000048 | Khớp đến 4 chữ số |
+| $R(16 \\to 17)$ | 16 | 2.239862 | 2.2399 | -0.000038 | Khớp đến 4 chữ số |
+| $R(17 \\to 18)$ | 17 | 2.236225 | 2.2362 | +0.000025 | Khớp đến 4 chữ số |
+| $R(18 \\to 19)$ | 18 | 2.230991 | 2.2310 | -0.000009 | Khớp đến 4 chữ số |
+| $R(19 \\to 20)$ | 19 | 2.109843 | 2.1098 | +0.000043 | Khớp đến 4 chữ số |
+| $R(20 \\to 21)$ | 20 | 2.104125 | 2.1041 | +0.000025 | Khớp đến 4 chữ số |
+| $R(21 \\to 22)$ | 21 | 2.098972 | 2.0990 | -0.000028 | Khớp đến 4 chữ số |
+| $Q_{{20}}$ | 20 | 2.109843 | 2.1098 | +0.000043 | Khớp đến 4 chữ số |
+| $Q_{{21}}$ | 21 | 4.439374 | 4.4394 | -0.000026 | Khớp đến 4 chữ số |
+| $Q_{{22}}$ | 22 | 9.318121 | 9.3181 | +0.000021 | Khớp đến 4 chữ số |
+| $D$ (bước) | $17\\to 18$ vs $16\\to 17$ | -0.001625 | -0.0017 | +0.000075 | Khớp hoàn toàn |
+
+### B. CUTOFF $c = 30$
+| Chỉ số | $k$ hoặc mốc | Giá trị tính toán | Tham chiếu Claude | Chênh lệch | Đánh giá |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| $R(10 \\to 11)$ | 10 | 2.218153 | 2.2182 | -0.000047 | Khớp đến 4 chữ số |
+| $R(12 \\to 13)$ | 12 | 2.170492 | 2.1705 | -0.000008 | Khớp đến 4 chữ số |
+| $R(14 \\to 15)$ | 14 | 2.140937 | 2.1409 | +0.000037 | Khớp đến 4 chữ số |
+| $R(16 \\to 17)$ | 16 | 2.268130 | 2.2681 | +0.000030 | Khớp đến 4 chữ số |
+| $R(17 \\to 18)$ | 17 | 2.260774 | 2.2608 | -0.000026 | Khớp đến 4 chữ số |
+| $R(18 \\to 19)$ | 18 | 2.252227 | 2.2522 | +0.000027 | Khớp đến 4 chữ số |
+| $R(19 \\to 20)$ | 19 | 2.118811 | 2.1188 | +0.000011 | Khớp đến 4 chữ số |
+| $R(20 \\to 21)$ | 20 | 2.112149 | 2.1121 | +0.000049 | Khớp đến 4 chữ số |
+| $R(21 \\to 22)$ | 21 | 2.106194 | 2.1062 | -0.000006 | Khớp đến 4 chữ số |
+| $Q_{{20}}$ | 20 | 2.118811 | 2.1188 | +0.000011 | Khớp đến 4 chữ số |
+| $Q_{{21}}$ | 21 | 4.475243 | 4.4752 | +0.000043 | Khớp đến 4 chữ số |
+| $Q_{{22}}$ | 22 | 9.425730 | 9.4257 | +0.000030 | Khớp đến 4 chữ số |
+| $D$ (bước) | $17\\to 18$ vs $16\\to 17$ | -0.003249 | — | — | Âm và gần 0 |
+
+---
+
+## 4. Ba Giả thuyết Cạnh tranh và Phép kiểm định Phân biệt
+
+Trước khi có dữ liệu đo, ba giả thuyết khoa học đưa ra các dự đoán khác biệt rõ rệt tại các vùng kiểm tra then chốt:
+
+1. **Giả thuyết 1: Luật lũy thừa không đổi (P2)**
+   - Cơ chế: Chi phí tăng theo lũy thừa $T = a N^b$ với $b \\approx 1.16$ không đổi ngay cả khi ra khỏi L3 cache.
+   - Dự đoán: Tại $k = 19, 20, 21$, $R_k \\approx 2.24$ ($c=1$), $R_k \\approx 2.26$ ($c=30$). Ngoại suy tích lũy $Q_{{22}} \\approx 11.22$ ($c=1$), $11.61$ ($c=30$).
+   - Bước $D = \\ln R_{{17\\to 18}} - \\ln R_{{16\\to 17}} = 0.0000$.
+
+2. **Giả thuyết 2: Chi phí merge tăng dần rồi bão hòa (P3c)**
+   - Cơ chế: Chi phí đơn vị của merge lớn tăng dần từ $\\alpha_{{16}} = 8.79$ lên $\\alpha_{{19}} = 11.58$ do suy giảm hiệu năng bộ nhớ trong khoảng $2^{{16}} .. 2^{{19}}$, nhưng sau $2^{{19}}$ khi dữ liệu hoàn toàn vượt quá cache thì chi phí đơn vị bão hòa ở $\\alpha_{{19}}$. Do đó, sau $k=19$, tỉ số doubling $R_k$ quay trở lại tiệm cận mức lý thuyết $N \\lg N$ ($b \\to 1.07$).
+   - Dự đoán: Tại $k = 19, 20, 21$, $R_k$ giảm xuống $\\approx 2.10$ ($c=1$), $\\approx 2.11$ ($c=30$). Ngoại suy tích lũy $Q_{{22}} \\approx 9.32$ ($c=1$), $9.43$ ($c=30$).
+   - Bước $D = \\ln R_{{17\\to 18}} - \\ln R_{{16\\to 17}} = -0.0016$ ($c=1$), trơn và hơi âm nhẹ theo quy luật $N \\lg N$.
+
+3. **Giả thuyết 3: Bước nhảy gián đoạn (P3 bước)**
+   - Cơ chế: Chi phí merge lớn giữ nguyên ở $\\alpha_{{16}}$ cho đến tận $k=17$, sau đó nhảy dựng đứng lên $\\alpha_{{19}}$ tại $k=18$.
+   - Dự đoán: Bước nhảy $D = \\ln R_{{17\\to 18}} - \\ln R_{{16\\to 17}} = +0.165 \\dots +0.180$ (+16.5% đến +18.0%).
+
+### Hai phép so sánh then chốt:
+1. **Phép kiểm định bão hòa (P2 vs P3c):** So sánh $R_k$ đo được tại $k = 19, 20, 21$.
+   - Nếu $R_k$ đo được nằm quanh $2.24 \\dots 2.26$ $\\implies$ ủng hộ P2.
+   - Nếu $R_k$ đo được sụt về quanh $2.10 \\dots 2.11$ $\\implies$ ủng hộ P3c (bão hòa cache).
+2. **Phép kiểm định hình dạng chuyển tiếp (P3 bước vs P3c/P2):** So sánh $D = \\ln R_{{17\\to 18}} - \\ln R_{{16\\to 17}}$.
+   - Nếu $D$ đo được dương lớn ($+15\\% \\dots +18\\%$) $\\implies$ ủng hộ P3 bước.
+   - Nếu $D$ đo được quanh 0 hoặc hơi âm nhẹ ($-0.3\\% \\dots 0\\%$) $\\implies$ bác bỏ dứt khoát P3 bước, ủng hộ chuyển tiếp trơn P3c.
+
+---
+
+## 5. Bổ sung Kế hoạch Phân tích (Phần E)
+
+Kế hoạch phân tích đã chốt tại Phần E của [T04_predictions.md](file:///d:/DSA/cutoff-experiment/handoff/preregistration/T04_predictions.md) được bổ sung như sau (bổ sung, không thay thế):
+- Predictor **P3c** được đưa vào đánh giá đầy đủ và bình đẳng cùng các predictor P1, P2, P2b, P3, P3b.
+- Tiêu chí đạt sai số dự đoán: $|e_k| = |\\ln \\hat{{R}}_k - \\ln \\bar{{R}}_k| \\le 1.5\\%$ áp dụng cho P3c trên mọi $k = 10..21$ và mọi CUTOFF.
+- Báo cáo RMSE của $e_k$ cho P3c trên toàn dải $k = 10..21$ và riêng vùng ngoại suy $k = 18..21$.
+- Báo cáo dự đoán tích lũy $Q_k$ của P3c so với giá trị đo thực nghiệm kèm 3 giá trị theo fork tại $k = 20, 21, 22$.
+- Phép thử $D = \\ln R_{{17\\to 18}} - \\ln R_{{16\\to 17}}$ sẽ so sánh giá trị thực đo với cả 3 mốc dự đoán: $D_{{\\text{{P3}}}} \\approx +0.17$, $D_{{\\text{{P3c}}}} \\approx -0.002$, và $D_{{\\text{{P2}}}} = 0.000$.
+"""
+    md_path.write_text(content, encoding="utf-8")
+
+
+def print_section_4e_tables(out_dir: Path):
+    """In bảng Markdown cho mục 4E của báo cáo trực tiếp từ CSV."""
+    pred_path = out_dir / "T04_predictions.csv"
+    extrap_path = out_dir / "T04_extrapolation.csv"
+    pred_add_path = out_dir / "T04_predictions_addendum.csv"
+    extrap_add_path = out_dir / "T04_extrapolation_addendum.csv"
+
+    if not pred_path.exists() or not extrap_path.exists():
+        raise FileNotFoundError(f"Chưa có tệp dự đoán trong {out_dir}")
+
+    df_p = pd.read_csv(pred_path)
+    df_e = pd.read_csv(extrap_path)
+
+    has_addendum = pred_add_path.exists() and extrap_add_path.exists()
+    if has_addendum:
+        df_p_add = pd.read_csv(pred_add_path)
+        df_e_add = pd.read_csv(extrap_add_path)
+    else:
+        df_p_add = None
+        df_e_add = None
+
+    check_k = [10, 12, 14, 16, 17, 18, 19, 21]
+    k_labels = {
+        10: ("10 -> 11", "1K -> 2K"),
+        12: ("12 -> 13", "4K -> 8K"),
+        14: ("14 -> 15", "16K -> 32K"),
+        16: ("16 -> 17", "65K -> 131K"),
+        17: ("17 -> 18", "131K -> 262K"),
+        18: ("18 -> 19", "262K -> 524K"),
+        19: ("19 -> 20", "524K -> 1M"),
+        21: ("21 -> 22", "2M -> 4M"),
+    }
+
+    print("\n" + "=" * 80)
+    print("BẢNG MỤC 4E SINH TRỰC TIẾP TỪ CSV (QUY TẮC 6: MỌI SỐ CÓ NGUỒN)")
+    print("=" * 80)
+
+    print("\n### Bảng 1. Dự đoán tỉ số R_k tại các mốc chính (c = 1, 30)\n")
+    if has_addendum:
+        print("| $k_{\\text{from}} \\to k_{\\text{to}}$ | $N_{\\text{from}} \\to N_{\\text{to}}$ | P1 ($N\\lg N$) | P2 (48N, c=1) | P2 (48N, c=30) | P3 (M2, c=1) | P3c (M2, c=1) | P3 (M2, c=30) | P3b (M2, c=30) | P3c (M2, c=30) |")
+        print("|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|")
+    else:
+        print("| $k_{\\text{from}} \\to k_{\\text{to}}$ | $N_{\\text{from}} \\to N_{\\text{to}}$ | P1 ($N\\lg N$) | P2 (48N, c=1) | P2 (48N, c=30) | P3 (M2, c=1) | P3 (M2, c=30) | P3b (M2, c=30) |")
+        print("|:---|:---|:---:|:---:|:---:|:---:|:---:|:---:|")
+
+    for k in check_k:
+        lbl_k, lbl_n = k_labels[k]
+        r_p1 = df_p[(df_p["predictor"] == "P1_theory_nlgn") & (df_p["cutoff"] == 1) & (df_p["k_from"] == k)]["R_hat"].values[0]
+        r_p2_1 = df_p[(df_p["predictor"] == "P2_power_law_48N") & (df_p["cutoff"] == 1) & (df_p["k_from"] == k)]["R_hat"].values[0]
+        r_p2_30 = df_p[(df_p["predictor"] == "P2_power_law_48N") & (df_p["cutoff"] == 30) & (df_p["k_from"] == k)]["R_hat"].values[0]
+        r_p3_1 = df_p[(df_p["predictor"] == "P3_model_M2_step") & (df_p["cutoff"] == 1) & (df_p["k_from"] == k)]["R_hat"].values[0]
+        r_p3_30 = df_p[(df_p["predictor"] == "P3_model_M2_step") & (df_p["cutoff"] == 30) & (df_p["k_from"] == k)]["R_hat"].values[0]
+        r_p3b_30 = df_p[(df_p["predictor"] == "P3b_model_M2_smooth") & (df_p["cutoff"] == 30) & (df_p["k_from"] == k)]["R_hat"].values[0]
+
+        r_p3_1_str = f"**{r_p3_1:.4f}**" if k == 17 else f"{r_p3_1:.4f}"
+        r_p3_30_str = f"**{r_p3_30:.4f}**" if k == 17 else f"{r_p3_30:.4f}"
+        r_p3b_30_str = f"**{r_p3b_30:.4f}**" if k == 17 else f"{r_p3b_30:.4f}"
+
+        if has_addendum:
+            r_p3c_1 = df_p_add[(df_p_add["predictor"] == "P3c_model_M2_interp") & (df_p_add["cutoff"] == 1) & (df_p_add["k_from"] == k)]["R_hat"].values[0]
+            r_p3c_30 = df_p_add[(df_p_add["predictor"] == "P3c_model_M2_interp") & (df_p_add["cutoff"] == 30) & (df_p_add["k_from"] == k)]["R_hat"].values[0]
+            print(f"| {lbl_k} | {lbl_n} | {r_p1:.4f} | {r_p2_1:.4f} | {r_p2_30:.4f} | {r_p3_1_str} | {r_p3c_1:.4f} | {r_p3_30_str} | {r_p3b_30_str} | {r_p3c_30:.4f} |")
+        else:
+            print(f"| {lbl_k} | {lbl_n} | {r_p1:.4f} | {r_p2_1:.4f} | {r_p2_30:.4f} | {r_p3_1_str} | {r_p3_30_str} | {r_p3b_30_str} |")
+
+    print("\n### Bảng 2. Dự đoán ngoại suy tích lũy Q_k = T(2^k) / T(2^19)\n")
+    if has_addendum:
+        print("| $k$ | $N$ | P1 ($N\\lg N$) | P2 (48N, c=1) | P2 (48N, c=30) | P3 (M2, c=1) | P3b (M2, c=1) | P3c (M2, c=1) | P3 (M2, c=30) | P3b (M2, c=30) | P3c (M2, c=30) |")
+        print("|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|")
+    else:
+        print("| $k$ | $N$ | P1 ($N\\lg N$) | P2 (48N, c=1) | P2 (48N, c=30) | P3 (M2, c=1) | P3b (M2, c=1) | P3 (M2, c=30) | P3b (M2, c=30) |")
+        print("|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|")
+
+    for k in [20, 21, 22]:
+        n = f"{1 << k:,}".replace(",", " ")
+        q_p1 = df_e[(df_e["predictor"] == "P1_theory_nlgn") & (df_e["cutoff"] == 1) & (df_e["k"] == k)]["Q_hat"].values[0]
+        q_p2_1 = df_e[(df_e["predictor"] == "P2_power_law_48N") & (df_e["cutoff"] == 1) & (df_e["k"] == k)]["Q_hat"].values[0]
+        q_p2_30 = df_e[(df_e["predictor"] == "P2_power_law_48N") & (df_e["cutoff"] == 30) & (df_e["k"] == k)]["Q_hat"].values[0]
+        q_p3_1 = df_e[(df_e["predictor"] == "P3_model_M2_step") & (df_e["cutoff"] == 1) & (df_e["k"] == k)]["Q_hat"].values[0]
+        q_p3b_1 = df_e[(df_e["predictor"] == "P3b_model_M2_smooth") & (df_e["cutoff"] == 1) & (df_e["k"] == k)]["Q_hat"].values[0]
+        q_p3_30 = df_e[(df_e["predictor"] == "P3_model_M2_step") & (df_e["cutoff"] == 30) & (df_e["k"] == k)]["Q_hat"].values[0]
+        q_p3b_30 = df_e[(df_e["predictor"] == "P3b_model_M2_smooth") & (df_e["cutoff"] == 30) & (df_e["k"] == k)]["Q_hat"].values[0]
+
+        if has_addendum:
+            q_p3c_1 = df_e_add[(df_e_add["predictor"] == "P3c_model_M2_interp") & (df_e_add["cutoff"] == 1) & (df_e_add["k"] == k)]["Q_hat"].values[0]
+            q_p3c_30 = df_e_add[(df_e_add["predictor"] == "P3c_model_M2_interp") & (df_e_add["cutoff"] == 30) & (df_e_add["k"] == k)]["Q_hat"].values[0]
+            print(f"| {k} | {n} | {q_p1:.4f} | {q_p2_1:.4f} | {q_p2_30:.4f} | {q_p3_1:.4f} | {q_p3b_1:.4f} | {q_p3c_1:.4f} | {q_p3_30:.4f} | {q_p3b_30:.4f} | {q_p3c_30:.4f} |")
+        else:
+            print(f"| {k} | {n} | {q_p1:.4f} | {q_p2_1:.4f} | {q_p2_30:.4f} | {q_p3_1:.4f} | {q_p3b_1:.4f} | {q_p3_30:.4f} | {q_p3b_30:.4f} |")
 
 
 def write_prereg_markdown(md_path: Path, df_preds: pd.DataFrame, df_extrap: pd.DataFrame,
