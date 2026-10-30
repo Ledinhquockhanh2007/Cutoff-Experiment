@@ -1,0 +1,6 @@
+distribution,N,total_elements,distinct_identities,all_distinct
+random,65536,65536,65536,True
+sorted,65536,65536,65536,True
+reversed,65536,65536,65536,True
+nearly_sorted,65536,65536,65536,True
+few_distinct,65536,65536,65536,True

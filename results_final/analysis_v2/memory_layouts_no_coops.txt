@@ -1,0 +1,47 @@
+--- STDERR ---
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::arrayBaseOffset has been called by org.openjdk.jol.vm.HotspotUnsafe (file:/D:/DSA/cutoff-experiment/lib/jol-core-0.17.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jol.vm.HotspotUnsafe
+WARNING: sun.misc.Unsafe::arrayBaseOffset will be removed in a future release
+
+--- STDOUT ---
+=== VM DETAILS ===
+# WARNING: Unable to get Instrumentation. Dynamic Attach failed. You may add this JAR as -javaagent manually, or supply -Djdk.attach.allowAttachSelf
+# VM mode: 64 bits
+# Compressed references (oops): disabled
+# Compressed class pointers: 0-bit shift and 0x9F000000 base
+# Object alignment: 8 bytes
+#                       ref, bool, byte, char, shrt,  int,  flt,  lng,  dbl
+# Field sizes:            8,    1,    1,    2,    2,    4,    4,    8,    8
+# Array element sizes:    8,    1,    1,    2,    2,    4,    4,    8,    8
+# Array base offsets:    16,   16,   16,   16,   16,   16,   16,   16,   16
+
+=== ClassLayout: Integer ===
+java.lang.Integer object internals:
+OFF  SZ   TYPE DESCRIPTION               VALUE
+  0   8        (object header: mark)     N/A
+  8   4        (object header: class)    N/A
+ 12   4    int Integer.value             N/A
+Instance size: 16 bytes
+Space losses: 0 bytes internal + 0 bytes external = 0 bytes total
+
+=== ClassLayout: Integer[] ===
+[Ljava.lang.Integer; object internals:
+OFF  SZ                TYPE DESCRIPTION               VALUE
+  0   8                     (object header: mark)     N/A
+  8   4                     (object header: class)    N/A
+ 12   4                     (array length)            N/A
+ 16   0   java.lang.Integer Integer;.<elements>       N/A
+Instance size: 16 bytes
+Space losses: 0 bytes internal + 0 bytes external = 0 bytes total
+
+=== ClassLayout: Comparable[] ===
+[Ljava.lang.Comparable; object internals:
+OFF  SZ                   TYPE DESCRIPTION               VALUE
+  0   8                        (object header: mark)     N/A
+  8   4                        (object header: class)    N/A
+ 12   4                        (array length)            N/A
+ 16   0   java.lang.Comparable Comparable;.<elements>    N/A
+Instance size: 16 bytes
+Space losses: 0 bytes internal + 0 bytes external = 0 bytes total
+

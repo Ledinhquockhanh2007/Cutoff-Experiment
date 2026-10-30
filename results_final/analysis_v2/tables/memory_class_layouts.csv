@@ -1,0 +1,5 @@
+config,jvm_flags,ref_size_bytes,integer_header_bytes,integer_value_bytes,integer_padding_bytes,integer_total_bytes,array_header_offset_bytes,array_elem_size_bytes,array_empty_instance_bytes,formula_model_note
+default,-Xms2g -Xmx2g -XX:+UseSerialGC,4,12,4,0,16,16,4,16,"24N + 32 (mo hinh ly thuyet JVM mac dinh, khong phai so do)"
+no_coops,-Xms2g -Xmx2g -XX:+UseSerialGC -XX:-UseCompressedOops,8,12,4,0,16,16,8,16,"32N + 32 (mo hinh ly thuyet JVM khong nen oops, khong phai so do)"
+lecture,-Xms2g -Xmx2g -XX:+UseSerialGC -XX:-UseCompressedOops -XX:-UseCompressedClassPointers,8,16,4,4,24,24,8,24,"40N + 48 (mo hinh ly thuyet bai giang Sedgewick, khong phai so do)"
+compact_headers,-Xms2g -Xmx2g -XX:+UseSerialGC -XX:+UseCompactObjectHeaders,4,8,4,4,16,12,4,16,"24N + 32 (mo hinh mo ta cho N chan, khong phai so do)"
