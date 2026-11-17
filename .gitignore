@@ -42,11 +42,6 @@ data_run5/*
 !data_run5/manifest.csv
 data_run5.zip
 results_smoke/
-results_run5_s1/
-results_run5_s2/
-results_doubling_v2/
-results_d3/
-results_jmh/
 jmh/build/
 jmh/src_gen/
 jmh/target/

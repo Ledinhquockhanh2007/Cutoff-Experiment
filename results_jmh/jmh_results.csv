@@ -1,0 +1,13 @@
+"Benchmark","Mode","Threads","Samples","Score","Score Error (99.9%)","Unit","Param: cutoff","Param: n"
+"bench.MergeCutoffBenchmark.sort","avgt",1,30,377.051379,40.531873,"us/op",1,4096
+"bench.MergeCutoffBenchmark.sort","avgt",1,30,10296.892622,423.024128,"us/op",1,65536
+"bench.MergeCutoffBenchmark.sort","avgt",1,30,107904.998111,2843.073817,"us/op",1,524288
+"bench.MergeCutoffBenchmark.sort","avgt",1,30,231.671947,13.510316,"us/op",7,4096
+"bench.MergeCutoffBenchmark.sort","avgt",1,30,10160.543174,105.174765,"us/op",7,65536
+"bench.MergeCutoffBenchmark.sort","avgt",1,30,105552.379333,1585.506956,"us/op",7,524288
+"bench.MergeCutoffBenchmark.sort","avgt",1,30,221.878463,3.438984,"us/op",10,4096
+"bench.MergeCutoffBenchmark.sort","avgt",1,30,9777.830885,383.705521,"us/op",10,65536
+"bench.MergeCutoffBenchmark.sort","avgt",1,30,101038.355485,2244.063840,"us/op",10,524288
+"bench.MergeCutoffBenchmark.sort","avgt",1,30,213.413398,4.719727,"us/op",30,4096
+"bench.MergeCutoffBenchmark.sort","avgt",1,30,10016.039264,239.937809,"us/op",30,65536
+"bench.MergeCutoffBenchmark.sort","avgt",1,30,106867.277667,4100.688389,"us/op",30,524288

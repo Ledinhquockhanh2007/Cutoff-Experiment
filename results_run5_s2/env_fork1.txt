@@ -1,0 +1,604 @@
+=== session start (fresh) ===
+start_time=2026-11-17T20:29:10.413793100+07:00[Asia/Saigon]
+mode=full
+fork=1
+key=integer
+dists=sorted,few_distinct,nearly_sorted,reversed
+scales=[4096, 65536, 524288]
+fixed_k=1
+java.version=25.0.4.1
+java.vm.name=OpenJDK 64-Bit Server VM
+java.vm.version=25.0.4.1+1-LTS
+java.vendor=Microsoft
+os.name=Windows 11
+os.version=10.0
+os.arch=amd64
+availableProcessors=16
+maxMemory=2075918336
+physical_memory_total=16438054912
+physical_memory_free_at_start=5480337408
+jvm_input_arguments=[-Xms2g, -Xmx2g, -XX:+UseSerialGC, -XX:+AlwaysPreTouch]
+gc_collectors=[Copy, MarkSweepCompact]
+assertions=disabled
+target_batch_ns=2000000, k_max=1000, dataset_warmup_rounds=3
+dataset_order_seed=1001 (java.util.Random, Knuth shuffle)
+cutoff_order_seed=mix64((fork*1e8 + dataset_seed)*1e4 + t); t=trial | 1000+warmup_round | jvm: seed 0, 5000+round
+dataset_order (index distribution N seed):
+  1 reversed 90043 530090043
+  2 nearly_sorted 4216 540004216
+  3 few_distinct 961548 550961548
+  4 sorted 5312 520005312
+  5 nearly_sorted 6693 540006693
+  6 reversed 107080 530107080
+  7 few_distinct 77936 550077936
+  8 sorted 120194 520120194
+  9 sorted 934175 520934175
+  10 nearly_sorted 127341 540127341
+  11 nearly_sorted 90043 540090043
+  12 nearly_sorted 856642 540856642
+  13 few_distinct 5312 550005312
+  14 nearly_sorted 699841 540699841
+  15 nearly_sorted 907581 540907581
+  16 few_distinct 4096 550004096
+  17 few_distinct 5468 550005468
+  18 sorted 71468 520071468
+  19 few_distinct 4732 550004732
+  20 sorted 123715 520123715
+  21 nearly_sorted 679917 540679917
+  22 reversed 120194 530120194
+  23 few_distinct 90043 550090043
+  24 nearly_sorted 524288 540524288
+  25 reversed 571740 530571740
+  26 nearly_sorted 6317 540006317
+  27 sorted 660561 520660561
+  28 reversed 641757 530641757
+  29 nearly_sorted 80220 540080220
+  30 nearly_sorted 623487 540623487
+  31 sorted 641757 520641757
+  32 nearly_sorted 660561 540660561
+  33 sorted 5628 520005628
+  34 few_distinct 539651 550539651
+  35 nearly_sorted 98193 540098193
+  36 few_distinct 5793 550005793
+  37 nearly_sorted 120194 540120194
+  38 sorted 7959 520007959
+  39 few_distinct 4216 550004216
+  40 reversed 4871 530004871
+  41 reversed 4732 530004732
+  42 nearly_sorted 763181 540763181
+  43 reversed 961548 530961548
+  44 few_distinct 763181 550763181
+  45 sorted 4732 520004732
+  46 nearly_sorted 934175 540934175
+  47 few_distinct 127341 550127341
+  48 nearly_sorted 5014 540005014
+  49 nearly_sorted 5962 540005962
+  50 reversed 4216 530004216
+  51 reversed 75717 530075717
+  52 few_distinct 92682 550092682
+  53 nearly_sorted 71468 540071468
+  54 sorted 524288 520524288
+  55 few_distinct 4598 550004598
+  56 sorted 69433 520069433
+  57 sorted 6502 520006502
+  58 sorted 856642 520856642
+  59 nearly_sorted 82570 540082570
+  60 sorted 623487 520623487
+  61 reversed 5312 530005312
+  62 nearly_sorted 110218 540110218
+  63 few_distinct 104032 550104032
+  64 few_distinct 720347 550720347
+  65 few_distinct 82570 550082570
+  66 nearly_sorted 741455 540741455
+  67 sorted 4340 520004340
+  68 nearly_sorted 4340 540004340
+  69 nearly_sorted 5161 540005161
+  70 sorted 605738 520605738
+  71 few_distinct 524288 550524288
+  72 sorted 110218 520110218
+  73 sorted 75717 520075717
+  74 sorted 73562 520073562
+  75 nearly_sorted 961548 540961548
+  76 sorted 6317 520006317
+  77 few_distinct 907581 550907581
+  78 few_distinct 110218 550110218
+  79 nearly_sorted 5468 540005468
+  80 few_distinct 641757 550641757
+  81 reversed 588493 530588493
+  82 few_distinct 1018725 551018725
+  83 reversed 104032 530104032
+  84 reversed 7512 530007512
+  85 nearly_sorted 989724 540989724
+  86 few_distinct 7090 550007090
+  87 few_distinct 856642 550856642
+  88 sorted 571740 520571740
+  89 nearly_sorted 6889 540006889
+  90 reversed 4096 530004096
+  91 reversed 77936 530077936
+  92 nearly_sorted 77936 540077936
+  93 few_distinct 679917 550679917
+  94 few_distinct 6137 550006137
+  95 sorted 699841 520699841
+  96 sorted 1018725 521018725
+  97 reversed 127341 530127341
+  98 sorted 4598 520004598
+  99 reversed 720347 530720347
+  100 few_distinct 785544 550785544
+  101 nearly_sorted 4467 540004467
+  102 few_distinct 87480 550087480
+  103 nearly_sorted 5628 540005628
+  104 reversed 73562 530073562
+  105 sorted 907581 520907581
+  106 few_distinct 623487 550623487
+  107 sorted 98193 520098193
+  108 sorted 785544 520785544
+  109 sorted 4467 520004467
+  110 reversed 4340 530004340
+  111 sorted 539651 520539651
+  112 reversed 5161 530005161
+  113 sorted 808563 520808563
+  114 sorted 5962 520005962
+  115 reversed 832255 530832255
+  116 nearly_sorted 4598 540004598
+  117 reversed 605738 530605738
+  118 reversed 555464 530555464
+  119 few_distinct 4871 550004871
+  120 reversed 101070 530101070
+  121 nearly_sorted 7090 540007090
+  122 nearly_sorted 65536 540065536
+  123 sorted 555464 520555464
+  124 sorted 741455 520741455
+  125 nearly_sorted 7298 540007298
+  126 few_distinct 7959 550007959
+  127 sorted 588493 520588493
+  128 nearly_sorted 92682 540092682
+  129 reversed 116772 530116772
+  130 nearly_sorted 4871 540004871
+  131 nearly_sorted 720347 540720347
+  132 reversed 907581 530907581
+  133 sorted 7298 520007298
+  134 reversed 123715 530123715
+  135 nearly_sorted 7959 540007959
+  136 reversed 92682 530092682
+  137 sorted 5468 520005468
+  138 nearly_sorted 5793 540005793
+  139 nearly_sorted 571740 540571740
+  140 reversed 95398 530095398
+  141 few_distinct 101070 550101070
+  142 few_distinct 7298 550007298
+  143 nearly_sorted 95398 540095398
+  144 few_distinct 113448 550113448
+  145 nearly_sorted 555464 540555464
+  146 reversed 7298 530007298
+  147 nearly_sorted 73562 540073562
+  148 reversed 808563 530808563
+  149 nearly_sorted 1018725 541018725
+  150 sorted 65536 520065536
+  151 nearly_sorted 7732 540007732
+  152 reversed 80220 530080220
+  153 sorted 989724 520989724
+  154 nearly_sorted 539651 540539651
+  155 nearly_sorted 87480 540087480
+  156 reversed 6693 530006693
+  157 few_distinct 7512 550007512
+  158 few_distinct 5628 550005628
+  159 reversed 524288 530524288
+  160 few_distinct 6317 550006317
+  161 nearly_sorted 785544 540785544
+  162 few_distinct 605738 550605738
+  163 sorted 4096 520004096
+  164 few_distinct 5161 550005161
+  165 reversed 741455 530741455
+  166 reversed 6889 530006889
+  167 sorted 6889 520006889
+  168 few_distinct 4467 550004467
+  169 sorted 679917 520679917
+  170 few_distinct 6502 550006502
+  171 sorted 107080 520107080
+  172 sorted 80220 520080220
+  173 few_distinct 75717 550075717
+  174 reversed 67456 530067456
+  175 few_distinct 65536 550065536
+  176 few_distinct 6889 550006889
+  177 reversed 856642 530856642
+  178 sorted 7512 520007512
+  179 few_distinct 989724 550989724
+  180 reversed 623487 530623487
+  181 few_distinct 808563 550808563
+  182 sorted 5014 520005014
+  183 sorted 763181 520763181
+  184 nearly_sorted 113448 540113448
+  185 nearly_sorted 6137 540006137
+  186 reversed 7732 530007732
+  187 sorted 720347 520720347
+  188 nearly_sorted 4096 540004096
+  189 few_distinct 71468 550071468
+  190 sorted 5793 520005793
+  191 nearly_sorted 808563 540808563
+  192 reversed 679917 530679917
+  193 nearly_sorted 641757 540641757
+  194 few_distinct 6693 550006693
+  195 reversed 539651 530539651
+  196 sorted 77936 520077936
+  197 sorted 87480 520087480
+  198 sorted 5161 520005161
+  199 few_distinct 4340 550004340
+  200 reversed 5628 530005628
+  201 sorted 95398 520095398
+  202 few_distinct 832255 550832255
+  203 reversed 69433 530069433
+  204 sorted 6137 520006137
+  205 sorted 6693 520006693
+  206 sorted 116772 520116772
+  207 nearly_sorted 605738 540605738
+  208 sorted 84990 520084990
+  209 sorted 7732 520007732
+  210 sorted 127341 520127341
+  211 nearly_sorted 69433 540069433
+  212 few_distinct 95398 550095398
+  213 few_distinct 660561 550660561
+  214 sorted 104032 520104032
+  215 nearly_sorted 104032 540104032
+  216 nearly_sorted 881744 540881744
+  217 nearly_sorted 4732 540004732
+  218 nearly_sorted 84990 540084990
+  219 few_distinct 699841 550699841
+  220 nearly_sorted 832255 540832255
+  221 few_distinct 555464 550555464
+  222 sorted 4216 520004216
+  223 nearly_sorted 6502 540006502
+  224 few_distinct 116772 550116772
+  225 nearly_sorted 123715 540123715
+  226 nearly_sorted 101070 540101070
+  227 reversed 699841 530699841
+  228 reversed 71468 530071468
+  229 reversed 98193 530098193
+  230 reversed 763181 530763181
+  231 sorted 7090 520007090
+  232 sorted 961548 520961548
+  233 reversed 87480 530087480
+  234 reversed 881744 530881744
+  235 few_distinct 120194 550120194
+  236 nearly_sorted 107080 540107080
+  237 nearly_sorted 116772 540116772
+  238 few_distinct 571740 550571740
+  239 reversed 5793 530005793
+  240 reversed 65536 530065536
+  241 few_distinct 5962 550005962
+  242 sorted 832255 520832255
+  243 reversed 6317 530006317
+  244 reversed 785544 530785544
+  245 few_distinct 84990 550084990
+  246 reversed 1018725 531018725
+  247 reversed 110218 530110218
+  248 few_distinct 69433 550069433
+  249 reversed 6502 530006502
+  250 reversed 5014 530005014
+  251 nearly_sorted 75717 540075717
+  252 few_distinct 107080 550107080
+  253 reversed 84990 530084990
+  254 reversed 82570 530082570
+  255 reversed 934175 530934175
+  256 reversed 5468 530005468
+  257 sorted 92682 520092682
+  258 reversed 5962 530005962
+  259 nearly_sorted 5312 540005312
+  260 sorted 881744 520881744
+  261 few_distinct 7732 550007732
+  262 sorted 90043 520090043
+  263 nearly_sorted 7512 540007512
+  264 reversed 660561 530660561
+  265 sorted 67456 520067456
+  266 nearly_sorted 67456 540067456
+  267 sorted 4871 520004871
+  268 reversed 7959 530007959
+  269 reversed 4598 530004598
+  270 nearly_sorted 588493 540588493
+  271 reversed 989724 530989724
+  272 few_distinct 73562 550073562
+  273 reversed 7090 530007090
+  274 reversed 4467 530004467
+  275 reversed 113448 530113448
+  276 sorted 113448 520113448
+  277 few_distinct 80220 550080220
+  278 few_distinct 741455 550741455
+  279 few_distinct 67456 550067456
+  280 few_distinct 123715 550123715
+  281 sorted 82570 520082570
+  282 few_distinct 881744 550881744
+  283 few_distinct 934175 550934175
+  284 few_distinct 588493 550588493
+  285 few_distinct 5014 550005014
+  286 sorted 101070 520101070
+  287 few_distinct 98193 550098193
+  288 reversed 6137 530006137
+jvm_warmup: N=65536 seed=777 rounds=7 converged=true time=3.3s round_totals_ms=[512.0 334.9 333.1 330.7 335.7 333.7 335.6]
+dataset reversed N=90043 seed=530090043 R=5 grid=15 K_warmup=1 K=1 load=0.04s warmup=0.5s measure=0.9s gc_flagged=0 key=integer
+dataset nearly_sorted N=4216 seed=540004216 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset few_distinct N=961548 seed=550961548 R=5 grid=15 K_warmup=1 K=1 load=0.02s warmup=6.4s measure=10.5s gc_flagged=0 key=integer
+dataset sorted N=5312 seed=520005312 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset nearly_sorted N=6693 seed=540006693 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset reversed N=107080 seed=530107080 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.6s measure=1.0s gc_flagged=0 key=integer
+dataset few_distinct N=77936 seed=550077936 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.8s gc_flagged=0 key=integer
+dataset sorted N=120194 seed=520120194 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.7s measure=1.2s gc_flagged=0 key=integer
+dataset sorted N=934175 seed=520934175 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=5.5s measure=9.1s gc_flagged=0 key=integer
+dataset nearly_sorted N=127341 seed=540127341 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.9s measure=1.5s gc_flagged=0 key=integer
+dataset nearly_sorted N=90043 seed=540090043 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.7s measure=1.1s gc_flagged=0 key=integer
+dataset nearly_sorted N=856642 seed=540856642 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=6.1s measure=10.2s gc_flagged=0 key=integer
+dataset few_distinct N=5312 seed=550005312 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset nearly_sorted N=699841 seed=540699841 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=4.9s measure=8.1s gc_flagged=0 key=integer
+dataset nearly_sorted N=907581 seed=540907581 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=6.5s measure=10.8s gc_flagged=0 key=integer
+dataset few_distinct N=4096 seed=550004096 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset few_distinct N=5468 seed=550005468 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset sorted N=71468 seed=520071468 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.8s gc_flagged=0 key=integer
+dataset few_distinct N=4732 seed=550004732 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset sorted N=123715 seed=520123715 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.7s measure=1.2s gc_flagged=0 key=integer
+dataset nearly_sorted N=679917 seed=540679917 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=4.7s measure=7.9s gc_flagged=0 key=integer
+dataset reversed N=120194 seed=530120194 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.7s measure=1.1s gc_flagged=0 key=integer
+dataset few_distinct N=90043 seed=550090043 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.9s gc_flagged=0 key=integer
+dataset nearly_sorted N=524288 seed=540524288 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=3.7s measure=6.2s gc_flagged=0 key=integer
+dataset reversed N=571740 seed=530571740 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=2.9s measure=4.8s gc_flagged=0 key=integer
+dataset nearly_sorted N=6317 seed=540006317 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset sorted N=660561 seed=520660561 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=3.8s measure=6.3s gc_flagged=0 key=integer
+dataset reversed N=641757 seed=530641757 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=3.3s measure=5.5s gc_flagged=0 key=integer
+dataset nearly_sorted N=80220 seed=540080220 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.6s measure=1.0s gc_flagged=0 key=integer
+dataset nearly_sorted N=623487 seed=540623487 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=4.3s measure=7.1s gc_flagged=0 key=integer
+dataset sorted N=641757 seed=520641757 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=3.7s measure=6.2s gc_flagged=0 key=integer
+dataset nearly_sorted N=660561 seed=540660561 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=4.6s measure=7.6s gc_flagged=0 key=integer
+dataset sorted N=5628 seed=520005628 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset few_distinct N=539651 seed=550539651 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=3.3s measure=5.5s gc_flagged=0 key=integer
+dataset nearly_sorted N=98193 seed=540098193 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.7s measure=1.2s gc_flagged=0 key=integer
+dataset few_distinct N=5793 seed=550005793 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset nearly_sorted N=120194 seed=540120194 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.8s measure=1.4s gc_flagged=0 key=integer
+dataset sorted N=7959 seed=520007959 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset few_distinct N=4216 seed=550004216 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset reversed N=4871 seed=530004871 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset reversed N=4732 seed=530004732 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset nearly_sorted N=763181 seed=540763181 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=5.5s measure=8.9s gc_flagged=0 key=integer
+dataset reversed N=961548 seed=530961548 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=5.1s measure=8.5s gc_flagged=0 key=integer
+dataset few_distinct N=763181 seed=550763181 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=4.9s measure=8.2s gc_flagged=0 key=integer
+dataset sorted N=4732 seed=520004732 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.2s gc_flagged=0 key=integer
+dataset nearly_sorted N=934175 seed=540934175 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=6.7s measure=11.2s gc_flagged=0 key=integer
+dataset few_distinct N=127341 seed=550127341 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.8s measure=1.3s gc_flagged=0 key=integer
+dataset nearly_sorted N=5014 seed=540005014 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset nearly_sorted N=5962 seed=540005962 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset reversed N=4216 seed=530004216 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset reversed N=75717 seed=530075717 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.4s measure=0.7s gc_flagged=0 key=integer
+dataset few_distinct N=92682 seed=550092682 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.6s measure=0.9s gc_flagged=0 key=integer
+dataset nearly_sorted N=71468 seed=540071468 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.9s gc_flagged=0 key=integer
+dataset sorted N=524288 seed=520524288 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=3.1s measure=5.1s gc_flagged=0 key=integer
+dataset few_distinct N=4598 seed=550004598 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset sorted N=69433 seed=520069433 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.8s gc_flagged=0 key=integer
+dataset sorted N=6502 seed=520006502 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset sorted N=856642 seed=520856642 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=5.0s measure=8.3s gc_flagged=0 key=integer
+dataset nearly_sorted N=82570 seed=540082570 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.6s measure=1.0s gc_flagged=0 key=integer
+dataset sorted N=623487 seed=520623487 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=3.6s measure=5.9s gc_flagged=0 key=integer
+dataset reversed N=5312 seed=530005312 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset nearly_sorted N=110218 seed=540110218 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.8s measure=1.3s gc_flagged=0 key=integer
+dataset few_distinct N=104032 seed=550104032 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.6s measure=1.0s gc_flagged=0 key=integer
+dataset few_distinct N=720347 seed=550720347 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=4.5s measure=7.5s gc_flagged=0 key=integer
+dataset few_distinct N=82570 seed=550082570 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.8s gc_flagged=0 key=integer
+dataset nearly_sorted N=741455 seed=540741455 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=5.2s measure=8.6s gc_flagged=0 key=integer
+dataset sorted N=4340 seed=520004340 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.2s gc_flagged=0 key=integer
+dataset nearly_sorted N=4340 seed=540004340 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset nearly_sorted N=5161 seed=540005161 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset sorted N=605738 seed=520605738 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=3.5s measure=5.8s gc_flagged=0 key=integer
+dataset few_distinct N=524288 seed=550524288 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=3.3s measure=5.5s gc_flagged=0 key=integer
+dataset sorted N=110218 seed=520110218 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.7s measure=1.1s gc_flagged=0 key=integer
+dataset sorted N=75717 seed=520075717 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.8s gc_flagged=0 key=integer
+dataset sorted N=73562 seed=520073562 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.8s gc_flagged=0 key=integer
+dataset nearly_sorted N=961548 seed=540961548 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=6.9s measure=11.4s gc_flagged=0 key=integer
+dataset sorted N=6317 seed=520006317 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset few_distinct N=907581 seed=550907581 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=5.8s measure=9.7s gc_flagged=0 key=integer
+dataset few_distinct N=110218 seed=550110218 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.7s measure=1.1s gc_flagged=0 key=integer
+dataset nearly_sorted N=5468 seed=540005468 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset few_distinct N=641757 seed=550641757 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=4.0s measure=6.7s gc_flagged=0 key=integer
+dataset reversed N=588493 seed=530588493 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=3.0s measure=5.1s gc_flagged=0 key=integer
+dataset few_distinct N=1018725 seed=551018725 R=5 grid=15 K_warmup=1 K=1 load=0.02s warmup=6.9s measure=11.2s gc_flagged=0 key=integer
+dataset reversed N=104032 seed=530104032 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.6s measure=0.9s gc_flagged=0 key=integer
+dataset reversed N=7512 seed=530007512 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset nearly_sorted N=989724 seed=540989724 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=7.1s measure=12.0s gc_flagged=0 key=integer
+dataset few_distinct N=7090 seed=550007090 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset few_distinct N=856642 seed=550856642 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=5.5s measure=9.2s gc_flagged=0 key=integer
+dataset sorted N=571740 seed=520571740 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=3.3s measure=5.5s gc_flagged=0 key=integer
+dataset nearly_sorted N=6889 seed=540006889 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset reversed N=4096 seed=530004096 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset reversed N=77936 seed=530077936 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.4s measure=0.7s gc_flagged=0 key=integer
+dataset nearly_sorted N=77936 seed=540077936 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.6s measure=0.9s gc_flagged=0 key=integer
+dataset few_distinct N=679917 seed=550679917 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=4.3s measure=7.1s gc_flagged=0 key=integer
+dataset few_distinct N=6137 seed=550006137 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset sorted N=699841 seed=520699841 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=4.0s measure=6.7s gc_flagged=0 key=integer
+dataset sorted N=1018725 seed=521018725 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=5.9s measure=9.8s gc_flagged=0 key=integer
+dataset reversed N=127341 seed=530127341 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.7s measure=1.1s gc_flagged=0 key=integer
+dataset sorted N=4598 seed=520004598 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset reversed N=720347 seed=530720347 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=3.8s measure=6.3s gc_flagged=0 key=integer
+dataset few_distinct N=785544 seed=550785544 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=5.1s measure=8.3s gc_flagged=0 key=integer
+dataset nearly_sorted N=4467 seed=540004467 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset few_distinct N=87480 seed=550087480 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.9s gc_flagged=0 key=integer
+dataset nearly_sorted N=5628 seed=540005628 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset reversed N=73562 seed=530073562 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.4s measure=0.7s gc_flagged=0 key=integer
+dataset sorted N=907581 seed=520907581 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=5.3s measure=8.8s gc_flagged=0 key=integer
+dataset few_distinct N=623487 seed=550623487 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=3.9s measure=6.4s gc_flagged=0 key=integer
+dataset sorted N=98193 seed=520098193 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.6s measure=1.0s gc_flagged=0 key=integer
+dataset sorted N=785544 seed=520785544 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=4.5s measure=7.5s gc_flagged=0 key=integer
+dataset sorted N=4467 seed=520004467 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset reversed N=4340 seed=530004340 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset sorted N=539651 seed=520539651 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=3.1s measure=5.2s gc_flagged=0 key=integer
+dataset reversed N=5161 seed=530005161 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset sorted N=808563 seed=520808563 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=4.7s measure=7.9s gc_flagged=0 key=integer
+dataset sorted N=5962 seed=520005962 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset reversed N=832255 seed=530832255 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=4.3s measure=7.2s gc_flagged=0 key=integer
+dataset nearly_sorted N=4598 seed=540004598 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset reversed N=605738 seed=530605738 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=3.1s measure=5.2s gc_flagged=0 key=integer
+dataset reversed N=555464 seed=530555464 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=2.8s measure=4.7s gc_flagged=0 key=integer
+dataset few_distinct N=4871 seed=550004871 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset reversed N=101070 seed=530101070 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.6s measure=0.9s gc_flagged=0 key=integer
+dataset nearly_sorted N=7090 seed=540007090 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset nearly_sorted N=65536 seed=540065536 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.9s gc_flagged=0 key=integer
+dataset sorted N=555464 seed=520555464 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=3.3s measure=5.4s gc_flagged=0 key=integer
+dataset sorted N=741455 seed=520741455 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=4.3s measure=7.2s gc_flagged=0 key=integer
+dataset nearly_sorted N=7298 seed=540007298 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset few_distinct N=7959 seed=550007959 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset sorted N=588493 seed=520588493 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=3.4s measure=5.7s gc_flagged=0 key=integer
+dataset nearly_sorted N=92682 seed=540092682 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.7s measure=1.1s gc_flagged=0 key=integer
+dataset reversed N=116772 seed=530116772 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.7s measure=1.1s gc_flagged=0 key=integer
+dataset nearly_sorted N=4871 seed=540004871 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset nearly_sorted N=720347 seed=540720347 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=5.1s measure=8.5s gc_flagged=0 key=integer
+dataset reversed N=907581 seed=530907581 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=4.8s measure=8.1s gc_flagged=0 key=integer
+dataset sorted N=7298 seed=520007298 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset reversed N=123715 seed=530123715 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.7s measure=1.1s gc_flagged=0 key=integer
+dataset nearly_sorted N=7959 seed=540007959 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset reversed N=92682 seed=530092682 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.9s gc_flagged=0 key=integer
+dataset sorted N=5468 seed=520005468 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset nearly_sorted N=5793 seed=540005793 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset nearly_sorted N=571740 seed=540571740 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=4.0s measure=6.7s gc_flagged=0 key=integer
+dataset reversed N=95398 seed=530095398 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.9s gc_flagged=0 key=integer
+dataset few_distinct N=101070 seed=550101070 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.7s measure=1.1s gc_flagged=0 key=integer
+dataset few_distinct N=7298 seed=550007298 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset nearly_sorted N=95398 seed=540095398 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.7s measure=1.2s gc_flagged=0 key=integer
+dataset few_distinct N=113448 seed=550113448 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.7s measure=1.2s gc_flagged=0 key=integer
+dataset nearly_sorted N=555464 seed=540555464 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=3.8s measure=6.4s gc_flagged=0 key=integer
+dataset reversed N=7298 seed=530007298 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset nearly_sorted N=73562 seed=540073562 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.6s measure=0.9s gc_flagged=0 key=integer
+dataset reversed N=808563 seed=530808563 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=4.2s measure=7.1s gc_flagged=0 key=integer
+dataset nearly_sorted N=1018725 seed=541018725 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=7.5s measure=12.3s gc_flagged=0 key=integer
+dataset sorted N=65536 seed=520065536 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.8s gc_flagged=0 key=integer
+dataset nearly_sorted N=7732 seed=540007732 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset reversed N=80220 seed=530080220 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.7s gc_flagged=0 key=integer
+dataset sorted N=989724 seed=520989724 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=5.8s measure=9.6s gc_flagged=0 key=integer
+dataset nearly_sorted N=539651 seed=540539651 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=3.7s measure=6.2s gc_flagged=0 key=integer
+dataset nearly_sorted N=87480 seed=540087480 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.6s measure=1.1s gc_flagged=0 key=integer
+dataset reversed N=6693 seed=530006693 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset few_distinct N=7512 seed=550007512 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset few_distinct N=5628 seed=550005628 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset reversed N=524288 seed=530524288 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=2.8s measure=4.7s gc_flagged=0 key=integer
+dataset few_distinct N=6317 seed=550006317 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset nearly_sorted N=785544 seed=540785544 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=5.5s measure=9.2s gc_flagged=0 key=integer
+dataset few_distinct N=605738 seed=550605738 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=3.7s measure=6.2s gc_flagged=0 key=integer
+dataset sorted N=4096 seed=520004096 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset few_distinct N=5161 seed=550005161 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset reversed N=741455 seed=530741455 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=3.9s measure=6.6s gc_flagged=0 key=integer
+dataset reversed N=6889 seed=530006889 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset sorted N=6889 seed=520006889 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset few_distinct N=4467 seed=550004467 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset sorted N=679917 seed=520679917 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=3.9s measure=6.5s gc_flagged=0 key=integer
+dataset few_distinct N=6502 seed=550006502 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset sorted N=107080 seed=520107080 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.7s measure=1.1s gc_flagged=0 key=integer
+dataset sorted N=80220 seed=520080220 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.9s gc_flagged=0 key=integer
+dataset few_distinct N=75717 seed=550075717 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.8s gc_flagged=0 key=integer
+dataset reversed N=67456 seed=530067456 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.4s measure=0.6s gc_flagged=0 key=integer
+dataset few_distinct N=65536 seed=550065536 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.4s measure=0.7s gc_flagged=0 key=integer
+dataset few_distinct N=6889 seed=550006889 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset reversed N=856642 seed=530856642 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=4.5s measure=7.4s gc_flagged=0 key=integer
+dataset sorted N=7512 seed=520007512 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset few_distinct N=989724 seed=550989724 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=6.5s measure=10.8s gc_flagged=0 key=integer
+dataset reversed N=623487 seed=530623487 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=3.2s measure=5.3s gc_flagged=0 key=integer
+dataset few_distinct N=808563 seed=550808563 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=5.1s measure=8.6s gc_flagged=0 key=integer
+dataset sorted N=5014 seed=520005014 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset sorted N=763181 seed=520763181 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=4.4s measure=7.3s gc_flagged=0 key=integer
+dataset nearly_sorted N=113448 seed=540113448 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.8s measure=1.3s gc_flagged=0 key=integer
+dataset nearly_sorted N=6137 seed=540006137 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset reversed N=7732 seed=530007732 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset sorted N=720347 seed=520720347 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=4.2s measure=7.0s gc_flagged=0 key=integer
+dataset nearly_sorted N=4096 seed=540004096 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset few_distinct N=71468 seed=550071468 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.8s gc_flagged=0 key=integer
+dataset sorted N=5793 seed=520005793 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset nearly_sorted N=808563 seed=540808563 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=5.7s measure=9.5s gc_flagged=0 key=integer
+dataset reversed N=679917 seed=530679917 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=3.6s measure=5.9s gc_flagged=0 key=integer
+dataset nearly_sorted N=641757 seed=540641757 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=4.4s measure=7.4s gc_flagged=0 key=integer
+dataset few_distinct N=6693 seed=550006693 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset reversed N=539651 seed=530539651 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=2.7s measure=4.5s gc_flagged=0 key=integer
+dataset sorted N=77936 seed=520077936 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.8s gc_flagged=0 key=integer
+dataset sorted N=87480 seed=520087480 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.9s gc_flagged=0 key=integer
+dataset sorted N=5161 seed=520005161 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset few_distinct N=4340 seed=550004340 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset reversed N=5628 seed=530005628 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset sorted N=95398 seed=520095398 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.6s measure=1.0s gc_flagged=0 key=integer
+dataset few_distinct N=832255 seed=550832255 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=5.3s measure=8.8s gc_flagged=0 key=integer
+dataset reversed N=69433 seed=530069433 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.4s measure=0.6s gc_flagged=0 key=integer
+dataset sorted N=6137 seed=520006137 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset sorted N=6693 seed=520006693 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset sorted N=116772 seed=520116772 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.7s measure=1.1s gc_flagged=0 key=integer
+dataset nearly_sorted N=605738 seed=540605738 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=4.2s measure=6.9s gc_flagged=0 key=integer
+dataset sorted N=84990 seed=520084990 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.9s gc_flagged=0 key=integer
+dataset sorted N=7732 seed=520007732 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset sorted N=127341 seed=520127341 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.7s measure=1.2s gc_flagged=0 key=integer
+dataset nearly_sorted N=69433 seed=540069433 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.9s gc_flagged=0 key=integer
+dataset few_distinct N=95398 seed=550095398 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.6s measure=1.0s gc_flagged=0 key=integer
+dataset few_distinct N=660561 seed=550660561 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=4.1s measure=6.8s gc_flagged=0 key=integer
+dataset sorted N=104032 seed=520104032 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.7s measure=1.0s gc_flagged=0 key=integer
+dataset nearly_sorted N=104032 seed=540104032 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.7s measure=1.2s gc_flagged=0 key=integer
+dataset nearly_sorted N=881744 seed=540881744 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=6.3s measure=10.5s gc_flagged=0 key=integer
+dataset nearly_sorted N=4732 seed=540004732 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset nearly_sorted N=84990 seed=540084990 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.6s measure=1.0s gc_flagged=0 key=integer
+dataset few_distinct N=699841 seed=550699841 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=4.4s measure=7.4s gc_flagged=0 key=integer
+dataset nearly_sorted N=832255 seed=540832255 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=5.9s measure=9.8s gc_flagged=0 key=integer
+dataset few_distinct N=555464 seed=550555464 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=3.4s measure=5.6s gc_flagged=0 key=integer
+dataset sorted N=4216 seed=520004216 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset nearly_sorted N=6502 seed=540006502 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset few_distinct N=116772 seed=550116772 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.7s measure=1.2s gc_flagged=0 key=integer
+dataset nearly_sorted N=123715 seed=540123715 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.9s measure=1.4s gc_flagged=0 key=integer
+dataset nearly_sorted N=101070 seed=540101070 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.7s measure=1.2s gc_flagged=0 key=integer
+dataset reversed N=699841 seed=530699841 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=3.7s measure=6.1s gc_flagged=0 key=integer
+dataset reversed N=71468 seed=530071468 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.4s measure=0.7s gc_flagged=0 key=integer
+dataset reversed N=98193 seed=530098193 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.9s gc_flagged=0 key=integer
+dataset reversed N=763181 seed=530763181 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=4.1s measure=6.8s gc_flagged=0 key=integer
+dataset sorted N=7090 seed=520007090 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset sorted N=961548 seed=520961548 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=5.6s measure=9.3s gc_flagged=0 key=integer
+dataset reversed N=87480 seed=530087480 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.8s gc_flagged=0 key=integer
+dataset reversed N=881744 seed=530881744 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=4.6s measure=7.7s gc_flagged=0 key=integer
+dataset few_distinct N=120194 seed=550120194 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.7s measure=1.2s gc_flagged=0 key=integer
+dataset nearly_sorted N=107080 seed=540107080 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.8s measure=1.3s gc_flagged=0 key=integer
+dataset nearly_sorted N=116772 seed=540116772 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.8s measure=1.4s gc_flagged=0 key=integer
+dataset few_distinct N=571740 seed=550571740 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=3.5s measure=5.8s gc_flagged=0 key=integer
+dataset reversed N=5793 seed=530005793 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset reversed N=65536 seed=530065536 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.4s measure=0.7s gc_flagged=0 key=integer
+dataset few_distinct N=5962 seed=550005962 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset sorted N=832255 seed=520832255 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=4.9s measure=8.2s gc_flagged=0 key=integer
+dataset reversed N=6317 seed=530006317 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset reversed N=785544 seed=530785544 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=4.2s measure=7.0s gc_flagged=0 key=integer
+dataset few_distinct N=84990 seed=550084990 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.9s gc_flagged=0 key=integer
+dataset reversed N=1018725 seed=531018725 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=5.5s measure=9.1s gc_flagged=0 key=integer
+dataset reversed N=110218 seed=530110218 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.6s measure=1.0s gc_flagged=0 key=integer
+dataset few_distinct N=69433 seed=550069433 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.4s measure=0.7s gc_flagged=0 key=integer
+dataset reversed N=6502 seed=530006502 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset reversed N=5014 seed=530005014 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset nearly_sorted N=75717 seed=540075717 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.6s measure=0.9s gc_flagged=0 key=integer
+dataset few_distinct N=107080 seed=550107080 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.7s measure=1.1s gc_flagged=0 key=integer
+dataset reversed N=84990 seed=530084990 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.8s gc_flagged=0 key=integer
+dataset reversed N=82570 seed=530082570 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.8s gc_flagged=0 key=integer
+dataset reversed N=934175 seed=530934175 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=5.0s measure=8.2s gc_flagged=0 key=integer
+dataset reversed N=5468 seed=530005468 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset sorted N=92682 seed=520092682 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.6s measure=0.9s gc_flagged=0 key=integer
+dataset reversed N=5962 seed=530005962 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset nearly_sorted N=5312 seed=540005312 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset sorted N=881744 seed=520881744 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=5.2s measure=8.6s gc_flagged=0 key=integer
+dataset few_distinct N=7732 seed=550007732 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset sorted N=90043 seed=520090043 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.6s measure=0.9s gc_flagged=0 key=integer
+dataset nearly_sorted N=7512 seed=540007512 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset reversed N=660561 seed=530660561 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=3.5s measure=5.7s gc_flagged=0 key=integer
+dataset sorted N=67456 seed=520067456 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.8s gc_flagged=0 key=integer
+dataset nearly_sorted N=67456 seed=540067456 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.9s gc_flagged=0 key=integer
+dataset sorted N=4871 seed=520004871 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.2s measure=0.3s gc_flagged=0 key=integer
+dataset reversed N=7959 seed=530007959 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset reversed N=4598 seed=530004598 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset nearly_sorted N=588493 seed=540588493 R=5 grid=24 K_warmup=1 K=1 load=0.01s warmup=4.1s measure=6.7s gc_flagged=0 key=integer
+dataset reversed N=989724 seed=530989724 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=5.3s measure=8.9s gc_flagged=0 key=integer
+dataset few_distinct N=73562 seed=550073562 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.8s gc_flagged=0 key=integer
+dataset reversed N=7090 seed=530007090 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset reversed N=4467 seed=530004467 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset reversed N=113448 seed=530113448 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.6s measure=1.0s gc_flagged=0 key=integer
+dataset sorted N=113448 seed=520113448 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.7s measure=1.2s gc_flagged=0 key=integer
+dataset few_distinct N=80220 seed=550080220 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.9s gc_flagged=0 key=integer
+dataset few_distinct N=741455 seed=550741455 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=4.7s measure=8.0s gc_flagged=0 key=integer
+dataset few_distinct N=67456 seed=550067456 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.8s gc_flagged=0 key=integer
+dataset few_distinct N=123715 seed=550123715 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.8s measure=1.3s gc_flagged=0 key=integer
+dataset sorted N=82570 seed=520082570 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.9s gc_flagged=0 key=integer
+dataset few_distinct N=881744 seed=550881744 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=5.8s measure=9.5s gc_flagged=0 key=integer
+dataset few_distinct N=934175 seed=550934175 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=6.0s measure=10.1s gc_flagged=0 key=integer
+dataset few_distinct N=588493 seed=550588493 R=5 grid=15 K_warmup=1 K=1 load=0.01s warmup=3.6s measure=6.0s gc_flagged=0 key=integer
+dataset few_distinct N=5014 seed=550005014 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+dataset sorted N=101070 seed=520101070 R=5 grid=24 K_warmup=1 K=1 load=0.00s warmup=0.6s measure=1.0s gc_flagged=0 key=integer
+dataset few_distinct N=98193 seed=550098193 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.6s measure=1.0s gc_flagged=0 key=integer
+dataset reversed N=6137 seed=530006137 R=5 grid=15 K_warmup=1 K=1 load=0.00s warmup=0.1s measure=0.2s gc_flagged=0 key=integer
+end_time=2026-11-17T20:51:49.991529100+07:00[Asia/Saigon] elapsed=0:22:40 gc_during_run_flagged=0 sink=54923754404779
