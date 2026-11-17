@@ -1,0 +1,19 @@
+id,short_description,metric,decision_rule,threshold
+H1,"Vùng tối ưu, random, 5 thang","c*, near_optimal_2pct","c* thuộc [17, 48] VÀ tập gần tối ưu chứa {24, 25, ..., 32} ở CẢ 5 thang (2^12, 2^14, 2^16, 2^18, 2^19)","c* in [17, 48], {24..32} subset near_optimal_2pct"
+H2,"10 nhanh hơn 7, random, 5 thang","T7/T10, CI 95% hai tầng","T7/T10 > 1 với cận dưới CI hai tầng 95% > 1 (Holm trên 5 thang, mức 0.05)",CI_lower(T7/T10) > 1.0 (Holm adj p < 0.05)
+H3,"Lặp lại độ lớn, random",|r_Run5(c*) - r_GD1(c*)|,"|r_Run5(c*) - r_GD1(c*)| <= 0.015 ở cả 3 thang 2^12, 2^16, 2^19 (r_GD1 = 0.848, 0.888, 0.918)",<= 0.015
+H4,Lợi ích giảm theo N,r(c*) theo thang,"r(c*) tăng nghiêm ngặt 2^12 < 2^16 < 2^19 với CI hai tầng không chồng nhau giữa thang liền kề; và ở 5 thang, mọi bước tăng âm <= 0.005",CI_hi(2^12) < CI_lo(2^16) < CI_lo(2^19); max decrease <= 0.005
+H5,Khoảng 20%,r(c*),r(c*) > 0.833 ở cả 5 thang (không đạt 1.2x và không đạt r = 0.80),> 0.833 ở cả 5 thang
+H6,Reversed,"c* (reversed, 3 thang)","c* thuộc [6, 16] ở cả 3 thang 2^12, 2^16, 2^19","c* in [6, 16]"
+H7,Few distinct,"c* (few_distinct, 3 thang)","c* thuộc [17, 48] ở cả 3 thang 2^12, 2^16, 2^19","c* in [17, 48]"
+H8,Sorted (D4),"r(c) monotonicity, c* (sorted, 3 thang)",r(c) không tăng theo c trên toàn lưới (cho phép 1 bước tăng <= 0.01 do nhiễu) và c* là biên trên (4096) ở cả 3 thang,c* = 4096; max_step_increase <= 0.01
+H9,Nearly sorted (D4),"c* (nearly_sorted, 3 thang)","Có cực tiểu bên trong: c* thuộc {128, 192, 256, 384, 512, 768, 1024} (không ở biên 4096) ở cả 3 thang","c* in {128, 192, 256, 384, 512, 768, 1024}"
+H10,Độ chính xác M2 (xác nhận),"RMSE(r_hat - r) trên 35 cutoff, c*_M2",Ở mỗi thang 2^14 và 2^18: RMSE(r_hat - r) trên 35 cutoff <= 0.012 VÀ c*_M2 thuộc tập gần tối ưu 2% đo được,RMSE <= 0.012; c*_M2 in near_optimal_2pct
+H10b,"Độ chính xác M2 (phụ, alpha hiệu chỉnh từ hàng c=1)",RMSE(r_hat_calib - r) trên 35 cutoff,Biến thể alpha hiệu chỉnh từ hàng c=1 của chính thang đạt RMSE <= 0.012 ở cả 2^14 và 2^18,RMSE <= 0.012
+H11,Lặp lại doubling v1,|ln R_bar_k(v2) - ln R_bar_k(v1)|,"Với k in {19, 20, 21} và c in {1, 30}: |ln R_bar_k(v2) - ln R_bar_k(v1)| <= 3*sqrt(SE_k(v1)^2 + SE_k(v2)^2)",<= 3*sqrt(SE_v1^2 + SE_v2^2)
+H12,Ngoại suy doubling tới 2^24 (P-tiếp vs P-bão hòa),|ln R_bar_k - ln R_hat_k|,"Một dự đoán đạt nếu |ln R_bar_k - ln R_hat_k| <= 3*SE_k ở cả k=22 và 23, với cả c=1 và c=30",<= 3*SE_k
+H13,Kiểm soát cùng cây doubling,"|Delta_bar| các cặp (4, 7), (8, 10), (16, 30)","Ở mọi k, các cặp có chênh trung bình |Delta_bar| <= 1%",<= 1% (0.01)
+H14,D3: int[] có lợi thế hơn Integer[],"r_int(c*), c*_int vs Integer[]",r_int(c*) < r_Integer(c*) ở cả 3 thang (cận trên CI của hiệu < 0) và c*_int >= c*_Integer ở cả 3 thang,CI_upper(r_int - r_Integer) < 0; c*_int >= c*_Integer
+H15,Cơ chế bộ nhớ của việc lợi ích giảm theo N,Độ co lại lợi ích từ 2^12 đến 2^19 của int[] vs Integer[],"[r_int(c*, 2^19) - r_int(c*, 2^12)] < 0.5 * [r_Integer(c*, 2^19) - r_Integer(c*, 2^12)] đo trong cùng phiên",< 0.5 * Delta_r_Integer
+H16,D3: Double[] tương đương Integer[],|r_Double(c*) - r_Integer(c*)|,|r_Double(c*) - r_Integer(c*)| <= 0.02 ở cả 3 thang,<= 0.02
+H17,T08: Kiểm chứng chéo bằng JMH,"|r_JMH(N, c) - r_Run5(N, c)|, thứ tự T(c)","|r_JMH(N, c) - r_Run5(N, c)| <= 0.02 cho mọi N in {4096, 65536, 524288} và c in {7, 10, 30}; và thứ tự T(30) < T(10) < T(7) < T(1) đúng ở cả 3 N",<= 0.02; T(30) < T(10) < T(7) < T(1)
