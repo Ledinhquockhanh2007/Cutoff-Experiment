@@ -1,0 +1,9 @@
+Hình: figA01_local_exponent
+Loại: Phụ lục / Khám phá (Appendix Analysis)
+Nguồn dữ liệu: results_final/analysis_v2/tables/power_law_local_exponent.csv
+Mô tả chuỗi:
+- Số mũ cục bộ b trong mô hình T = a * N^b được ước lượng bằng OLS trên từng thang quy mô 24 giá trị N.
+- Thanh sai số biểu thị sai số chuẩn (SE) của hệ số b (cột se_b_time).
+- Số mũ lý thuyết b_theo (cột b_theo_approx) được tính theo công thức giải tích xấp xỉ cục bộ của mô hình N lg(N/L):
+  b_theo = 1 + 1 / ln(N_geom / L_geom)
+  trong đó N_geom = exp(mean(ln N)) là trung bình nhân của kích thước N trong thang đo, và L_geom là trung bình nhân của độ dài lá (L_geom = 1.0 với c = 1; L_geom = 21.50 với c = 30).

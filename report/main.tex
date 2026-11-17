@@ -1,14 +1,17 @@
 % !TEX program = xelatex
-% Overleaf: Menu -> Compiler -> XeLaTeX
+% Overleaf: Menu -> Compiler -> XeLaTeX.
+% Dựng bởi report/gen_main.py từ report/report_outline_final.md (T07). Chữ đỏ \bv{...} = chỗ BẠN viết;
+% dưới mỗi mục là khối comment (%) chép nguyên văn ý của dàn ý. Không có câu văn nội dung nào do AI viết.
 \documentclass[12pt,a4paper]{article}
 \usepackage[a4paper,margin=2.3cm]{geometry}
 \usepackage{fontspec}
 \setmainfont{TeX Gyre Termes}
 \usepackage{babel}
 \babelprovide[import,main]{vietnamese}
-\usepackage{adjustbox}
-\usepackage{graphicx,booktabs,float,caption,xcolor,makecell,array}
-\usepackage[hidelinks]{hyperref}
+\usepackage{graphicx,booktabs,float,caption,xcolor,makecell,array,tabularx}
+\usepackage{siunitx}
+\sisetup{group-separator={\,}, group-minimum-digits=4, output-decimal-marker={.}}
+\usepackage[hidelinks,pageanchor=false]{hyperref}
 \usepackage{cleveref}
 \crefname{figure}{Hình}{Hình}\Crefname{figure}{Hình}{Hình}
 \crefname{table}{Bảng}{Bảng}\Crefname{table}{Bảng}{Bảng}
@@ -16,12 +19,23 @@
 \crefname{subsection}{mục}{mục}\Crefname{subsection}{Mục}{Mục}
 \crefname{appendix}{phụ lục}{phụ lục}\Crefname{appendix}{Phụ lục}{Phụ lục}
 \addto\captionsvietnamese{\renewcommand{\figurename}{Hình}\renewcommand{\tablename}{Bảng}%
-  \renewcommand{\refname}{Tài liệu tham khảo}\renewcommand{\contentsname}{Mục lục}}
+  \renewcommand{\refname}{Tài liệu tham khảo}\renewcommand{\contentsname}{Mục lục}%
+  \renewcommand{\appendixname}{Phụ lục}}
 \captionsetup{font=small,labelfont=bf}
+\captionsetup[table]{position=top}
 \usepackage[numbers]{natbib}
-% Ô đỏ = chỗ bạn cần viết. Khi viết xong, xóa \bv{...} và dòng "% BẠN VIẾT".
-\DeclareRobustCommand{\bv}[1]{\textcolor{red}{[#1]}}
 \setlength{\parskip}{4pt}
+\setlength{\emergencystretch}{2em}
+
+% ---- cờ bản nháp: \drafttrue hiện nhãn độ mạnh; đặt \draftfalse khi nộp (nhãn biến mất).
+\newif\ifdraft
+\drafttrue
+% Chữ đỏ = chỗ bạn cần viết. Viết xong thì xóa \bv{...} và các dòng comment tương ứng.
+\DeclareRobustCommand{\bv}[1]{\textcolor{red}{[#1]}}
+% Nhãn độ mạnh của khẳng định: ĐK = kiểm định đã đăng ký; KP = khám phá; MT = mô tả.
+\DeclareRobustCommand{\DK}{\ifdraft\textcolor{gray}{\scriptsize[ĐK]}\fi}
+\DeclareRobustCommand{\KP}{\ifdraft\textcolor{gray}{\scriptsize[KP]}\fi}
+\DeclareRobustCommand{\MT}{\ifdraft\textcolor{gray}{\scriptsize[MT]}\fi}
 
 \begin{document}
 \begin{titlepage}
@@ -43,701 +57,534 @@
 \tableofcontents
 \newpage
 
-\section{Giới thiệu và câu hỏi nghiên cứu}\label{sec:1}
+\section*{Tóm tắt}\label{sec:abs}
+\bv{BẠN VIẾT: Tóm tắt (150–220 từ, viết cuối cùng)}
 %
-% - **Bối cảnh:** mergesort tốn chi phí phụ lớn với đoạn con nhỏ (lời gọi đệ quy, copy sang `aux`). Cải tiến là sắp các đoạn có độ dài ≤ CUTOFF bằng insertion sort. (BG 237)
-% - **Câu hỏi thực tế:** giáo trình nêu CUTOFF = 7 (bản cũ) và 10 (bản mới) (ĐB). Vậy trên máy của tôi, giá trị nào tốt nhất?
-% - **Các câu hỏi nghiên cứu:**
-%   - RQ1: CUTOFF nào cho thời gian nhỏ nhất (dữ liệu ngẫu nhiên), và vùng "gần tối ưu" rộng đến đâu?
-%   - RQ2: CUTOFF tối ưu thay đổi thế nào theo N và theo phân bố dữ liệu?
-%   - RQ3: Mức tăng tốc tại CUTOFF = 7, 10 và tại giá trị tốt nhất so với không dùng cutoff là bao nhiêu? Có đạt "khoảng 20%" như bài giảng không? 7 hay 10 tốt hơn?
-% - **Đóng góp (gạch đầu dòng ngắn):**
-%   - Đo ghép cặp trên 72 giá trị N được chọn để tránh lớp tương đương. [F20]
-%   - Ba lượt chạy, 9 JVM; lượt chính có typeperf xác minh xung trong suốt lượt. [F77, F78]
-%   - Có số đếm phép toán đi kèm thời gian đo.
-%   - Tìm và xác định cơ chế của một nguồn sai lệch hệ thống (luồng đo kẹt trên nhân 0 ở xung thấp). [mục 7.1; Phụ lục C]
+% Phải có: câu hỏi; thiết kế (35 CUTOFF × 72 N × 5 phân bố, ghép cặp, 3 JVM ghim nhân, doubling 2^10..2^22 đăng ký trước, mô hình chi phí); 4 con số chính:
+% - vùng gần tối ưu chung của cả 3 thang (random): c ∈ {17..32, 40, 48}; gộp 3 thang c tốt nhất = 30, r = 0.886 [0.884, 0.888]. (RF: rq1_best_cutoff, rq1_pooled_random)
+% - c = 10 nhanh hơn c = 7 ở cả 3 thang: T7/T10 = 1.018 / 1.012 / 1.010 (Holm p ≤ 0.003). (RF: rq3_paired_tests)
+% - mức giảm lớn nhất 15.2% / 11.2% / 8.2% (2^12 / 2^16 / 2^19); "khoảng 20%" của bài giảng không đạt theo cả hai cách đọc (r = 0.80 hay 1.2×) ở thang nào. (RF: rq3_speedup)
+% - doubling: thời gian tăng nhanh hơn N lg N và không bão hòa đến 2^22; mô hình dự đoán dựa trên cây đệ quy bị bác bỏ ở k ≥ 19. [ĐK]
 %
-% BẠN VIẾT:
-\bv{Bạn viết nội dung phần này}
 
+\section{Giới thiệu}\label{sec:1}
+\bv{BẠN VIẾT: mục 1 (1–1.5 trang)}
+%
+% - Bối cảnh: chi phí phụ của mergesort ở đoạn con nhỏ; cải tiến cutoff (bài giảng Phần 1, mục cải tiến Mergesort). Giáo trình nêu 7 (bản cũ), 10 (bản mới); bài giảng nói "có thể nhanh hơn khoảng 20%".
+% - Bài toán của đề: tìm CUTOFF tốt nhất trên máy của mình theo phong cách phân tích thực nghiệm của bài giảng 1.3 (quan sát → giả thuyết → dự đoán → kiểm chứng; doubling test; mô hình toán học; bộ nhớ).
+% - **Câu hỏi nghiên cứu** (giữ nguyên tên trong toàn báo cáo):
+%   - RQ1. CUTOFF nào cho thời gian nhỏ nhất với dữ liệu ngẫu nhiên, và vùng gần tối ưu rộng đến đâu?
+%   - RQ2. Kết quả thay đổi thế nào theo N và theo phân bố dữ liệu?
+%   - RQ3. CUTOFF 7, 10 và giá trị tốt nhất giảm thời gian bao nhiêu so với không cutoff? Có đạt "khoảng 20%"? 7 hay 10 tốt hơn?
+%   - RQ4. (phân tích kiểu 1.3) Thời gian tăng theo N như thế nào, và có giải thích/dự đoán được T(N, c) bằng một mô hình chi phí không?
+%   - RQ5. Bộ nhớ: mô hình bài giảng ước lượng bộ nhớ của mergesort đúng đến đâu trên JVM thật?
+% - Đóng góp (gạch đầu dòng ngắn, mỗi dòng trỏ tới mục): thiết kế 72 N tránh lớp tương đương; đo ghép cặp 3 JVM ghim nhân; doubling test với dự đoán ĐĂNG KÝ TRƯỚC; mô hình chi phí theo kích thước merge, kiểm tra bỏ-một-thang; đo bộ nhớ bằng hai phương pháp độc lập; chẩn đoán và loại bỏ hai nguồn sai lệch hệ thống (luồng đo kẹt nhân 0; lô K ở 2^12).
+% - Một câu dẫn đường cho các mục.
+%
 
 \section{Cơ sở lý thuyết}\label{sec:2}
+\bv{BẠN VIẾT: mục 2 (2–3 trang)}
 %
-% - **Mergesort top-down:** chia đôi ⌈n/2⌉ / ⌊n/2⌋, merge qua `aux`.
-%   - Mệnh đề trong bài giảng: ≤ N lgN phép so sánh, ≤ 6N lgN lần truy cập mảng. (BG 233)
-% - **Insertion sort:**
-%   - Ngẫu nhiên: ~¼N² so sánh và ~¼N² đổi chỗ.
-%   - Đã sắp: N − 1 so sánh, 0 đổi chỗ.
-%   - Đảo ngược: ~½N² so sánh và ~½N² đổi chỗ. (BG 205, 207)
-%   - Hệ quả cho phần thảo luận: chi phí trên một lá độ dài k phụ thuộc mạnh vào thứ tự dữ liệu trong lá.
-% - **Vì sao cutoff có thể giúp** (nêu dạng giả thuyết, phần 6 sẽ kiểm chứng):
-%   - Bỏ khoảng lg(độ dài lá) tầng merge ở đáy cây.
-%   - Bỏ lời gọi đệ quy cho đoạn nhỏ.
-%   - Insertion sort làm việc trên vùng nhớ liền kề, nhỏ, không phải copy sang `aux`.
-% - **Đánh đổi:** insertion sort có chi phí bậc hai theo độ dài lá, nên tồn tại một độ dài lá tối ưu.
-% - **Nhận định của bài giảng:** "Thêm một dòng... có thể nhanh hơn khoảng 20%". (BG 237)
-%   - Ghi rõ hai cách đọc: thời gian giảm 20% (r = 0.80), hoặc nhanh hơn 1.2 lần (r ≈ 0.833).
-% - **Định nghĩa dùng trong báo cáo:**
-%   - Đoạn có độ dài ≤ CUTOFF được sắp bằng insertion sort.
-%   - CUTOFF = 1 là baseline.
-%   - r = T(c)/T(1); thời gian giảm = 1 − r; tăng tốc = 1/r.
+\subsection{Mergesort top-down}\label{sec:2.1}
+\bv{BẠN VIẾT: Mergesort top-down}
 %
-% BẠN VIẾT:
-\bv{Bạn viết nội dung phần này}
+% - 2.1 Mergesort top-down, merge qua `aux` cấp phát một lần; mệnh đề bài giảng: ≤ N lg N so sánh, ≤ 6N lg N truy cập mảng.
+%
 
+\subsection{Insertion sort}\label{sec:2.2}
+\bv{BẠN VIẾT: Insertion sort}
+%
+% - 2.2 Insertion sort: random ~¼N² so sánh và ~¼N² đổi chỗ; đã sắp N−1 so sánh, 0 đổi chỗ; đảo ngược ~½N². Hệ quả: chi phí một lá phụ thuộc thứ tự dữ liệu.
+%
+
+\subsection{Đánh đổi của cutoff}\label{sec:2.3}
+\bv{BẠN VIẾT: Đánh đổi của cutoff}
+%
+% - 2.3 Đánh đổi của cutoff: bỏ khoảng lg(lá) tầng merge và các lời gọi đệ quy ở đáy; trả bằng chi phí bậc hai trong lá → tồn tại độ dài lá tối ưu. Nêu dạng GIẢ THUYẾT (mục 5–6 kiểm).
+%
+
+\subsection{Lớp tương đương ở \texorpdfstring{$N=2^k$}{N=2\textasciicircum k}}\label{sec:2.4}
+\bv{BẠN VIẾT: Lớp tương đương ở $N=2^k$}
+%
+% - 2.4 Lớp tương đương ở N = 2^k: mọi c trong [2^m, 2^(m+1) − 1] cho cùng cây đệ quy (độ dài lá như nhau). Hệ quả: so sánh 7 với 10 ở N = 2^k là so sánh lá 4 với lá 8; c = 30 ở N = 2^k cho lá 16 (cùng cây với c ∈ [16, 31]). Đây là lý do thiết kế 24 N hình học (mục 4.2).
+%
+
+\subsection{Công cụ phân tích của bài giảng 1.3}\label{sec:2.5}
+\bv{BẠN VIẾT: Công cụ phân tích của bài giảng 1.3}
+%
+% - 2.5 Công cụ phân tích của bài giảng 1.3: luật lũy thừa T ≈ a·N^b, doubling test R = T(2N)/T(N) → lg R ≈ b; mô hình N lg N thuần cho R = 2(k+1)/k; mô hình chi phí = tổng (số lần thực hiện × thời gian một lần); kí hiệu tilde.
+%
+
+\subsection{Mô hình bộ nhớ của bài giảng}\label{sec:2.6}
+\bv{BẠN VIẾT: Mô hình bộ nhớ của bài giảng}
+%
+% - 2.6 Mô hình bộ nhớ của bài giảng: tham chiếu 8 B, đối tượng 16 B tiêu đề + trường, độn bội 8; mảng 24 B + phần tử. Áp cho Integer[] + aux + N Integer: ~40N B (chính xác 40N + 48).
+%
+
+\subsection{Định nghĩa đo lường}\label{sec:2.7}
+\bv{BẠN VIẾT: Định nghĩa đo lường}
+%
+% - 2.7 Định nghĩa đo lường (r, thời gian giảm, tăng tốc, gần tối ưu) và hai cách đọc "khoảng 20%": r = 0.80 hoặc 1.2× (r ≈ 0.833).
+%
 
 \section{Cài đặt và kiểm thử tính đúng}\label{sec:3}
+\bv{BẠN VIẾT: mục 3 (1.5 trang)}
 %
-% - **Cài đặt** (bạn tự viết từ BG buổi 4–5):
-%   - Top-down; `aux` cấp phát một lần; CUTOFF là tham số.
-%   - Tắt các cải tiến "dừng nếu a[mid] ≤ a[mid+1]" và "tráo vai trò mảng phụ".
-%   - Chặn `cutoff < 1`.
-% - **Tính ổn định (stable):**
-%   - Trong merge, `less(aux[j], aux[i])` là so sánh chặt nên khi bằng khóa sẽ lấy nửa trái trước.
-%   - Insertion sort chỉ đổi chỗ khi nhỏ hơn chặt.
-% - **Bản đếm `MergeCutoffCounted`:**
-%   - Chép từ `MergeCutoff`, bỏ `assert`, chèn bộ đếm C, A, E, S.
-%   - Quy ước Sedgewick: `exch` = 4 truy cập; copy sang `aux` = 2 truy cập mỗi phần tử.
-%   - Bản này không dùng để đo thời gian.
-% - **Bảng 1. Các nhóm kiểm thử** (`results/correctness_test_output.txt`; tổng [F01]):
-%   - Liệt kê 15 nhóm 00–14 kèm số lần kiểm tra.
-%   - Nêu các kiểm tra độc lập:
-%     - S bằng kết quả mô phỏng cây đệ quy.
-%     - E bằng số nghịch thế trên các lá.
-%     - Bản đo (`MergeCutoff`) có cùng cây đệ quy với bản đếm, kiểm tra qua số `compareTo`.
-% - **Bảng 2. Mutation test** [F02] (nguồn: LOG, chạy trên sandbox JDK 21):
-%   - 4 bản cài lỗi, bản nào cũng bị phát hiện.
-%   - Lỗi "lệch 1 ở dòng cutoff" chỉ bị nhóm 14 bắt được. Đây là lý do cần nhóm 14.
-%   - ⚠ Nếu muốn ghi mutation test là kết quả của mình, nên chạy lại trên máy bạn.
-% - **Chú thích gợi ý:** "Bảng 1. Các nhóm kiểm thử tính đúng; tổng 970 425 lần kiểm tra, 0 lỗi (JDK 25, `-ea`)."
+% - `MergeCutoff` (bạn viết): top-down, aux một lần, mid = lo + (hi − lo)/2, insertion cho đoạn ≤ c, tắt các cải tiến khác (kiểm a[mid] ≤ a[mid+1], tráo vai trò mảng), chặn c < 1; tính ổn định (so sánh chặt). `MergeCutoffCounted`: bản đếm C, A, E, S (quy ước Sedgewick), không dùng đo thời gian.
+% - Bảng T1: các nhóm kiểm thử, tổng 970 425 lần kiểm tra, 0 lỗi (JDK 25, `-ea`). Mutation test: 4 lỗi cài vào, đều bị phát hiện (⚠ chạy trên sandbox JDK 21: ghi rõ, hoặc chạy lại trên máy bạn).
+% - Bằng chứng phụ từ T05: `sort` cấp phát đúng một mảng aux (16 + 4N B), không cấp phát gì khác. (V2: memory_measurements, cột alloc_aux) [MT]
 %
-% BẠN VIẾT:
-\bv{Bạn viết nội dung phần này}
-
-\begin{table}[H]
-\centering
-% Gợi ý chú thích (từ dàn ý): Các nhóm kiểm thử tính đúng; tổng 970 425 lần kiểm tra, 0 lỗi (JDK 25, -ea).
-\caption{\bv{viết chú thích}}
-\label{tab:correctness}
-\small
-\begin{adjustbox}{max width=\linewidth}\input{tables/t_correctness}\end{adjustbox}
+\begin{table}[htbp]
+\centering\small
+\caption{Các nhóm kiểm thử của \texttt{CorrectnessTest} (JDK 25, \texttt{-ea}). \MT}\label{tab:correctness}
+\input{tables/t01_correctness}
 \end{table}
 
-\begin{table}[H]
-\centering
-% Gợi ý chú thích (từ dàn ý): Mutation test: 4 bản cài lỗi, bản nào cũng bị phát hiện (chạy trên sandbox của AI, JDK 21).
-\caption{\bv{viết chú thích}}
-\label{tab:mutation}
-\small
-\begin{adjustbox}{max width=\linewidth}\input{tables/t_mutation}\end{adjustbox}
+\begin{table}[htbp]
+\centering\small
+\caption{Kiểm thử đột biến: bản cài lỗi cố ý và nhóm kiểm thử phát hiện (JDK 21, sandbox). \MT}\label{tab:mutation}
+\input{tables/t01b_mutation}
 \end{table}
 
 
-\section{Thiết kế thí nghiệm}\label{sec:4}
+\section{Thiết kế thí nghiệm và phương pháp}\label{sec:4}
+\bv{BẠN VIẾT: mục 4 (3–4 trang)}
 %
-% BẠN VIẾT:
-\bv{Bạn viết nội dung phần này}
-
-
-\subsection{Dữ liệu}\label{sec:4-1}
-% (dàn ý) [F03–F06]
-%   - 5 phân bố:
-%     - random: hoán vị của OFFSET..OFFSET+N−1.
-%     - sorted.
-%     - reversed.
-%     - nearly sorted: ⌊N/100⌋ lần đổi chỗ.
-%     - few distinct: 10 giá trị.
-%   - Mọi giá trị ≥ 1 000 000 nên không đối tượng nào dùng Integer cache.
-%   - Seed cố định: `10^7·distId + N`. Định dạng nhị phân int32 kèm `manifest.csv` có sha256; chế độ `--verify`.
-%   - Kiểm tra chéo: sha256 của manifest và của counts.csv trùng nhau giữa sandbox và máy bạn. [F05, F06]
-% BẠN VIẾT:
-\bv{Bạn viết nội dung phần này}
-
-
-\subsection{Vì sao không dùng N = $2^{k}$: lớp tương đương}\label{sec:4-2}
-% (dàn ý) [F18–F20]
-%   - Với N = 2^k, mọi CUTOFF trong [2^m, 2^(m+1) − 1] cho cùng một cây đệ quy.
-%   - Lưới 35 CUTOFF vì vậy chỉ cho 7 cây khác nhau: [1], [2–3], [4–7], [8–15], [16–31], [32–48], [64].
-%   - Hệ quả: CUTOFF = 7 và 10 ứng với "lá 4" và "lá 8"; các CUTOFF trong cùng lớp chỉ khác nhau do nhiễu.
-%   - Thiết kế chọn: 24 N hình học mỗi thang, N_j = round(S·2^(j/24)), S ∈ {2^12, 2^16, 2^19}.
-%     - Mỗi c trong 2..32 đổi cây ở ít nhất 2 N.
-%     - Tập con 8 N (thiết kế ban đầu) có 17 giá trị c đổi cây ở dưới 2 N. (T:tree_coverage)
-%   - **Hình gợi ý: F:fig05.** "Hình 5. Ở N = 2^k, các CUTOFF trong cùng một dải cho cùng cây đệ quy (cùng S); chênh lệch r bên trong một dải là nhiễu đo."
-% BẠN VIẾT:
-\bv{Bạn viết nội dung phần này}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\linewidth]{figures/fig05_equivalence_classes.png}
-% Gợi ý chú thích (từ dàn ý): Ở N = 2^k, các CUTOFF trong cùng một dải cho cùng cây đệ quy (cùng S); chênh lệch r trong một dải là nhiễu đo.
-\caption{\bv{viết chú thích}}
-\label{fig:equiv}
-\end{figure}
-
-
-\subsection{Phương pháp đo}\label{sec:4-3}
-% (dàn ý) [F07–F12, F77]
-%   - Paired design: mọi CUTOFF dùng chung một mảng gốc; thứ tự CUTOFF được xáo trong mỗi trial.
-%   - Thứ tự bộ dữ liệu được xáo theo từng fork.
-%   - Mỗi fork là một JVM riêng.
-%   - Thủ tục một lần đo: `System.gc()` → clone → bấm giờ → sort → kiểm tra đã sắp.
-%   - Lô K: mỗi lô kéo dài ≥ 2 ms; K cố định trong một bộ dữ liệu.
-%   - Warm-up: toàn cục cho JVM, và 3 vòng cho mỗi bộ dữ liệu.
-%   - Cờ `gc_during_run`.
-%   - Lưới CUTOFF và số lần lặp R như thiết kế đã chốt.
-%   - **Ghim affinity (chỉ run 3):** [F77, F82]
-%     - Cách làm: khởi chạy `run_all.bat` với affinity C00 (LP 10/11 = nhân 5) — ghi đúng lệnh bạn đã dùng (`start /affinity C00`, có `/high` hay không).
-%     - Không đổi `Benchmark.java`, dữ liệu, cờ JVM; chỉ đổi cách khởi chạy.
-%     - Lý do: chẩn đoán E6 cho thấy luồng đo có thể kẹt trên nhân 0, nơi xung chỉ ở mức sàn ~79% của gói nguồn, và chuyển mức giữa chừng; ghim vào một nhân khác 0 giữ cả lượt ở một mức xung. (mục 7.1; Phụ lục C)
-%     - Kiểm chứng: typeperf ghi suốt run 3. [F78]
-%     - Ghi rõ: đây là thay đổi quy trình sau khi đã có run 1/2 (xem 7.2).
-% BẠN VIẾT:
-\bv{Bạn viết nội dung phần này}
-
-
-\subsection{Phân tích}\label{sec:4-4}
-%   - Trung bình nhân của r: log r trung bình trong từng N trước, rồi trung bình trên các N.
-%   - CI bootstrap theo cụm N, B = 10 000.
-%   - Wilcoxon trên 24 N cộng hiệu chỉnh Holm.
-%   - Holdout: chọn c tốt nhất trên các trial lẻ, đánh giá trên các trial chẵn.
-%   - Khoảng t qua 9 JVM (3 lượt × 3 fork). (S§2–3, S§9 )
-%   - So sánh lượt: Pearson của đường r(c), chênh r tối đa, giao tập gần tối ưu. (S§11 )
-% BẠN VIẾT:
-\bv{Bạn viết nội dung phần này}
-
-
-\subsection{Môi trường}\label{sec:4-5}
-% (dàn ý) [F13–F15, F82]
-%   - Phần cứng, OS, JDK, cờ JVM.
-%   - RAM chỉ chạy single-channel.
-%   - Chế độ Performance, cắm sạc, không tắt turbo.
-%   - Gói nguồn Windows: Balanced; minimum processor state (AC) = 80%.
-%   - Đặt vào phụ lục A nếu bảng quá dài.
+\subsection{Dữ liệu}\label{sec:4.1}
+\bv{BẠN VIẾT: Dữ liệu}
 %
-% BẠN VIẾT:
-\bv{Bạn viết nội dung phần này}
+% - 4.1 Dữ liệu: 5 phân bố (random = hoán vị; sorted; reversed; nearly_sorted ⌊N/100⌋ đổi chỗ; few_distinct 10 giá trị); giá trị ≥ 1 000 000 (ngoài Integer cache, đã kiểm: mọi Integer phân biệt theo danh tính, V2: memory_identity_check); seed cố định; nhị phân + manifest sha256; `--verify`.
+%
 
-\begin{table}[H]
-\centering
-% Gợi ý chú thích (từ dàn ý): Môi trường thí nghiệm.
-\caption{\bv{viết chú thích}}
-\label{tab:env}
-\small
-\begin{adjustbox}{max width=\linewidth}\input{tables/t_env}\end{adjustbox}
+\subsection{Chọn \texorpdfstring{$N$}{N} và lưới CUTOFF}\label{sec:4.2}
+\bv{BẠN VIẾT: Chọn $N$ và lưới CUTOFF}
+%
+% - 4.2 Chọn N: 3 thang × 24 N hình học; lưới 35 CUTOFF (1..32, 40, 48, 64); mỗi c trong 2..32 đổi cây ở ≥ 2 N (RF: tree_coverage). Random cả 3 thang; phân bố khác chỉ 2^16.
+%
+
+\subsection{Quy trình đo}\label{sec:4.3}
+\bv{BẠN VIẾT: Quy trình đo}
+%
+% - 4.3 Quy trình đo: ghép cặp (mọi c dùng chung mảng gốc, thứ tự c xáo trong mỗi trial); thứ tự bộ dữ liệu xáo theo fork; 3 fork (JVM riêng); `System.gc()` → clone → bấm giờ → sort → kiểm tra; warm-up; loại lần đo có GC (0/81 720); K = 1 (một lần sort mỗi phép đo; ở 2^12, run 3 dùng lô K > 1 và bị thay bằng Run 4, xem 7.2); ghim tiến trình vào nhân 5 (`start /affinity C00`); cờ JVM `-Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch`.
+%
+
+\subsection{Thống kê}\label{sec:4.4}
+\bv{BẠN VIẾT: Thống kê}
+%
+% - 4.4 Thống kê: trung bình nhân của r (log trong từng N, rồi trên các N); CI 95% bootstrap theo cụm N (B = 10 000, seed 20261027); gần tối ưu 2%; Wilcoxon trên 24 N + Holm; holdout (chọn c tốt nhất trên trial lẻ, đánh giá trên trial chẵn) để tránh lời nguyền người thắng; bảng thiết kế và lý giải số lần lặp (V2: design_table, precision_vs_R; figA03).
+%
+
+\subsection{Doubling test (đăng ký trước)}\label{sec:4.5}
+\bv{BẠN VIẾT: Doubling test (đăng ký trước)}
+%
+% - 4.5 Doubling test (thí nghiệm thứ hai, ĐĂNG KÝ TRƯỚC): N = 2^k, k = 10..22, c ∈ {1, 4, 7, 8, 10, 16, 30, 32, 64}; 10 trial (N ≤ 2^16) / 5 trial (≥ 2^17); 3 fork; cùng JVM cho mọi N. Dự đoán P1 (N lg N), P2 (luật lũy thừa từ thí nghiệm chính, b = 1.1625 / 1.179), P3/P3b/P3c (mô hình M2 trên cây thật, α theo thang), ngưỡng |e_k| ≤ 0.015, phép thử S, kiểm soát cùng cây (c = 4/7, 8/10, 16/30). Commit đăng ký `0aa6ca4`, bổ sung P3c `a46dc4d`, cả hai TRƯỚC khi chạy (PR:). Chỉ các phép thử trong hợp đồng mang nhãn [ĐK].
+%
+
+\subsection{Mô hình chi phí}\label{sec:4.6}
+\bv{BẠN VIẾT: Mô hình chi phí}
+%
+% - 4.6 Mô hình chi phí (khám phá): đặc trưng tính chính xác từ cây đệ quy (độ dài merge theo bucket kích thước 8/32/128, số đổi chỗ trong insertion sort); M0 (chi phí hằng mỗi phép toán, kiểu đếm của bài giảng), M1, M2 (WLS trọng số 1/T²); kiểm tra bỏ-một-thang (LOSO): w, β học từ hai thang, α của thang bị giữ lại hiệu chỉnh từ các hàng c = 1 của chính thang đó (ghi rõ, không gọi là "dự đoán mù").
+%
+
+\subsection{Đo bộ nhớ}\label{sec:4.7}
+\bv{BẠN VIẾT: Đo bộ nhớ}
+%
+% - 4.7 Đo bộ nhớ: JOL (`GraphLayout`, `ClassLayout`) và `ThreadMXBean.getThreadAllocatedBytes` (hai phương pháp độc lập); 4 cấu hình con trỏ nén; 6 N.
+%
+
+\subsection{Môi trường}\label{sec:4.8}
+\bv{BẠN VIẾT: Môi trường}
+%
+% - 4.8 Môi trường (bảng T2 hoặc phụ lục): AMD Ryzen 7 H 255 (8 nhân, L2 1 MiB/nhân, L3 16 MiB, nguồn `cpu_info.txt`), Windows 11, Microsoft JDK 25.0.4.1, RAM (ghi đúng, single-channel), chế độ nguồn, cắm sạc.
+%
+\begin{table}[htbp]
+\centering\small
+\caption{Cấu hình môi trường thí nghiệm. \MT}\label{tab:env}
+\input{tables/t02_env}
 \end{table}
 
 
 \section{Kết quả}\label{sec:5}
+\bv{BẠN VIẾT: mục 5 (8–10 trang)}
 %
-% BẠN VIẾT:
-\bv{Bạn viết nội dung phần này}
-
-
-\subsection{RQ1: CUTOFF tốt nhất (random)}\label{sec:5-1}
-% (dàn ý) [F21–F28]
-%   - **Bảng 3:** c tốt nhất, r [CI], vùng gần tối ưu 2% cho từng thang. (S§2; T:rq1_best_cutoff)
-%   - **Ý chính 1:** đáy của đường r rất phẳng.
-%     - Run 3: vùng 2% rộng 19–48 / 13–48 / 11–64 theo thang. [F21–F23]
-%     - Mọi c trong 22–32, 40, 48 nằm trong 2% của c tốt nhất ở cả 3 thang và cả 3 lượt. [F27]
-%   - **Ý chính 2:** c tốt nhất theo thang không ổn định giữa các lượt (29/31/27; 31/32/48; 32/29/24), nhưng vùng phẳng thì ổn định. [F24]
-%   - Gộp 3 thang: c = 30 (run 3), 31 (run 2), 40 (run 1); cả ba nằm trong vùng phẳng chung. [F25, F26]
-%   - **Hình chính: F:fig01.** "Hình 1. Tỉ số thời gian r theo CUTOFF, dữ liệu ngẫu nhiên, ba thang N (trung bình nhân trên 24 N, CI 95% bootstrap theo N)."
-%   - **Hình phụ: F:fig02** (phân bố argmin bootstrap) và **F:fig06** (r theo độ dài lá thực tế; r nhỏ nhất ≈ 0.866 ở lá ≈ 17.5). [F28]
-% BẠN VIẾT:
-\bv{Bạn viết nội dung phần này}
-
-\begin{table}[H]
-\centering
-% Gợi ý chú thích (từ dàn ý): c tốt nhất, r [CI], vùng gần tối ưu 2% cho từng thang (run 3).
-\caption{\bv{viết chú thích}}
-\label{tab:rq1}
-\small
-\begin{adjustbox}{max width=\linewidth}\input{tables/t_rq1}\end{adjustbox}
-\end{table}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\linewidth]{figures/fig01_r_vs_cutoff_random.png}
-% Gợi ý chú thích (từ dàn ý): Tỉ số thời gian r theo CUTOFF, dữ liệu ngẫu nhiên, ba thang N (TB nhân trên 24 N, CI 95% bootstrap theo N).
-\caption{\bv{viết chú thích}}
-\label{fig:r-cutoff}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.85\linewidth]{figures/fig02_argmin_bootstrap.png}
-% Gợi ý chú thích (từ dàn ý): Phân bố argmin bootstrap.
-\caption{\bv{viết chú thích}}
-\label{fig:argmin}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.85\linewidth]{figures/fig06_r_vs_leaf_length.png}
-% Gợi ý chú thích (từ dàn ý): r theo độ dài lá thực tế.
-\caption{\bv{viết chú thích}}
-\label{fig:leaf}
-\end{figure}
-
-
-\subsection{RQ3: CUTOFF 7, 10 và tốt nhất so với baseline}\label{sec:5-2}
-% (dàn ý) [F29–F36]
-%   - **Bảng 4:** thời gian giảm [CI] tại c = 7, 10 và c tốt nhất cho 3 thang. (S§3; T:rq3_speedup)
-%   - **So với nhận định "20%" của bài giảng:**
-%     - Cách đọc r = 0.80: không đạt ở bất kỳ thang nào, ở cả 3 lượt.
-%     - Cách đọc 1.2 lần: chỉ đạt ở thang 2^12 với c tốt nhất (1.219×; CI của r nằm dưới 0.833). [F31]
-%   - **7 so với 10:** 10 nhanh hơn 7 ở mọi thang và cả 3 lượt; mức chênh 0.9–2.1% (run 3: 1.0–2.1%). Số JVM có 10 nhanh hơn 7:  /9 (S§9). [F33, F34]
-%   - **c tốt nhất so với 7 và 10** (holdout): T_best/T_7 = 0.919 / 0.959 / 0.970; T_best/T_10 = 0.940 / 0.972 / 0.981. [F35]
-%   - **Hình: F:fig03.** "Hình 3. Mức giảm thời gian tại CUTOFF 7, 10 và tốt nhất; đường đứt: 20% theo bài giảng."
-%   - **Hình: F:fig16.** "Hình 4. Biến thiên giữa 9 JVM (3 lượt); dưới: T7/T10 − 1 > 0 nghĩa là 10 nhanh hơn 7."
-% BẠN VIẾT:
-\bv{Bạn viết nội dung phần này}
-
-\begin{table}[H]
-\centering
-% Gợi ý chú thích (từ dàn ý): Thời gian giảm [CI] tại c = 7, 10 và c tốt nhất cho 3 thang (run 3).
-\caption{\bv{viết chú thích}}
-\label{tab:rq3}
-\small
-\begin{adjustbox}{max width=\linewidth}\input{tables/t_rq3}\end{adjustbox}
-\end{table}
-
-\begin{table}[H]
-\centering
-% Gợi ý chú thích (từ dàn ý): So sánh ghép cặp 7/10 và tốt nhất/7, tốt nhất/10; Wilcoxon trên 24 N, Holm; holdout.
-\caption{\bv{viết chú thích}}
-\label{tab:paired}
-\small
-\begin{adjustbox}{max width=\linewidth}\input{tables/t_paired}\end{adjustbox}
-\end{table}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\linewidth]{figures/fig03_speedup_7_10_best.png}
-% Gợi ý chú thích (từ dàn ý): Mức giảm thời gian tại CUTOFF 7, 10 và tốt nhất; đường đứt: 20% theo bài giảng.
-\caption{\bv{viết chú thích}}
-\label{fig:speedup}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\linewidth]{figures/fig16_per_jvm.png}
-% Gợi ý chú thích (từ dàn ý): Biến thiên giữa 9 JVM (3 lượt); dưới: T7/T10 − 1 > 0 nghĩa là 10 nhanh hơn 7.
-\caption{\bv{viết chú thích}}
-\label{fig:perjvm}
-\end{figure}
-
-
-\subsection{RQ2: ảnh hưởng của N và phân bố}\label{sec:5-3}
-% (dàn ý) [F37–F43]
-%   - **Theo N:** mức giảm lớn nhất giảm dần khi N tăng: 18.0% → 11.2% → 8.2%.
-%   - **Theo phân bố (thang 2^16):** **Bảng 5** gồm c tốt nhất, thời gian giảm và vùng gần tối ưu. (S§5)
-%     - Đảo ngược: tốt nhất 8 ở run 3, 10 ở run 2/1; cả hai nằm trong vùng chung 6–12. [F40, F42]
-%   - **Hình: F:fig08.** "Hình 5. r theo CUTOFF cho 5 phân bố (thang 2^16); marker lớn là CUTOFF tốt nhất."
-%   - **Hình phụ: F:fig07.** "Heatmap N × CUTOFF."
-% BẠN VIẾT:
-\bv{Bạn viết nội dung phần này}
-
-\begin{table}[H]
-\centering
-% Gợi ý chú thích (từ dàn ý): c tốt nhất, thời gian giảm và vùng gần tối ưu theo phân bố (thang 2^16, run 3).
-\caption{\bv{viết chú thích}}
-\label{tab:dist}
-\small
-\begin{adjustbox}{max width=\linewidth}\input{tables/t_dist}\end{adjustbox}
-\end{table}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\linewidth]{figures/fig08_distributions_2e16.png}
-% Gợi ý chú thích (từ dàn ý): r theo CUTOFF cho 5 phân bố (thang 2^16); marker lớn là CUTOFF tốt nhất.
-\caption{\bv{viết chú thích}}
-\label{fig:dist}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.85\linewidth]{figures/fig07_heatmap_random.png}
-% Gợi ý chú thích (từ dàn ý): Heatmap N × CUTOFF.
-\caption{\bv{viết chú thích}}
-\label{fig:heatmap}
-\end{figure}
-
-
-\subsection{Số đếm}\label{sec:5-4}
-% (dàn ý) [F44–F48]
-%   - Ở c tốt nhất: C tăng, A tăng nhẹ, S giảm, trong khi T giảm. (S§6; T:counts_normalized)
-%   - Ở c = 1, các số đếm khớp cận trong bài giảng.
-%   - **Hình: F:fig09.** "Hình 6. Số đếm và thời gian theo CUTOFF (tỉ số so với c = 1)."
-% BẠN VIẾT:
-\bv{Bạn viết nội dung phần này}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\linewidth]{figures/fig09_counts_vs_time.png}
-% Gợi ý chú thích (từ dàn ý): Số đếm và thời gian theo CUTOFF (tỉ số so với c = 1).
-\caption{\bv{viết chú thích}}
-\label{fig:counts}
-\end{figure}
-
-
-\subsection{Mô hình thời gian chạy}\label{sec:5-5}
-% (dàn ý) [F49–F55]
-%   - T = a·N^b: b = 1.151 (c = 1) và 1.175 (c = 30), trong khi N lgN thuần trên cùng tập N cho b = 1.092.
-%   - Mô hình k·N lgN khớp từ 2^12 và 2^16 dự đoán thấp hơn thực tế khoảng 20–26% ở 2^19; power law chỉ lệch −3.7% / −0.9%. (S§7)
-%   - **Hình: F:fig10.** Mô hình thời gian.
-%   - **Hình: F:fig14.** "Hình 7. T/(N lgN) theo N; vạch dọc: working set 24N byte bằng dung lượng L2 và L3."
-%   - Giới hạn cách diễn giải: xem mục 6 và 7.
-% BẠN VIẾT:
-\bv{Bạn viết nội dung phần này}
-
-\begin{table}[H]
-\centering
-% Gợi ý chú thích (từ dàn ý): Mô hình T = a·N^b (run 3).
-\caption{\bv{viết chú thích}}
-\label{tab:model}
-\small
-\begin{adjustbox}{max width=\linewidth}\input{tables/t_model}\end{adjustbox}
-\end{table}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\linewidth]{figures/fig10_runtime_model.png}
-% Gợi ý chú thích (từ dàn ý): Mô hình thời gian chạy.
-\caption{\bv{viết chú thích}}
-\label{fig:model}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\linewidth]{figures/fig14_cache_levels.png}
-% Gợi ý chú thích (từ dàn ý): T/(N lgN) theo N; vạch dọc: working set 24N byte bằng dung lượng L2 và L3.
-\caption{\bv{viết chú thích}}
-\label{fig:cache}
-\end{figure}
-
-
-\subsection{Độ lặp lại qua 3 lượt}\label{sec:5-6}
-% (dàn ý) [F56, F27, F42, F84]
-%   - **Bảng 6 (3 lượt, random):** theo thang: c tốt nhất, vùng gần tối ưu, giao 3 lượt, giảm tại 7 / 10 / tốt nhất, T7/T10 (p), T/(N lgN) c = 1 so với run 3. (S§11 ; T:compare_best, T:compare_near_intersection)
-%   - **Bảng 7 (từng cặp lượt):** Pearson của r(c) và chênh r tối đa, cho mọi (phân bố, thang). (S§11 ; T:compare_pairs)
-%   - Ý chính:
-%     - Thời gian tuyệt đối khác nhau 1.79–1.87 lần (run 2 so với run 3), nhưng r gần như trùng. [F56, F84]
-%     - Vùng gần tối ưu của run 3 chứa trọn vùng của run 2 ở cả 3 thang, nên giao 3 lượt = giao của run 1 và run 2. [F27]
-%   - **Hình: F:fig15.** "Hình 8. r theo CUTOFF ở 3 lượt (trên) và r của từng lượt so với lượt chính (dưới)."
+\subsection{RQ1: CUTOFF tốt nhất cho dữ liệu ngẫu nhiên}\label{sec:5.1}
+\bv{BẠN VIẾT: RQ1: CUTOFF tốt nhất cho dữ liệu ngẫu nhiên}~\MT\KP
 %
-% BẠN VIẾT:
-\bv{Bạn viết nội dung phần này}
-
-\begin{table}[H]
-\centering
-% Gợi ý chú thích (từ dàn ý): 3 lượt, random: c tốt nhất, vùng gần tối ưu, giao 3 lượt, giảm tại 7/10/tốt nhất, T7/T10, T/(N lgN) ở c = 1.
-\caption{\bv{viết chú thích}}
-\label{tab:runs}
-\small
-\begin{adjustbox}{max width=\linewidth}\input{tables/t_runs}\end{adjustbox}
+% - Bảng T3 (RF: rq1_best_cutoff + rq1_pooled_random): mỗi thang: c tốt nhất, r [CI], vùng gần tối ưu, tần suất argmin bootstrap. Số chính: 40 / 31 / 27; r = 0.848 / 0.888 / 0.918; vùng 17–64 / 13–48 / 11–64; gộp: c = 30, r = 0.886 [0.884, 0.888].
+% - Ý chính 1: đáy rất phẳng; vùng chung cả 3 thang = {17..32, 40, 48}.
+% - Ý chính 2: điểm cực tiểu không ổn định (argmin bootstrap 40: 71%, 31: 36%, 27: 75%) nhưng vùng thì ổn định → báo cáo VÙNG, không báo cáo một số.
+% - Hình: fig01 (thân bài), figA06 (r theo độ dài lá, phụ lục).
+%
+\begin{table}[htbp]
+\centering\small
+\caption{CUTOFF tốt nhất $c^*$ cho dữ liệu ngẫu nhiên theo thang: $r$ kèm CI 95\%, vùng gần tối ưu và tần suất argmin bootstrap. \KP}\label{tab:rq1}
+\input{tables/t03_rq1}
 \end{table}
 
-\begin{table}[H]
+\begin{figure}[htbp]
 \centering
-% Gợi ý chú thích (từ dàn ý): 3 lượt, các phân bố khác (thang 2^16).
-\caption{\bv{viết chú thích}}
-\label{tab:runs-other}
-\small
-\begin{adjustbox}{max width=\linewidth}\input{tables/t_runs_other}\end{adjustbox}
-\end{table}
-
-\begin{table}[H]
-\centering
-% Gợi ý chú thích (từ dàn ý): Pearson của r(c) và chênh r tối đa giữa từng cặp lượt.
-\caption{\bv{viết chú thích}}
-\label{tab:pairs}
-\small
-\begin{adjustbox}{max width=\linewidth}\input{tables/t_pairs}\end{adjustbox}
-\end{table}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\linewidth]{figures/fig15_run_comparison.png}
-% Gợi ý chú thích (từ dàn ý): r theo CUTOFF ở 3 lượt (trên) và r của từng lượt so với lượt chính (dưới).
-\caption{\bv{viết chú thích}}
-\label{fig:runs}
+\includegraphics[width=120mm]{figures/fig01_r_vs_cutoff_random.pdf}
+\caption{Tỉ số thời gian $r(N, c) = T(c)/T(1)$ theo CUTOFF cho dữ liệu ngẫu nhiên trên ba thang quy mô; dải mờ là CI 95\% bootstrap. \KP}\label{fig:r_cutoff_random}
 \end{figure}
+
+
+\subsection{RQ3: 7, 10 và tốt nhất so với baseline; ``khoảng 20\%''}\label{sec:5.2}
+\bv{BẠN VIẾT: RQ3: 7, 10 và tốt nhất so với baseline; ``khoảng 20\%''}~\MT
+%
+% - Bảng T4 (RF: rq3_speedup): thời gian giảm [CI] tại 7 / 10 / tốt nhất: 2^12 9.2 / 10.8 / 15.2%; 2^16 7.5 / 8.6 / 11.2%; 2^19 5.2 / 6.2 / 8.2%. Không CI nào chứa r = 0.80 hay 0.833; tăng tốc lớn nhất 1.179× (2^12, c = 40).
+% - Bảng T5 (RF: rq3_paired_tests): T7/T10 = 1.018 / 1.012 / 1.010 (10 nhanh hơn ở 17 / 22 / 18 trên 24 N; Holm p ≤ 0.003); c tốt nhất (holdout) so với 7 và 10.
+% - Liên hệ fig06 (doubling, KP): r(N, c = 30) = 0.811 ở N = 1K, 0.845 (4K), 0.888 (64K), 0.920 (512K), 0.932 (1M), 0.941 (4M): "khoảng 20%" chỉ tiến gần ở N ≈ 1K (r = 0.811, thời gian giảm 18.9%). Nhắc: ở N = 2^k, c = 30 ≡ lá 16.
+%
+\begin{table}[htbp]
+\centering\small
+\caption{Thời gian giảm $1-r$ và tăng tốc tại $c=7$, $c=10$ và $c^*$ so với $c=1$ (dữ liệu ngẫu nhiên). \MT}\label{tab:rq3}
+\input{tables/t04_rq3}
+\end{table}
+
+\begin{table}[htbp]
+\centering\small
+\caption{So sánh ghép cặp: $T_7/T_{10}$ (trong mẫu) và $c^*$ so với 7 và 10 (holdout); Wilcoxon theo $N$, hiệu chỉnh Holm. \MT}\label{tab:paired}
+\input{tables/t05_paired}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=85mm]{figures/fig06_r_diminishing_returns.pdf}
+\caption{Tỉ số thời gian $r(N, 30)$ trên thang doubling từ 1K đến 4M (tại $N = 2^k$, $c=30$ tương đương lá dài 16, cùng cây đệ quy với mọi $c \in [16, 31]$); đường đứt nét biểu thị mức giảm 20\% nêu trong bài giảng. \KP}\label{fig:r_diminishing}
+\end{figure}
+
+
+\subsection{RQ2: theo \texorpdfstring{$N$}{N} và theo phân bố}\label{sec:5.3}
+\bv{BẠN VIẾT: RQ2: theo $N$ và theo phân bố}~\MT\KP
+%
+% - Theo N: mức giảm lớn nhất 15.2 → 11.2 → 8.2%; fig06 trên dải rộng 2^10..2^22.
+% - Theo phân bố (2^16, RF: rq1_best_cutoff): sorted c* = 64 (biên lưới, đáy thật có thể > 64), r = 0.647; nearly_sorted 64 (biên), 0.686; reversed 8 (vùng 6–12), 0.887; few_distinct 32 (vùng 20, 24, 32, 48), 0.828. Hình fig08 (có đường M2 để cho thấy M2 không áp dụng cho các phân bố này).
+%
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{figures/fig08_other_distributions.pdf}
+\caption{Tỉ số $r(N, c)$ trên 4 phân bố không ngẫu nhiên (thang $S = 2^{16}$, trung bình nhân 24 $N$), minh họa sự không áp dụng được của mô hình M2 và khác biệt lớn của $c^*$ giữa các phân bố. \KP}\label{fig:other_distributions}
+\end{figure}
+
+
+\subsection{RQ4a: Doubling test và luật lũy thừa}\label{sec:5.4}
+\bv{BẠN VIẾT: RQ4a: Doubling test và luật lũy thừa}~\DK\KP
+%
+% - Bảng T6 (DB: A1 tóm tắt, A1z): mỗi predictor × (c = 1, 30): sai số trung bình ở k ≥ 19, tỉ lệ đạt ngưỡng, kết luận theo hợp đồng.
+% - Kết quả đã đăng ký [ĐK]: P3 (bước α) bị bác (D = +0.009 / +0.022, so với ngưỡng 0.5·D_P3 = 0.083 / 0.090 ở cả 3 fork); P1, P3b, P3c (dự đoán bão hòa) bị bác ở k ≥ 19 (|e| ≈ 0.08–0.11, khoảng 6 lần nhiễu); P2 gần nhất nhưng cũng thấp hơn đo ở k ≥ 19 (chênh S 0.023–0.027); kiểm soát cùng cây |Δ| ≤ 0.32% (đạt).
+% - Kết quả khám phá [KP]: T/(N lg N) (c = 1) ≈ 10.0–10.3 ns ở k = 10..16 rồi tăng 10.46, 10.78, 11.23, 12.39, 13.50, 14.76 ns (k = 17..22), không bão hòa; số mũ theo đoạn 1.118 (k 10–16), 1.126 (16–19), 1.202 (19–22) với c = 1. R(k→k+1) = 2.32 / 2.29 / 2.29 ở k = 19, 20, 21.
+% - Ghi chú độ chính xác: SE của R̄ ≈ 1.44% (c = 1), 1.22% (c = 30), chủ yếu từ ô (fork, N), nên ngưỡng 1.5% chỉ ≈ 1 SE (lỗi thiết kế của người thiết kế, nêu thẳng ở mục 7); kết luận chỉ dựa vào k ≥ 19 nơi sai lệch ≈ 6 SE.
+% - Hình: fig04 (thân bài), fig05 (T/(N lg N) kèm mốc L2/L3, KP), figA04 (độ ổn định giữa fork), figA01, figA02.
+%
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Sai số dự đoán $e_k=\ln\hat R_k-\ln\bar R_k$ của các predictor đã đăng ký ở $k=19,20,21$ cho $c=1$ và $c=30$; ngưỡng đăng ký $|e_k|\le1.5\%$. \DK}\label{tab:doubling}
+\input{tables/t06_doubling}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{figures/fig04_doubling_ln_R.pdf}
+\caption{Tỉ số tăng trưởng doubling $\ln R_k$ theo $k$ cho $c=1$ và $c=30$ kèm sai số thực đo $\pm 2\cdot\mathrm{SE}$, so sánh với các dự báo mô hình P1, P2 và P3c qua các vùng nội suy và ngoại suy. \DK}\label{fig:doubling_ln_r}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=120mm]{figures/fig05_t_over_nlgn_cache.pdf}
+\caption{Thời gian chuẩn hóa $T / (N \lg N)$ theo quy mô $k$, kèm các ngưỡng dung lượng bộ nhớ hoạt động tương ứng với bộ nhớ đệm L2 và L3. \KP}\label{fig:t_over_nlgn_cache}
+\end{figure}
+
+
+\subsection{RQ4b: Mô hình chi phí}\label{sec:5.5}
+\bv{BẠN VIẾT: RQ4b: Mô hình chi phí}~\KP
+%
+% - Bảng T7 (V2: cost_model_M2_coef, cost_model_loso): hệ số M2 kèm SE (w1 = 5.86, w2 = 10.62, w3 = 16.54, β = 3.27, α = 9.08 / 8.79 / 11.58 ns) và RMSE LOSO của M0 / M1 / M2: M0 0.090 / 0.066 / 0.075 (mô hình "đếm phép toán", sai rất xa); M2 0.0087 / 0.0068 / 0.0029.
+% - Ý chính: chi phí một phần tử merge TĂNG theo kích thước merge (w1 < w2 < w3), nên chỉ đếm số phép toán (M0) không dự đoán được r; M2 dự đoán r trong khoảng ±0.01 trong dải 2^12..2^19 với dữ liệu random.
+% - Hệ quả cho RQ1: theo M2 ở 2^16, c* = 40, r̂_min = 0.8835, vùng gần tối ưu [14, 48]; độ nhạy ±20–25% trên β hoặc w1, w2 cho c* ∈ {20, 40, 48}, giao các vùng = [24, 40] (V2: cost_model_sensitivity; figA05).
+% - Phân rã (fig03): tiết kiệm từ bỏ merge tăng chậm dần, chi phí insertion tăng gần tuyến tính theo c → đáy phẳng.
+% - Giới hạn của M2 (viết ngắn ở đây, chi tiết mục 7): 10/21 điểm trong mẫu nằm ngoài CI 95%; α không ngoại suy được ra ngoài 2^12..2^19 (doubling bác P3c); không áp dụng cho phân bố khác (fig08); w3 > α khó giải thích vật lý, KHÔNG diễn giải trong thân bài.
+% - Hình: fig02, fig03.
+%
+\begin{table}[htbp]
+\centering\small
+\caption{Hệ số của mô hình chi phí M2 (ước lượng $\pm$ SE) và RMSE bỏ-một-thang của M0, M1, M2. \KP}\label{tab:cost_model}
+\input{tables/t07_cost_model}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{figures/fig02_m2_fit_loso.pdf}
+\caption{So khớp mô hình chi phí M2 với thực đo trên 3 thang nội suy (a) và kiểm tra ngoài mẫu LOSO trên thang $2^{19}$ kèm dải dung sai thực nghiệm $\pm 0.01$ (b). \KP}\label{fig:m2_fit_loso}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=85mm]{figures/fig03_cost_decomposition.pdf}
+\caption{Phân rã thành phần chi phí của mô hình M2 trên thang $S = 2^{16}$: mức tiết kiệm bỏ merge đối chiếu với chi phí thêm của insertion sort và vùng gần tối ưu 2\% [14, 48]. \KP}\label{fig:cost_decomposition}
+\end{figure}
+
+
+\subsection{RQ5: Bộ nhớ}\label{sec:5.6}
+\bv{BẠN VIẾT: RQ5: Bộ nhớ}~\MT
+%
+% - Bảng T8 (V2: memory_measurements, memory_regression, memory_class_layouts): byte/phần tử và hằng số theo cấu hình: mặc định 24N + 32; −UseCompressedOops 32N + 32; −UseCompressedOops −UseCompressedClassPointers 40N + 48 (= mô hình bài giảng, khớp từng byte); compact headers 24N + 32 (N chẵn, mô hình mô tả). N = 2^20: 25 165 856 B (24 MiB) mặc định so với 41 943 088 B theo bài giảng (bài giảng ước lượng quá 1.67×). JOL = ThreadMXBean ở cả 24 hàng.
+% - Thành phần (mặc định): N Integer chiếm 2/3 (16N), hai mảng tham chiếu 1/3 (8N + 32).
+% - Hình: fig07.
+%
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Bộ nhớ của mergesort trên \texttt{Integer[]} theo cấu hình JVM: công thức, hệ số đo bằng JOL và \texttt{ThreadMXBean}, byte ở $N=2^{20}$. \MT}\label{tab:memory}
+\input{tables/t08_memory}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{figures/fig07_memory_by_config.pdf}
+\caption{Dung lượng bộ nhớ thực tế của mergesort: số byte/phần tử trên 3 cấu hình JVM (a) và tổng dung lượng hoạt động theo $N$ so với cache trên thang log (b). \KP}\label{fig:memory_by_config}
+\end{figure}
+
+
+\subsection{Độ lặp lại qua các lượt}\label{sec:5.7}
+\bv{BẠN VIẾT: Độ lặp lại qua các lượt}~\MT
+%
+% - Bảng T9 (RF: compare_best, compare_near_intersection, compare_pairs): r qua các lượt gần trùng dù thời gian tuyệt đối khác 1.79–1.87× (run 2 so với run 3); mọi c tốt nhất nằm trong vùng giao của các lượt; 10 tốt hơn 7 ở mọi lượt. figA02 (Δb giữa các lượt).
+%
+\begin{table}[htbp]
+\centering\footnotesize\setlength{\tabcolsep}{3pt}
+\caption{Kết quả theo lượt chạy (dữ liệu ngẫu nhiên): $c^*$, vùng gần tối ưu, mức giảm thời gian và $T_7/T_{10}$. \MT}\label{tab:runs}
+\input{tables/t09_runs}
+\end{table}
 
 
 \section{Thảo luận}\label{sec:6}
+\bv{BẠN VIẾT: mục 6 (3–4 trang; bạn viết, ý gợi ý)}
 %
-% - **Vì sao mức giảm nhỏ dần khi N tăng**
-%   - Cutoff bỏ khoảng lg(lá) tầng đáy trong tổng khoảng lg N tầng.
-%   - Phần merge bị bỏ ở c tốt nhất (29 / 31 / 27) là 35% / 27% / 22%, trong khi thời gian chỉ giảm 18.0% / 11.2% / 8.2%. [F44, F46]
-%   - Gợi ý ý: các tầng đáy rẻ hơn tính trên mỗi phần tử, vì nằm gọn trong cache; ở N lớn, các tầng trên (tốn bộ nhớ) chiếm tỉ trọng thời gian lớn hơn. Liên hệ với F:fig14, nhưng chỉ ở mức "phù hợp với".
-% - **Vì sao C tăng mà T giảm**
-%   - Số liệu: C ×1.237, A ×1.108, S ×0.646, T ×0.820 (2^12, c = 29). [F44]
-%   - Gợi ý ý: chi phí của một phép so sánh hoặc truy cập không giống nhau.
-%     - Insertion sort chạy trên đoạn nhỏ, liền kề, nằm trong L1, không có lời gọi đệ quy và không copy sang `aux`.
-%     - Vì vậy mô hình "đếm phép toán" của bài giảng chưa đủ để dự đoán thời gian.
-%   - Có thể nhắc thêm: ở c = 7, A còn giảm (×0.929) dù C tăng (×1.014). [F45]
-% - **Vì sao đảo ngược tối ưu quanh 8–10, còn đã sắp tối ưu ở đầu mút lưới**
-%   - Lá đảo ngược là trường hợp xấu nhất của insertion sort: k(k−1)/2 so sánh và đổi chỗ. r tăng mạnh khi lá lớn (run 2: 0.990 / 1.102 / 1.239 tại c = 32 / 48 / 64; run 3:  T:r_by_cutoff). [F40]
-%   - Lá đã sắp chỉ tốn tuyến tính (k − 1 so sánh, 0 đổi chỗ), nên r giảm đơn điệu đến 64. Tối ưu thật có thể > 64, chưa xác định được vì nằm ngoài lưới. [F37]
-%   - Gần sắp cũng tối ưu ở 64; ít giá trị tối ưu ở 32, tương tự random.
-% - **7 so với 10**
-%   - Ở N = 2^k, đây là so sánh "lá 4" với "lá 8".
-%   - 10 thắng nhưng chỉ khoảng 1–2%; cả hai đều cách xa vùng 22–48. [F33, F34, F35]
-%   - Gợi ý ý: con số trong sách gắn với máy, ngôn ngữ và kiểu dữ liệu cụ thể; không nên coi là hằng số.
-% - **Vì sao không đạt 20%**
-%   - Bài giảng chỉ nói "có thể... khoảng 20%".
-%   - Ở đây chỉ đạt theo cách đọc 1.2 lần, ở 2^12, với c tốt nhất. [F31]
-%   - Các ý có thể bàn, dưới dạng giả thuyết chứ không khẳng định:
-%     - `Integer[]` với `compareTo` gọi qua interface và qua tham chiếu làm mỗi phép so sánh đắt, trong khi insertion sort tăng C.
-%     - Hiệu ứng bộ nhớ ở N lớn làm loãng phần lợi.
-%     - Bài giảng có thể đo ở N, máy hoặc ngôn ngữ khác.
-%   - Mức xung không phải lý do: run 3 (xung cao) cho mức giảm gần như bằng run 2 (xung thấp). (ý tiếp theo)
-% - **r gần như không đổi giữa hai mức xung** [F56, F78, F84]
-%   - Hai điều kiện: run 3 (nhân 5, ~129% ≈ 4.9 GHz, đo bằng typeperf) và run 2 (suy ra: nhân 0, ~79% ≈ 3.0 GHz).
-%   - Thời gian tuyệt đối khác 1.79–1.87 lần; r: Pearson 0.981–0.998, chênh tối đa ≤ 1.2% (random); mức giảm tại 7 / 10 / tốt nhất chênh ≤ 0.8 điểm %; 7 so với 10 cùng chiều.
-%   - Gợi ý ý: cutoff thay đổi lượng công việc (S, C, A, số lời gọi), mà các phần công việc này co giãn gần như cùng tỉ lệ theo xung, nên tỉ số r gần như giữ nguyên.
-%   - Giới hạn của ý này: hai điều kiện khác nhau cả về nhân (nhân 0 có thêm phần phạt ngoài xung, xem T2 [F81]), chứ không chỉ về xung. Nên viết "r bền qua hai điều kiện xung/nhân", không viết "r độc lập với xung".
-% - **Hiệu ứng bộ nhớ ở xung cao** [F51–F53]
-%   - Rõ hơn ở run 3 trong thang 2^19:
-%     - Quanh ngưỡng L3: dưới / trên = 11.01 / 11.43 ns (+3.8%), so với 20.57 / 20.44 (−0.6%) ở run 2.
-%     - Xu hướng trong thang 2^19: +7.5% mỗi lần gấp đôi N, so với −2.5% ở run 2.
-%   - Gợi ý ý: độ trễ DRAM cố định theo ns; khi nhân chạy nhanh, phần tính toán co lại nên phần chờ bộ nhớ chiếm tỉ trọng lớn hơn.
-%   - Không đồng nhất, nên viết thận trọng:
-%     - Tỉ số 2^19:2^16 của run 3 (1.188) không lớn hơn run 2 (1.206).
-%     - Xu hướng trong thang 2^12 cũng khác mạnh (+20.0% so với +5.6%), dù dữ liệu 2^12 nằm trong L2, mà L1/L2 chạy theo xung nhân. Độ trễ DRAM không giải thích được phần này.
-% - **Độ tin cậy của kết luận**
-%   - Ba lượt cho r gần như trùng nhau (Bảng 7). [F56]
-%   - Kết luận "vùng phẳng 22–32, 40, 48" và "10 tốt hơn 7" bền qua cả 3 lượt và 2 mức xung.
+\subsection{Vì sao đáy phẳng}\label{sec:6.1}
+\bv{BẠN VIẾT: Vì sao đáy phẳng}
 %
-% BẠN VIẾT:
-\bv{Bạn viết nội dung phần này}
-
-
-\section{Hạn chế}\label{sec:7}
+% - 6.1 Vì sao đáy phẳng: hai đường chi phí trong fig03 gần song song quanh 20–40 → nhiều c cho r gần như nhau; điểm cực tiểu là một số "ồn", vùng mới là kết quả.
 %
-% BẠN VIẾT:
-\bv{Bạn viết nội dung phần này}
 
-
-\subsection{Hai mức hiệu năng ("bước nhảy"): luồng đo kẹt trên nhân 0 ở xung thấp}\label{sec:7-1}
-% (dàn ý) [F57–F63, F65–F84]
-%   - Hiện tượng (run 1/2, pilot):
-%     - Cả 6 JVM của run 1/2 nhảy lên mức chậm ở vòng warm-up 5–7 (1.14–1.68×) và giữ mức đó suốt khoảng 45 phút. [F57]
-%     - Pilot chuyển qua lại giữa hai mức trong lúc đo. [F59, F65]
-%   - Chuỗi chẩn đoán (chi tiết ở Phụ lục C):
-%     1. PrintCompilation: không có sự kiện biên dịch nào quanh lúc chuyển mức → loại JIT. [F66–F68]
-%     2. E0_1 / E0_2 (WarmupProbe + typeperf): 296/300 và 900/900 vòng nhanh; 4 vòng chậm trùng lúc luồng sang LP 1 (nhân 0). [F71, F72]
-%     3. E6 (Benchmark như `run_all.bat` + typeperf): giai đoạn chậm = luồng trên nhân 0 ở 77–79%; giai đoạn nhanh trên nhân 5/7 ở 125–128%. [F74–F76]
-%     4. T2 (Benchmark ghim nhân 0 / nhân 5): khi bị ghim, nhân 0 vẫn boost tới 123.6–127% → không phải giới hạn phần cứng. Mức 79% ≈ minimum processor state 80% của gói nguồn. [F81, F82]
-%     5. Run 3 (ghim nhân 5, cả lượt + typeperf): 100% mẫu trên nhân 5, xung 128–129.5%, không có bước nhảy. [F77, F78, F83]
-%   - Đã xác định:
-%     - Mức chậm = luồng đo chạy trên nhân 0 trong khi nhân này ở mức xung sàn (đo trực tiếp ở E6).
-%     - Không do JIT, không do tiến trình khác, không do SMT, không do giới hạn phần cứng của nhân 0.
-%     - Run 3 nằm trọn ở mức nhanh.
-%   - Chưa rõ:
-%     - Vì sao Windows giữ nhân 0 ở mức sàn khi có luồng bận (E6, có lẽ cả run 1/2), nhưng lại boost khi tiến trình bị ghim vào nhân 0 (T2). Giả thuyết: chính sách điện năng / lập lịch của Windows hoặc firmware; chưa kiểm tra.
-%     - Vì sao luồng của Benchmark ở lại nhân 0 lâu (2 phút ở E6; nhiều khả năng 45 phút ở run 1/2), còn WarmupProbe rời đi sau vài giây.
-%     - Run 1/2 không có typeperf: "kẹt trên nhân 0 suốt lượt" là giải thích phù hợp nhất (cùng kiểu nhảy, cùng tỉ lệ) nhưng **chưa đo trực tiếp**.
-%     - Phần dư: thời gian run 2 : run 3 = 1.79–1.87, lớn hơn tỉ lệ xung 1.62. T2 cho thấy nhân 0 chậm hơn nhân 5 thêm khoảng 2–6% (2^16) đến 18–32% (2 bộ 2^19) sau khi đã trừ chênh xung (~2%); mỗi điều kiện chỉ đo 1 lần, nguyên nhân chưa rõ. [F81, F84]
-%   - Hệ quả cho kết quả:
-%     - Mỗi lượt nằm trọn ở một mức (run 3: không chuyển mức; run 1/2: không chuyển mức sau warm-up), nên r trong mỗi lượt nhất quán.
-%     - Thời gian tuyệt đối và T/(N lgN) phụ thuộc mức; báo cáo theo run 3.
-%     - r bền qua hai mức (mục 6).
-%   - Ước lượng của pilot thấp hơn thời gian thực của run 1/2 (1:17:48 và 1:40:01, so với 2:16:48 và 2:13:12), vì pilot chủ yếu chạy ở mức nhanh; run 3 (1:15:21) khớp với mức nhanh. [F63, F77]
-% BẠN VIẾT:
-\bv{Bạn viết nội dung phần này}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\linewidth]{figures/fig17_jit_state.png}
-% Gợi ý chú thích (từ dàn ý): Hai mức hiệu năng ở run 1/2 và các pilot.
-\caption{\bv{viết chú thích}}
-\label{fig:levels}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\linewidth]{figures/fig_e6_timeline.png}
-% Gợi ý chú thích (từ dàn ý): E6: xung của nhân đang chạy luồng và mức thời gian.
-\caption{\bv{viết chú thích}}
-\label{fig:e6}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.95\linewidth]{figures/fig_run3_timeline.png}
-% Gợi ý chú thích (từ dàn ý): Run 3: xung, độ bận của nhân được ghim và thời gian tương đối giữa các fork.
-\caption{\bv{viết chú thích}}
-\label{fig:run3}
-\end{figure}
-
-
-\subsection{Ghim affinity là thay đổi sau khi đã xem dữ liệu}\label{sec:7-2}
-%   - Quyết định đưa ra sau run 1/2 và chuỗi chẩn đoán; thiết kế đo khác vẫn giữ nguyên.
-%   - Chọn run 3 làm lượt chính cũng là quyết định sau khi đã xem dữ liệu → báo cáo cả 3 lượt (Bảng 6, 7) để người đọc thấy kết luận không phụ thuộc lựa chọn này.
-%   - Ghim cả JVM vào một nhân: các luồng phụ của JVM (GC, JIT) dùng chung nhân 5 với luồng đo. Typeperf: nhân 5 bận ~130 (≈ một LP bận hoàn toàn ở xung ~129%). [F78]
-%   - Run 3 đại diện cho mức "nhân không phải nhân 0, boost bình thường", không phải trạng thái tự nhiên khi không ghim (khi đó luồng có thể rơi vào nhân 0).
-% BẠN VIẾT:
-\bv{Bạn viết nội dung phần này}
-
-
-\subsection{Biến thiên giữa các JVM}\label{sec:7-3}
-% (dàn ý) [F64, F79]
-%   - CI bootstrap ở bảng 3–4 chỉ lấy mẫu lại theo N, không tính biến thiên giữa các JVM.
-%   - Chênh lệch r giữa các fork của run 3 lên tới 2.67% (2^19, c tốt nhất); run 2: 3.69%.
-%   - Khoảng t qua 9 JVM:  (S§9).
-%   - Run 3 fork 1 chậm hơn fork 2/3 khoảng 8% trên các bộ random 2^19 (24/24 bộ), nhưng không chậm hơn ở 2^16; cùng xung 129.5%, không tương quan với độ bận của các LP khác. Phù hợp với một khác biệt phía bộ nhớ riêng của JVM đó (ví dụ cách cấp phát trang vật lý), chưa kiểm chứng. [F79]
-%   - Fork cùng số ở các lượt dùng chung thứ tự bộ dữ liệu, nên không hoàn toàn độc lập.
-% - **Run 1 bị nhiễu** do máy mở nhiều ứng dụng và thiếu RAM: SD trong lớp 2.0 / 1.1 / 2.4%, so với 0.7 / 0.4 / 0.4% ở run 3 và 0.8 / 0.5 / 0.4% ở run 2. Kết luận chính không đổi. [F15, F17]
-% - **Trôi:** run 3 fork 3 −0.11% mỗi 1 000 lần đo (≈ −3% cả fork; ρ = −0.20). Thứ tự CUTOFF được xáo trong mỗi trial nên r không bị lệch hệ thống. [F12]
-% - **Diễn giải về cache chỉ là gián tiếp** [F50–F55]
-%   - Run 3: T/(N lgN) tăng +3.8% khi vượt ngưỡng L3 trong thang 2^19; run 2 thì không.
-%   - Độ tăng theo N phụ thuộc mức hiệu năng (mục 6), và không đồng nhất giữa các thang.
-%   - Các nguyên nhân không tách được: TLB, L3 kiểu victim cache, DRAM single-channel, truy cập Integer qua tham chiếu bị xáo trộn.
-% - **Lưới CUTOFF:** tối ưu của đã sắp và gần sắp nằm ở đầu mút 64.
-% - **Môi trường:** laptop, không tắt turbo; Windows có tiến trình nền; RAM single-channel; gói nguồn Balanced.
-% - **Phạm vi:** chỉ `Integer[]`, chỉ top-down, các cải tiến khác bị tắt. So sánh giữa các phân bố chỉ dựa trên r, vì bố cục bộ nhớ khác nhau.
-% - SerialGC có thể di chuyển các đối tượng Integer giữa các lần đo.
+\subsection{Vì sao lợi ích giảm khi \texorpdfstring{$N$}{N} tăng}\label{sec:6.2}
+\bv{BẠN VIẾT: Vì sao lợi ích giảm khi $N$ tăng}
 %
-% BẠN VIẾT:
-\bv{Bạn viết nội dung phần này}
+% - 6.2 Vì sao lợi ích giảm khi N tăng: cutoff chỉ bỏ các tầng merge ở đáy; ở N lớn, tỉ trọng chi phí của các merge lớn (bucket > 128) tăng (tỉ trọng ML_b1..3/ML tại c = 1: 0.525 / 0.398 / 0.337 ở 2^12 / 2^16 / 2^19) và chi phí mỗi phần tử ở các merge lớn tăng (α19 > α16). Thay α19 bằng α16 cho r̂(30) ở 2^19 = 0.902 so với 0.918, tức khoảng nửa mức co lại 2^16 → 2^19 [KP]. Liên hệ bộ nhớ: dữ liệu hoạt động 12 / 24 / 96 MiB ở 2^19 / 2^20 / 2^22 so với L3 16 MiB; bước tăng T/(N lg N) lớn nhất ở 19 → 20 (+10.3%), nhưng 20 → 21 và 21 → 22 cũng +9.0%, +9.3%, và đã tăng từ trước khi vượt L3 → chỉ "nhất quán với ảnh hưởng của phân cấp bộ nhớ nói chung (L3, TLB, DRAM)", không xác định cơ chế.
+%
 
-\begin{table}[H]
-\centering
-% Gợi ý chú thích (từ dàn ý): Biến thiên giữa 9 JVM: TB nhân, min–max, khoảng t 95%.
-\caption{\bv{viết chú thích}}
-\label{tab:perjvm}
-\small
-\begin{adjustbox}{max width=\linewidth}\input{tables/t_perjvm}\end{adjustbox}
-\end{table}
+\subsection{Vì sao không đạt 20\%}\label{sec:6.3}
+\bv{BẠN VIẾT: Vì sao không đạt 20\%}
+%
+% - 6.3 Vì sao không đạt 20%: so với mô hình đếm của bài giảng, chi phí thực của một so sánh `Integer.compareTo` qua tham chiếu là lớn, insertion tăng C; kích thước N của bài giảng có thể nhỏ (ở N ≈ 1K đo được 18.9%); máy, JVM, kiểu dữ liệu khác. Viết dạng giả thuyết.
+%
 
+\subsection{7 so với 10}\label{sec:6.4}
+\bv{BẠN VIẾT: 7 so với 10}
+%
+% - 6.4 7 so với 10: ở N = 2^k là lá 4 so với lá 8; 10 thắng 1–2% nhưng cả hai xa vùng 17–48; con số trong sách gắn với hoàn cảnh cụ thể.
+%
+
+\subsection{Phân bố dữ liệu}\label{sec:6.5}
+\bv{BẠN VIẾT: Phân bố dữ liệu}
+%
+% - 6.5 Phân bố: sorted/nearly_sorted lá tốn tuyến tính → r giảm đơn điệu tới biên 64; reversed là trường hợp xấu nhất của insertion (~½k²) → c* nhỏ (8); few_distinct gần random. Hệ quả: CUTOFF tối ưu phụ thuộc dữ liệu đầu vào.
+%
+
+\subsection{Bài học phương pháp}\label{sec:6.6}
+\bv{BẠN VIẾT: Bài học phương pháp}
+%
+% - 6.6 Bài học phương pháp (điểm mạnh của bài): dự đoán đăng ký trước đã bác một mô hình nghe hợp lý (M2 + α bão hòa); đếm phép toán (M0) không đủ, cần chi phí phụ thuộc kích thước; thời gian tuyệt đối không so được giữa các phiên (±8%) nhưng r thì so được.
+%
+
+\subsection{Bộ nhớ}\label{sec:6.7}
+\bv{BẠN VIẾT: Bộ nhớ}
+%
+% - 6.7 Bộ nhớ: mô hình bài giảng đúng cho JVM không nén con trỏ; JVM mặc định với heap ≤ 32 GB dùng con trỏ nén nên ~24N; liên hệ phần cache (dữ liệu nhỏ hơn 40%).
+%
+
+\section{Hạn chế và các mối đe dọa đến tính hợp lệ}\label{sec:7}
+\bv{BẠN VIẾT: mục 7 (2–3 trang)}
+%
+\subsection{Hai mức hiệu năng ở run 1 và run 2}\label{sec:7.1}
+\bv{BẠN VIẾT: Hai mức hiệu năng ở run 1 và run 2}
+%
+% - 7.1 Hai mức hiệu năng ở run 1/2 (luồng đo kẹt nhân 0 ở xung sàn của gói nguồn): chuỗi chẩn đoán (phụ lục C); ghim nhân 5 cho run 3 là quyết định SAU khi xem dữ liệu (nêu thẳng); r bền qua hai mức.
+%
+
+\subsection{Sai lệch do lô \texorpdfstring{$K$}{K} ở \texorpdfstring{$2^{12}$}{2\textasciicircum 12}}\label{sec:7.2}
+\bv{BẠN VIẾT: Sai lệch do lô $K$ ở $2^{12}$}
+%
+% - 7.2 Sai lệch do lô K ở 2^12 (run 3): phát hiện ở T02c, đo lại toàn bộ 2^12 với K = 1 (Run 4); hệ quả: run 3 cho r(2^12, c tốt nhất) = 0.820 so với 0.848 ở Run 4 (RF: compare_best). results_final dùng Run 4 cho 2^12.
+%
+
+\subsection{Thống kê}\label{sec:7.3}
+\bv{BẠN VIẾT: Thống kê}
+%
+% - 7.3 Thống kê: CI bootstrap theo N không tính biến thiên giữa JVM (chênh giữa fork tới 2.67%); ngưỡng doubling 1.5% ≈ 1 SE (thiết kế chưa tốt; chỉ kết luận ở k ≥ 19); z dùng SD từ 3 fork (df = 2) nên chỉ tham khảo.
+%
+
+\subsection{Mô hình chi phí}\label{sec:7.4}
+\bv{BẠN VIẾT: Mô hình chi phí}
+%
+% - 7.4 Mô hình chi phí là khám phá, khớp sau khi xem dữ liệu; α phụ thuộc thang, không ngoại suy được; w3 > α chưa giải thích; collinearity không phải nguyên nhân (cond = 24.2).
+%
+
+\subsection{Cơ chế bộ nhớ}\label{sec:7.5}
+\bv{BẠN VIẾT: Cơ chế bộ nhớ}
+%
+% - 7.5 Cơ chế bộ nhớ chưa được kiểm (không có bộ đếm phần cứng; đề xuất: AMD uProf, hoặc đổi Integer[] sang int[]/khóa khác).
+%
+
+\subsection{Mức tuyệt đối giữa các phiên}\label{sec:7.6}
+\bv{BẠN VIẾT: Mức tuyệt đối giữa các phiên}
+%
+% - 7.6 Mức tuyệt đối giữa các phiên lệch tới ±8% (2^16 trong doubling cao hơn results_final 6.7–10.5%): chỉ so sánh tỉ số trong cùng phiên.
+%
+
+\subsection{Phạm vi}\label{sec:7.7}
+\bv{BẠN VIẾT: Phạm vi}
+%
+% - 7.7 Phạm vi: một máy, một JDK, Integer[], top-down, lưới c tối đa 64 (đáy sorted/nearly_sorted chưa tìm được), phân bố khác chỉ ở 2^16, doubling chỉ random.
+%
 
 \section{Kết luận}\label{sec:8}
+\bv{BẠN VIẾT: mục 8 (0.5–1 trang)}
 %
-% - **RQ1:** trên máy này, mọi CUTOFF trong 22–32, 40, 48 đều nằm trong 2% của tối ưu (random, cả 3 thang, cả 3 lượt). Giá trị tốt nhất khi gộp 3 thang là 30 (run 3); 31 và 40 ở run 2 và run 1. [F25–F27]
-% - **RQ2:** mức lợi giảm dần theo N (18.0% → 11.2% → 8.2%). Phân bố dữ liệu làm dịch tối ưu rõ rệt:
-%   - đảo ngược ≈ 8–10 (vùng 6–12);
-%   - đã sắp / gần sắp ≥ 64.
-% - **RQ3:**
-%   - Tại 7 và 10, thời gian giảm 5.2–12.6% (run 3); 10 tốt hơn 7 khoảng 0.9–2.1%, ở mọi thang và cả 3 lượt.
-%   - Không đạt "20%" theo cách đọc r = 0.80. Chỉ đạt 1.2 lần ở N nhỏ với c tốt nhất (1.219×).
-% - **Phương pháp:** kết luận bền qua hai mức xung khác nhau 1.6 lần; thời gian tuyệt đối thì không.
-% - **Khuyến nghị gợi ý:** CUTOFF ≈ 24–32 cho dữ liệu chung; nêu kèm điều kiện (máy, JDK, `Integer[]`).
+% - Trả lời RQ1–RQ5 mỗi câu 1–3 dòng bằng số (lấy từ mục 5).
+% - Khuyến nghị: với Integer[] ngẫu nhiên trên máy này, chọn c trong khoảng 24–32 (nằm trong vùng gần tối ưu ở cả 3 thang và trong giao vùng độ nhạy của M2 [24, 40]); nếu dữ liệu gần sắp thì c lớn hơn có lợi, nếu có nhiều đoạn đảo ngược thì c ≈ 8–12. Kèm điều kiện (máy, JDK, kiểu dữ liệu).
+% - Hướng mở: bộ đếm phần cứng; kiểu khóa khác; mở rộng lưới > 64; máy thứ hai; JMH.
 %
-% BẠN VIẾT:
-\bv{Bạn viết nội dung phần này}
 
-
+\clearpage
 \appendix
-%
-
 \section{Tái lập}\label{sec:A}
-%   - Cấu trúc thư mục; lệnh `run_all.bat`; lệnh khởi chạy có affinity cho run 3; lệnh `analyze.py` (kèm `--compare` nhiều thư mục, `--compare-label`, `--state-ref`, `--pilots`); lệnh `diag_bench_align.py` cho run 3.
-%   - Các giá trị sha256 [F05, F06]; phiên bản Python và JDK; cách tạo lại dữ liệu bằng `DataGenerator --verify`.
-% BẠN VIẾT:
-\bv{Bạn viết nội dung phần này}
-
-\begin{verbatim}
-javac -encoding UTF-8 -d build src\*.java
-java -ea -cp build CorrectnessTest
-java -cp build DataGenerator --verify
-scripts\run_all.bat --high            (run 1, run 2)
-:: run 3: ghim nhân 5
-cmd /c start "java" /b /wait /high /affinity C00 java -Xms2g -Xmx2g ^
-    -XX:+UseSerialGC -XX:+AlwaysPreTouch -cp build Benchmark --fork F --results results_run3
-python scripts\analyze.py --results results_run3 --label "run 3 (ghim nhân 5)" ^
-    --compare results results_run1 --compare-label "run 2" "run 1"
-python report\make_tables.py
-\end{verbatim}
-
-
-\section{Ba lượt chạy}\label{sec:B}
-%   - Bảng 6, 7 đầy đủ (mọi phân bố) từ S§11; F:fig15.
-%   - Bảng điều kiện từng lượt: ngày giờ, affinity, typeperf có/không, RAM trống từng fork, thời gian thực, mức warm-up so với mức nhanh. [F15, F77, F83]
-% BẠN VIẾT:
-\bv{Bạn viết nội dung phần này}
-
-
-\section{Chuỗi chẩn đoán "hai mức hiệu năng"}\label{sec:C}
-%   - **Bảng C1** (một dòng mỗi bước; cột: câu hỏi · cách làm · kết quả · kết luận · fact):
+\bv{BẠN VIẾT: Tái lập}
 %
-%     | Bước | Câu hỏi | Cách làm | Kết quả chính | Kết luận | Fact |
-%     |---|---|---|---|---|---|
-%     | 0 | Có hai mức không? | warm-up JVM, mức theo bộ dữ liệu (S§10) | run 1/2 nhảy ở vòng 5–7, giữ mức chậm; pilot chuyển qua lại | có hai mức, tỉ lệ ~1.6 | F57–F61 |
-%     | 1 | Do JIT? | `-XX:+PrintCompilation`, pilot và JVM chính (28/10) | không có sự kiện biên dịch quanh lúc chuyển | loại JIT | F65–F68 |
-%     | 2 | Có tái hiện bằng công cụ riêng? | WarmupProbe + typeperf (E0_1, E0_2) | 296/300, 900/900 vòng nhanh; 4 vòng chậm khi luồng sang nhân 0 | gợi ý: nhân 0 | F71, F72 |
-%     | 3 | Benchmark chậm ở đâu? | Benchmark như `run_all.bat` + typeperf (E6) | chậm = nhân 0 ở 77–79%; nhanh = nhân 5/7 ở 125–128% | cơ chế trực tiếp: xung của nhân 0 | F74–F76 |
-%     | 4 | Nhân 0 bị giới hạn phần cứng? | ghim nhân 0 / nhân 5 (T2) | nhân 0 lên 123.6–127% khi bị ghim; gói nguồn min 80% | không; mức 79% ≈ mức sàn của gói nguồn | F81, F82 |
-%     | 5 | Ghim nhân 5 có giữ mức nhanh cả lượt? | run 3 + typeperf | 100% mẫu trên nhân 5, 128–129.5%; không bước nhảy | có | F77, F78, F83 |
-%     | 6 | §10 cũ báo "chậm" trong run 3? | ghép typeperf + so chéo fork (D3) | không có tụt xung; f1 +8% chỉ ở 2^19; f3 dao động quanh ngưỡng | ngưỡng cũ không phù hợp; đổi §10 theo run 3 | F79, F80 |
+% - A. Tái lập: cấu trúc thư mục, lệnh (run_all.bat, run_doubling.bat, run_memory.py, make_figures.py, make_tables.py), phiên bản, sha256 dữ liệu, `DataGenerator --verify`; danh sách commit mốc (đăng ký trước, dữ liệu).
 %
-%   - Hình: F:fig17 (hai mức hiệu năng), `diag/E6/bench_timeline.png` (E6), `D3/run_timeline.png` (run 3: xung, độ bận, thời gian tương đối giữa các fork).
-%   - Hình chẩn đoán khác: F:fig11 (warm-up), F:fig12 (trôi), F:fig13 (forks), F:fig04 (ghép cặp từng N).
-% BẠN VIẾT:
-\bv{Bạn viết nội dung phần này}
 
-\begin{table}[H]
-\centering
-% Gợi ý chú thích (từ dàn ý): Chuỗi chẩn đoán hai mức hiệu năng.
-\caption{\bv{viết chú thích}}
-\label{tab:diag}
-\small
-\begin{adjustbox}{max width=\linewidth}\input{tables/t_diag}\end{adjustbox}
+\section{Các lượt chạy}\label{sec:B}
+\bv{BẠN VIẾT: Các lượt chạy}
+%
+% - B. Các lượt chạy: bảng điều kiện từng lượt (run 1, 2, 3, Run 4, doubling); bảng so sánh đầy đủ.
+%
+\begin{table}[htbp]
+\centering\small
+\caption{Điều kiện từng lượt chạy. \MT}\label{tab:run_conditions}
+\input{tables/ta06_run_conditions}
 \end{table}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\linewidth]{figures/fig11_jvm_warmup.png}
-% Gợi ý chú thích (từ dàn ý): Warm-up JVM.
-\caption{\bv{viết chú thích}}
-\label{fig:warmup}
-\end{figure}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\linewidth]{figures/fig12_drift.png}
-% Gợi ý chú thích (từ dàn ý): Trôi theo thứ tự đo.
-\caption{\bv{viết chú thích}}
-\label{fig:drift}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\linewidth]{figures/fig13_forks.png}
-% Gợi ý chú thích (từ dàn ý): So sánh giữa các fork.
-\caption{\bv{viết chú thích}}
-\label{fig:forks}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.8\linewidth]{figures/fig04_paired_differences.png}
-% Gợi ý chú thích (từ dàn ý): Chênh lệch ghép cặp theo từng N.
-\caption{\bv{viết chú thích}}
-\label{fig:paired}
-\end{figure}
-
-
-\section{Tuyên bố sử dụng AI}\label{sec:D}
-% (dàn ý) (bạn tự viết; các ý cần có cho đúng sự thật):
-%   - **AI đã làm:**
-%     - Thảo luận và review thiết kế thí nghiệm.
-%     - Review `MergeCutoff.java`: chỉ ra lỗi, không viết lại.
-%     - Viết `MergeCutoffCounted.java` bằng cách chèn bộ đếm vào code của bạn.
-%     - Viết `CorrectnessTest`, `DataGenerator`, `Benchmark`, `CountRunner`, các file `.bat`, `analyze.py`, và các công cụ chẩn đoán (`WarmupProbe`, `diag_probe.ps1`, `diag_align.py`, `diag_bench_align.py`).
-%     - Đo kích thước đối tượng và chạy mutation test trên sandbox.
-%     - Phân tích log PrintCompilation và typeperf; đề xuất các thí nghiệm chẩn đoán.
-%   - **Bạn đã làm:** cài đặt `MergeCutoff.java`, mọi lần chạy đo và chẩn đoán trên máy bạn, quyết định ghim nhân và chọn lượt chính, và toàn bộ văn bản báo cáo.
-%   - Log đầy đủ: `ai_log/`.
+\section{Chuỗi chẩn đoán hai mức hiệu năng}\label{sec:C}
+\bv{BẠN VIẾT: Chuỗi chẩn đoán hai mức hiệu năng}
 %
-% ---
+% - C. Chuỗi chẩn đoán "hai mức hiệu năng" (bảng C1 6 bước, giữ từ dàn ý v3 §Phụ lục C).
 %
-% BẠN VIẾT:
-\bv{Bạn viết nội dung phần này}
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Chuỗi chẩn đoán hai mức hiệu năng (bảng C1). \MT}\label{tab:diag_c1}
+\input{tables/ta07_diag_c1}
+\end{table}
 
 
-\nocite{*}
-\bibliographystyle{plain}
+\section{Mô hình chi phí chi tiết}\label{sec:D}
+\bv{BẠN VIẾT: Mô hình chi phí chi tiết}
+%
+% - D. Mô hình chi phí chi tiết: định nghĩa đặc trưng, M0/M1/M2, bảng hệ số đầy đủ, LOSO, sai số trong mẫu, độ nhạy (figA05), phân bố khác.
+%
+\begin{table}[htbp]
+\centering\small
+\caption{Hệ số của mô hình M0 và M1 ($\pm$ SE, ns). \KP}\label{tab:m0m1}
+\input{tables/ta02_m0m1}
+\end{table}
+
+\begin{table}[htbp]
+\centering\small
+\caption{Độ nhạy của $c^*$ và vùng gần tối ưu 2\% của M2 ở thang $2^{16}$ theo các kịch bản thay đổi trọng số. \KP}\label{tab:sensitivity}
+\input{tables/ta03_sensitivity}
+\end{table}
+
+\begin{table}[htbp]
+\centering\small
+\caption{CUTOFF tốt nhất theo phân bố dữ liệu ở thang $2^{16}$. \MT}\label{tab:other_dist}
+\input{tables/ta01_other_dist}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=120mm]{figures/figA05_cost_model_sensitivity.pdf}
+\caption{Độ nhạy của CUTOFF tối ưu $c^*$ và vùng gần tối ưu 2\% theo các kịch bản biến thiên trọng số chi phí phần cứng. \KP}\label{fig:cost_model_sensitivity}
+\end{figure}
+
+
+\section{Doubling test đầy đủ}\label{sec:E}
+\bv{BẠN VIẾT: Doubling test đầy đủ}
+%
+% - E. Doubling đầy đủ: hợp đồng đăng ký (tóm tắt), bảng A1–A6, B1–B8 cần thiết, figA04.
+%
+\begin{table}[htbp]
+\centering\small
+\caption{Sai số $e_k$ trung bình ($k=19..21$) và số mốc $k=10..21$ đạt ngưỡng, mọi predictor và mọi $c$. \DK}\label{tab:doubling_full}
+\input{tables/ta04_doubling_full}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=120mm]{figures/figA04_fork_stability_doubling.pdf}
+\caption{Độ ổn định giữa 3 fork JVM độc lập của $\ln R_k$ trên toàn bộ thang doubling ($c=1$); dải xám là ngưỡng hợp đồng $\pm 1.5\%$ tham chiếu. \KP}\label{fig:fork_stability}
+\end{figure}
+
+
+\section{Bộ nhớ chi tiết}\label{sec:F}
+\bv{BẠN VIẾT: Bộ nhớ chi tiết}
+%
+% - F. Bộ nhớ chi tiết: bố cục lớp (memory_layouts_*.txt), bảng đầy đủ, kiểm tra danh tính.
+%
+\begin{table}[htbp]
+\centering\footnotesize
+\caption{Bố cục lớp đo bằng JOL theo cấu hình JVM (byte). \MT}\label{tab:layouts}
+\input{tables/ta05_layouts}
+\end{table}
+
+
+\section{Số lần lặp, số mũ cục bộ và độ dài lá}\label{sec:G}
+\bv{BẠN VIẾT: Số lần lặp, số mũ cục bộ và độ dài lá}
+%
+% - G. Thiết kế số lần lặp và độ chính xác (figA03), số mũ cục bộ (figA01), Δb giữa lượt (figA02), r theo độ dài lá (figA06).
+%
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=120mm]{figures/figA03_precision_vs_R.pdf}
+\caption{Phân tích phương sai và độ nửa rộng khoảng tin cậy của $d(7, 10)$ theo số fork JVM và số lần lặp đo $m$. \KP}\label{fig:precision_vs_r}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=120mm]{figures/figA01_local_exponent.pdf}
+\caption{Số mũ tăng trưởng cục bộ $b$ theo thang quy mô cho $c=1$ và $c=30$ so với lý thuyết xấp xỉ cục bộ của $N \lg N$. \KP}\label{fig:local_exponent}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=120mm]{figures/figA02_power_law_runs.pdf}
+\caption{Chênh lệch số mũ lũy thừa $\Delta b = b_{\mathrm{run}} - b_{\mathrm{run3}}$ giữa các lượt chạy độc lập (run 1, run 2 so với run 3 ghim nhân 5). \KP}\label{fig:power_law_runs}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=120mm]{figures/figA06_r_vs_leaf_length.pdf}
+\caption{Tỉ số thời gian $r$ theo độ dài lá trung bình tách riêng theo 3 thang quy mô, minh họa sự phân tách mức nền $r$ giữa các thang. \KP}\label{fig:r_vs_leaf_length}
+\end{figure}
+
+
+\section{Tuyên bố sử dụng AI}\label{sec:H}
+\bv{BẠN VIẾT: Tuyên bố sử dụng AI}
+%
+% - H. Tuyên bố sử dụng AI (bạn viết, đúng sự thật): Claude (thiết kế, giao nhiệm vụ, kiểm duyệt độc lập), Antigravity (Gemini Flash, Claude Sonnet/Opus: viết script, bảng, hình theo đề); bạn viết MergeCutoff và toàn bộ lời văn; AI không sửa dữ liệu thô; log trong `ai_log/`. Nêu các lỗi AI gây ra và đã được phát hiện (ví dụ bảng gõ tay, hình dùng dữ liệu cũ, nhãn "đăng ký" sai) như bằng chứng của quy trình kiểm tra.
+%
+
+
+\clearpage
+\ifdraft\nocite{*}\fi
+\bibliographystyle{plainnat}
 \bibliography{refs}
 \end{document}

@@ -1,0 +1,185 @@
+================================================================================
+MUTATION: baseline - Bản gốc không đột biến (đối chứng)
+Target: None
+Failed groups: —
+Status: PASS (0 failed / 970425 checks)
+--------------------------------------------------------------------------------
+GROUP                                                                  PASS  FAIL
+00. JVM runs with -ea                                                     1     0  PASS
+01. DataGenerator: values, encoding, determinism, plan                  266     0  PASS
+02. isSorted (N=0..300 x cutoff=1..70 x 5 distributions)             105350     0  PASS
+03. output is a permutation of input (vs Arrays.sort)                105350     0  PASS
+04. MergeCutoff == MergeCutoffCounted (same objects, same order)     105350     0  PASS
+05. stability (Item(key, idx))                                       126420     0  PASS
+06. cutoff < 1 -> IllegalArgumentException                               32     0  PASS
+07. 1/2 N lgN <= C <= N lgN (cutoff=1, N=2^k)                            85     0  PASS
+08. S = N(lgN - m) (N=2^k, cutoff=2^m, m<k)                             403     0  PASS
+09. S = simulated recursion tree (independent)                       105350     0  PASS
+10. A = 4S + 2C + 4E                                                 105668     0  PASS
+11. E = inversions of original array on leaves (independent)         105350     0  PASS
+12. insertion alone: sorted / reversed, k=1..50                         100     0  PASS
+13. no unexpected exception                                          105350     0  PASS
+14. MergeCutoff (timed version) has same tree: compares match        105350     0  PASS
+
+TOTAL: 970425 checks, 0 failed -> PASS  (6.4 s)
+
+================================================================================
+MUTATION: m1 - merge lấy nửa phải khi hai khóa bằng nhau
+Target: MergeCutoff.java
+Failed groups: 04, 05, 14
+Status: FAIL (90678 failed / 970425 checks)
+--------------------------------------------------------------------------------
+GROUP                                                                  PASS  FAIL
+00. JVM runs with -ea                                                     1     0  PASS
+01. DataGenerator: values, encoding, determinism, plan                  266     0  PASS
+02. isSorted (N=0..300 x cutoff=1..70 x 5 distributions)             105350     0  PASS
+03. output is a permutation of input (vs Arrays.sort)                105350     0  PASS
+04. MergeCutoff == MergeCutoffCounted (same objects, same order)      86849 18501  FAIL
+      - few_distinct N=4 cutoff=1
+      - few_distinct N=5 cutoff=1
+      - few_distinct N=6 cutoff=1
+      - few_distinct N=6 cutoff=3
+      - few_distinct N=6 cutoff=4
+05. stability (Item(key, idx))                                        70890 55530  FAIL
+      - MergeCutoff nkeys=1 N=2 cutoff=1 (stable=false, perm=true)
+      - MergeCutoff nkeys=1 N=3 cutoff=1 (stable=false, perm=true)
+      - MergeCutoff nkeys=1 N=3 cutoff=2 (stable=false, perm=true)
+      - MergeCutoff nkeys=1 N=4 cutoff=1 (stable=false, perm=true)
+      - MergeCutoff nkeys=1 N=4 cutoff=2 (stable=false, perm=true)
+06. cutoff < 1 -> IllegalArgumentException                               32     0  PASS
+07. 1/2 N lgN <= C <= N lgN (cutoff=1, N=2^k)                            85     0  PASS
+08. S = N(lgN - m) (N=2^k, cutoff=2^m, m<k)                             403     0  PASS
+09. S = simulated recursion tree (independent)                       105350     0  PASS
+10. A = 4S + 2C + 4E                                                 105668     0  PASS
+11. E = inversions of original array on leaves (independent)         105350     0  PASS
+12. insertion alone: sorted / reversed, k=1..50                         100     0  PASS
+13. no unexpected exception                                          105350     0  PASS
+14. MergeCutoff (timed version) has same tree: compares match         88703 16647  FAIL
+      - few_distinct N=5 cutoff=1: MergeCutoff compares=20, expected 19
+      - few_distinct N=6 cutoff=4: MergeCutoff compares=17, expected 18
+      - few_distinct N=7 cutoff=2: MergeCutoff compares=31, expected 30
+      - few_distinct N=7 cutoff=5: MergeCutoff compares=23, expected 24
+      - few_distinct N=8 cutoff=2: MergeCutoff compares=37, expected 38
+
+TOTAL: 970425 checks, 90678 failed -> FAIL  (6.4 s)
+
+================================================================================
+MUTATION: m2 - dòng cutoff lệch 1: hi <= lo + cutoff
+Target: MergeCutoff.java
+Failed groups: 14
+Status: FAIL (14217 failed / 970425 checks)
+--------------------------------------------------------------------------------
+GROUP                                                                  PASS  FAIL
+00. JVM runs with -ea                                                     1     0  PASS
+01. DataGenerator: values, encoding, determinism, plan                  266     0  PASS
+02. isSorted (N=0..300 x cutoff=1..70 x 5 distributions)             105350     0  PASS
+03. output is a permutation of input (vs Arrays.sort)                105350     0  PASS
+04. MergeCutoff == MergeCutoffCounted (same objects, same order)     105350     0  PASS
+05. stability (Item(key, idx))                                       126420     0  PASS
+06. cutoff < 1 -> IllegalArgumentException                               32     0  PASS
+07. 1/2 N lgN <= C <= N lgN (cutoff=1, N=2^k)                            85     0  PASS
+08. S = N(lgN - m) (N=2^k, cutoff=2^m, m<k)                             403     0  PASS
+09. S = simulated recursion tree (independent)                       105350     0  PASS
+10. A = 4S + 2C + 4E                                                 105668     0  PASS
+11. E = inversions of original array on leaves (independent)         105350     0  PASS
+12. insertion alone: sorted / reversed, k=1..50                         100     0  PASS
+13. no unexpected exception                                          105350     0  PASS
+14. MergeCutoff (timed version) has same tree: compares match         91133 14217  FAIL
+      - random N=2 cutoff=1: MergeCutoff compares=1, expected 2
+      - random N=3 cutoff=1: MergeCutoff compares=6, expected 7
+      - random N=3 cutoff=2: MergeCutoff compares=3, expected 6
+      - random N=4 cutoff=1: MergeCutoff compares=10, expected 12
+      - random N=4 cutoff=3: MergeCutoff compares=3, expected 9
+
+TOTAL: 970425 checks, 14217 failed -> FAIL  (6.3 s)
+
+================================================================================
+MUTATION: m3 - insertion sort: j > lo + 1
+Target: MergeCutoff.java
+Failed groups: 02, 03, 04, 05, 13, 14
+Status: FAIL (162859 failed / 466957 checks)
+--------------------------------------------------------------------------------
+GROUP                                                                  PASS  FAIL
+00. JVM runs with -ea                                                     1     0  PASS
+01. DataGenerator: values, encoding, determinism, plan                  266     0  PASS
+02. isSorted (N=0..300 x cutoff=1..70 x 5 distributions)              31893  6683  FAIL
+      - random N=2 cutoff=2
+      - random N=2 cutoff=3
+      - random N=2 cutoff=4
+      - random N=2 cutoff=6
+      - random N=2 cutoff=9
+03. output is a permutation of input (vs Arrays.sort)                 31893  6683  FAIL
+      - random N=2 cutoff=2
+      - random N=2 cutoff=3
+      - random N=2 cutoff=4
+      - random N=2 cutoff=6
+      - random N=2 cutoff=9
+04. MergeCutoff == MergeCutoffCounted (same objects, same order)      31893  6683  FAIL
+      - random N=2 cutoff=2
+      - random N=2 cutoff=3
+      - random N=2 cutoff=4
+      - random N=2 cutoff=6
+      - random N=2 cutoff=9
+05. stability (Item(key, idx))                                        50715  3605  FAIL
+      - MergeCutoff nkeys=3 N=2 cutoff=3 (stable=false, perm=true)
+      - MergeCutoff nkeys=3 N=2 cutoff=4 (stable=false, perm=true)
+      - MergeCutoff nkeys=3 N=2 cutoff=9 (stable=false, perm=true)
+      - MergeCutoff nkeys=3 N=2 cutoff=10 (stable=false, perm=true)
+      - MergeCutoff nkeys=3 N=2 cutoff=12 (stable=false, perm=true)
+06. cutoff < 1 -> IllegalArgumentException                               32     0  PASS
+07. 1/2 N lgN <= C <= N lgN (cutoff=1, N=2^k)                            85     0  PASS
+08. S = N(lgN - m) (N=2^k, cutoff=2^m, m<k)                             403     0  PASS
+09. S = simulated recursion tree (independent)                        38576     0  PASS
+10. A = 4S + 2C + 4E                                                  38894     0  PASS
+11. E = inversions of original array on leaves (independent)          38576     0  PASS
+12. insertion alone: sorted / reversed, k=1..50                         100     0  PASS
+13. no unexpected exception                                           38576 102824  FAIL
+      - random N=4 cutoff=2: java.lang.AssertionError
+      - random N=4 cutoff=3: java.lang.AssertionError
+      - random N=5 cutoff=3: java.lang.AssertionError
+      - random N=5 cutoff=4: java.lang.AssertionError
+      - random N=6 cutoff=2: java.lang.AssertionError
+14. MergeCutoff (timed version) has same tree: compares match          2195 36381  FAIL
+      - random N=2 cutoff=2: MergeCutoff compares=0, expected 1
+      - random N=2 cutoff=3: MergeCutoff compares=0, expected 1
+      - random N=2 cutoff=4: MergeCutoff compares=0, expected 1
+      - random N=2 cutoff=5: MergeCutoff compares=0, expected 1
+      - random N=2 cutoff=6: MergeCutoff compares=0, expected 1
+
+TOTAL: 466957 checks, 162859 failed -> FAIL  (1.9 s)
+
+================================================================================
+MUTATION: m4 - mid = lo + (hi - lo + 1)/2
+Target: MergeCutoff.java
+Failed groups: 13 (StackOverflow), 14
+Status: FAIL (80048 failed / 959063 checks)
+--------------------------------------------------------------------------------
+GROUP                                                                  PASS  FAIL
+00. JVM runs with -ea                                                     1     0  PASS
+01. DataGenerator: values, encoding, determinism, plan                  266     0  PASS
+02. isSorted (N=0..300 x cutoff=1..70 x 5 distributions)             103855     0  PASS
+03. output is a permutation of input (vs Arrays.sort)                103855     0  PASS
+04. MergeCutoff == MergeCutoffCounted (same objects, same order)     103855     0  PASS
+05. stability (Item(key, idx))                                       124626     0  PASS
+06. cutoff < 1 -> IllegalArgumentException                               32     0  PASS
+07. 1/2 N lgN <= C <= N lgN (cutoff=1, N=2^k)                            85     0  PASS
+08. S = N(lgN - m) (N=2^k, cutoff=2^m, m<k)                             403     0  PASS
+09. S = simulated recursion tree (independent)                       103855     0  PASS
+10. A = 4S + 2C + 4E                                                 104173     0  PASS
+11. E = inversions of original array on leaves (independent)         103855     0  PASS
+12. insertion alone: sorted / reversed, k=1..50                         100     0  PASS
+13. no unexpected exception                                          103855  2392  FAIL
+      - random N=2 cutoff=1: java.lang.StackOverflowError
+      - random N=3 cutoff=1: java.lang.StackOverflowError
+      - random N=4 cutoff=1: java.lang.StackOverflowError
+      - random N=5 cutoff=1: java.lang.StackOverflowError
+      - random N=6 cutoff=1: java.lang.StackOverflowError
+14. MergeCutoff (timed version) has same tree: compares match         26199 77656  FAIL
+      - random N=4 cutoff=2: MergeCutoff compares=12, expected 10
+      - random N=4 cutoff=3: MergeCutoff compares=10, expected 9
+      - random N=6 cutoff=2: MergeCutoff compares=24, expected 23
+      - random N=6 cutoff=3: MergeCutoff compares=24, expected 18
+      - random N=6 cutoff=4: MergeCutoff compares=18, expected 20
+
+TOTAL: 959063 checks, 80048 failed -> FAIL  (11.8 s)
+

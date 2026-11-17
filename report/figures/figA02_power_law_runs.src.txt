@@ -1,0 +1,7 @@
+Hình: figA02_power_law_runs
+Loại: Phụ lục / Khám phá độ lặp lại qua các lượt chạy (Replication Analysis)
+Nguồn dữ liệu: results_final/analysis_v2/tables/power_law_run_comparison.csv
+Mô tả chuỗi:
+- Chênh lệch số mũ lũy thừa Delta b giữa run 2 (xung thấp không ghim nhân), run 1 và run 3 (ghim nhân 5, xung cao cố định).
+- Thanh sai số là sai số chuẩn OLS của hiệu số mũ.
+- Cho thấy số mũ tăng trưởng b rất ổn định giữa run 2 và run 3 (|Delta b| < 0.011, p-value Welch > 0.70).

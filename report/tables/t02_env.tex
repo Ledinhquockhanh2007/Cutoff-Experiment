@@ -1,0 +1,21 @@
+% Nguồn: RF/env_summary.csv (os, cpus, phys_total, jvm_args, java.version, java.vendor); results_doubling/cpu_info.txt (CPU, L2, L3, con trỏ nén); results_final/env/{systeminfo,ram,power_scheme}.txt (máy, RAM, bản Windows, gói nguồn); scripts/run_run4.bat, scripts/run_doubling.bat
+% Lệnh sinh: python report/make_tables.py
+% Sinh tự động, KHÔNG sửa tay (sửa make_tables.py rồi chạy lại).
+% Nguồn cấu hình máy, RAM, bản Windows và gói nguồn: kết xuất hệ thống trong results_final/env/. Đã bỏ đánh dấu dagger vì đã có tệp nguồn kiểm chứng.
+\begin{tabularx}{\linewidth}{lX}
+\toprule
+Thành phần & Cấu hình \\
+\midrule
+CPU & AMD Ryzen 7 H 255 w/ Radeon 780M Graphics, 8 nhân, 16 luồng \\
+Bộ nhớ đệm & L2 8192 KB (8 MB tổng, 1 MB / core); L3 16384 KB (16 MB) \\
+RAM vật lý & \num{16438054912} B (15.3 GiB) \\
+Hệ điều hành & Windows 11 10.0 amd64 \\
+JDK & Microsoft OpenJDK 25.0.4.1 \\
+Cờ JVM & \texttt{-Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch} \\
+Con trỏ nén (mặc định) & UseCompressedOops = true; UseCompressedClassPointers = true \\
+Máy & Lenovo Legion 5 15AHP10 (model 83M0) \\
+RAM & 16 GB DDR5-5600, 1 thanh RAM \\
+Hệ điều hành (chi tiết) & Windows 11 Home, build 26300; gói nguồn Balanced \\
+Khởi chạy & \texttt{start "bench" /affinity C00 /wait java ...} (ghim nhân vật lý 5); run 1, run 2: không ghim \\
+\bottomrule
+\end{tabularx}

@@ -1,0 +1,14 @@
+% Nguồn: V2/memory_regression.csv (model_formula, jol_slope, jol_intercept, alloc_slope, alloc_intercept); V2/memory_measurements.csv (N = 2^20: bytes_jol, bytes_alloc)
+% Lệnh sinh: python report/make_tables.py
+% Sinh tự động, KHÔNG sửa tay (sửa make_tables.py rồi chạy lại).
+% JOL = GraphLayout.totalSize; alloc = ThreadMXBean.getThreadAllocatedBytes. compact_headers: mô hình mô tả, chỉ cho N chẵn.
+\begin{tabularx}{\linewidth}{Xcccrr}
+\toprule
+Cấu hình JVM & Công thức & \makecell{Hệ số góc \\ (JOL / alloc)} & \makecell{Hằng số \\ (JOL / alloc)} & \makecell{Byte ở \\ $N{=}2^{20}$} & \makecell{Tỉ lệ so \\ với mặc định} \\
+\midrule
+mặc định (con trỏ nén) & $24N + 32$ & 24.00 / 24.00 & 32.0 / 32.0 & \num{25165856} & 1.00 \\
+\texttt{-UseCompressedOops} & $32N + 32$ & 32.00 / 32.00 & 32.0 / 32.0 & \num{33554464} & 1.33 \\
+\texttt{-UseCompressedOops -UseCompressedClassPointers} (mô hình bài giảng) & $40N + 48$ & 40.00 / 40.00 & 48.0 / 48.0 & \num{41943088} & 1.67 \\
+\texttt{+UseCompactObjectHeaders} & $24N + 32$ & 24.00 / 24.00 & 32.0 / 32.0 & \num{25165856} & 1.00 \\
+\bottomrule
+\end{tabularx}

@@ -1,0 +1,9 @@
+Hình: fig01_r_vs_cutoff_random
+Loại: Khám phá (Exploratory Analysis)
+Nguồn dữ liệu: results_final/analysis/tables/r_by_cutoff.csv
+Mô tả chuỗi:
+- Dữ liệu lấy từ results_final/analysis/tables/r_by_cutoff.csv trong results_final: Thang 2^12 lấy từ Run 4 (K = 1, 0 GC, ghim nhân 5), thang 2^16 và 2^19 lấy từ Run 3 (ghim nhân 5).
+- 3 đường ứng với 3 thang quy mô S in {2^12, 2^16, 2^19}, mỗi thang gồm 24 kích thước N hình học.
+- r(N, c) là trung bình nhân của tỉ số thời gian T(c)/T(1) trên 24 giá trị N.
+- Dải mờ quanh mỗi đường biểu thị khoảng tin cậy CI 95% bootstrap cụm theo N (B = 10 000).
+- Các vạch đứng đánh dấu các mốc CUTOFF quy ước: c = 7, 10 (giáo trình) và c = 30 (gần tối ưu).

@@ -1,0 +1,7 @@
+Hình: figA03_precision_vs_R
+Loại: Phụ lục / Khám phá độ chính xác thiết kế thí nghiệm (Power & Precision Analysis)
+Nguồn dữ liệu: results_final/analysis_v2/tables/precision_vs_R.csv
+Mô tả chuỗi:
+- Nửa độ rộng khoảng tin cậy 95% (Half-width 95%) của chênh lệch hiệu năng d(7, 10) = T(7)/T(10) - 1.
+- Khảo sát sự đánh đổi giữa số fork JVM và số lần lặp đo m trong mỗi ô dữ liệu.
+- Đường gạch chấm đỏ thể hiện 'sàn phương sai' do sự dị thể giữa các kích thước N; cho thấy tăng m > 5-10 mang lại lợi ích biên giảm dần do đã chạm sàn phương sai dị thể.

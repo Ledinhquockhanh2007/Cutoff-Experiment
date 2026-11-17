@@ -1,0 +1,12 @@
+
+
+Manufacturer         : Samsung
+PartNumber           : M425R2GA3EB0-CWMOL  
+Capacity             : 17179869184
+Speed                : 5600
+ConfiguredClockSpeed : 5600
+BankLabel            : P0 CHANNEL A
+DeviceLocator        : DIMM 0
+
+
+

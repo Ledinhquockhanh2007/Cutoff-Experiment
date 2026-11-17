@@ -1,0 +1,25 @@
+% Nguồn: RF/compare_best.csv (hàng results_final, thang 2^12 = Run 4); R3 = results_run3/analysis/tables/compare_best.csv (run 3, run 2, run 1) và compare_near_intersection.csv
+% Lệnh sinh: python report/make_tables.py
+% Sinh tự động, KHÔNG sửa tay (sửa make_tables.py rồi chạy lại).
+% ddagger: 2^12 của run 1-3 đo với lô K > 1 (sai lệch đã chẩn đoán ở T02c); 2^16 và 2^19 của results_final trùng run 3.
+\begin{tabularx}{\linewidth}{llcXcccccc}
+\toprule
+Thang & Lượt & $c^*$ & \makecell{Gần tối ưu \\ ($\le2\%$)} & $r^*$ & \makecell{Giảm \\ $c{=}7$} & \makecell{Giảm \\ $c{=}10$} & \makecell{Giảm \\ $c^*$} & $T_7/T_{10}$ & \makecell{$T/(N\lg N)$ \\ $c{=}1$ (ns)} \\
+\midrule
+$2^{12}$ & Run 4 ($K{=}1$) & 40 & 17--32, 40, 48, 64 & 0.848 & 9.2\% & 10.8\% & 15.2\% & 1.018 & 9.88 \\
+ & run 3$^{\ddagger}$ & 29 & 19--32, 40, 48 & 0.820 & 10.8\% & 12.6\% & 18.0\% & 1.021 & 8.46 \\
+ & run 2$^{\ddagger}$ & 31 & 22--32, 40, 48 & 0.821 & 10.1\% & 11.8\% & 17.9\% & 1.019 & 15.82 \\
+ & run 1$^{\ddagger}$ & 32 & 21--32, 40, 48 & 0.818 & 11.3\% & 12.5\% & 18.2\% & 1.014 & 16.56 \\
+ & \multicolumn{9}{l}{\textit{giao các lượt:} 22--32, 40, 48} \\
+\addlinespace
+$2^{16}$ & run 3 & 31 & 13--32, 40, 48 & 0.888 & 7.5\% & 8.6\% & 11.2\% & 1.012 & 9.48 \\
+ & run 2 & 32 & 19--32, 40, 48 & 0.880 & 7.2\% & 8.2\% & 12.0\% & 1.011 & 16.99 \\
+ & run 1 & 29 & 18--32, 40, 48 & 0.873 & 8.4\% & 9.4\% & 12.7\% & 1.012 & 18.21 \\
+ & \multicolumn{9}{l}{\textit{giao các lượt:} 19--32, 40, 48} \\
+\addlinespace
+$2^{19}$ & run 3 & 27 & 11--32, 40, 48, 64 & 0.918 & 5.2\% & 6.2\% & 8.2\% & 1.010 & 11.26 \\
+ & run 2 & 48 & 12--32, 40, 48, 64 & 0.921 & 4.8\% & 5.6\% & 7.9\% & 1.008 & 20.49 \\
+ & run 1 & 24 & 11, 13, 15--32, 40, 48, 64 & 0.912 & 4.6\% & 6.5\% & 8.8\% & 1.020 & 20.54 \\
+ & \multicolumn{9}{l}{\textit{giao các lượt:} 13, 15--32, 40, 48, 64} \\
+\bottomrule
+\end{tabularx}

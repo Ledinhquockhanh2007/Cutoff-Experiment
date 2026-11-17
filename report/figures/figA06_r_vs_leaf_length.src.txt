@@ -1,0 +1,13 @@
+Hình: figA06_r_vs_leaf_length
+Loại: Phụ lục / Khám phá (Appendix Analysis)
+Nguồn dữ liệu:
+- Độ dài lá trung bình của cây đệ quy: results_final/analysis_v2/tables/tree_features.csv
+- Tỉ số thời gian r_meas = T(c)/T(1): results_final/analysis_v2/tables/cost_model_predictions.csv
+Mô tả chuỗi:
+- Tỉ số thời gian r theo độ dài lá trung bình (mean_leaf_len = N / leaf_calls) được phân tích riêng biệt cho 3 thang quy mô dữ liệu ngẫu nhiên: S = 2^12, S = 2^16, và S = 2^19.
+- Mỗi thang quy mô gồm 24 kích thước N và 35 giá trị CUTOFF (tổng cộng 840 cấu hình cây đệ quy mỗi thang), được gom thành 23 khoảng phân lớp logarit (bin width 0.25 trên thang log2).
+- Cột n_obs trong .data.csv là số cặp (N, c) trong mỗi bin; các bin có n_obs nhỏ (< 20) ít tin cậy.
+- Cực tiểu (tính bằng mã từ dữ liệu, so với cực tiểu theo từng CUTOFF riêng lẻ):
+  * Thang 2^12: min theo bin r = 0.825 tại leaf = 34.9 (n = 15 cặp (N, c) trong bin); min theo CUTOFF riêng lẻ r = 0.848 tại c = 40. Bin cực tiểu chỉ có n nhỏ và thấp hơn r của mọi CUTOFF riêng lẻ ở thang này: đây là nhiễu của bin nhỏ; KHÔNG báo cáo vùng gần tối ưu theo bin cho thang 2^12.
+  * Thang 2^16: min theo bin r = 0.884 tại leaf = 17.5 (n = 82 cặp (N, c) trong bin); min theo CUTOFF riêng lẻ r = 0.888 tại c = 31. Vùng gần tối ưu 2% theo bin (r <= 1.02 * min theo bin): leaf in [10.3, 40.6], n nhỏ nhất trong vùng = 14.
+  * Thang 2^19: min theo bin r = 0.919 tại leaf = 17.7 (n = 95 cặp (N, c) trong bin); min theo CUTOFF riêng lẻ r = 0.918 tại c = 27. Vùng gần tối ưu 2% theo bin (r <= 1.02 * min theo bin): leaf in [7.4, 48.7], n nhỏ nhất trong vùng = 7.

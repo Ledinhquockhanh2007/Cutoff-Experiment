@@ -1,0 +1,15 @@
+% Nguồn: RF/rq1_best_cutoff.csv (scale = 2^16, mọi phân bố)
+% Lệnh sinh: python report/make_tables.py
+% Sinh tự động, KHÔNG sửa tay (sửa make_tables.py rồi chạy lại).
+% Dấu sao: c* = 64 là biên trên của lưới CUTOFF (đáy thật có thể lớn hơn 64).
+\begin{tabular}{lcccl}
+\toprule
+Phân bố ($2^{16}$) & $c^*$ & $r$ [CI 95\%] & Giảm & Gần tối ưu ($\le2\%$) \\
+\midrule
+ngẫu nhiên & 31 & 0.888 [0.885, 0.890] & 11.2\% & 13--32, 40, 48 \\
+đã sắp & 64$^{*}$ & 0.647 [0.642, 0.651] & 35.3\% & 64 \\
+đảo ngược & 8 & 0.887 [0.884, 0.890] & 11.3\% & 6, 8, 10, 12 \\
+gần sắp & 64$^{*}$ & 0.686 [0.682, 0.689] & 31.4\% & 64 \\
+ít giá trị & 32 & 0.828 [0.825, 0.830] & 17.2\% & 20, 24, 32, 48 \\
+\bottomrule
+\end{tabular}

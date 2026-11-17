@@ -1,0 +1,7 @@
+Hình: figA05_cost_model_sensitivity
+Loại: Phụ lục / Khám phá độ nhạy tham số (Sensitivity Analysis)
+Nguồn dữ liệu: results_final/analysis_v2/tables/cost_model_sensitivity.csv
+Mô tả chuỗi:
+- Điểm tròn đỏ thể hiện CUTOFF tối ưu c* theo 5 kịch bản thay đổi trọng số chi phí (beta và w12 thay đổi ±25%).
+- Thanh ngang lam thể hiện độ rộng của vùng gần tối ưu 2%.
+- Cho thấy dù tham số phần cứng thay đổi, vùng gần tối ưu luôn bao trùm khoảng [20, 40], khẳng định tính bền vững của khuyến nghị c in [24, 32].

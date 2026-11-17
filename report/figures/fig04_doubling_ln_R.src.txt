@@ -1,0 +1,12 @@
+Hình: fig04_doubling_ln_R
+Loại: Kiểm định đã đăng ký (Registered Analysis A1)
+Nguồn dữ liệu:
+- Dữ liệu thực đo: results_doubling/analysis/tables/B1_doubling_lecture.csv
+- Dữ liệu dự đoán mô hình: results_doubling/analysis/tables/A1_pred_error_full.csv
+Mô tả chuỗi:
+- Khảo sát tỉ số tăng trưởng thời gian doubling R_k = T(2^(k+1))/T(2^k) dưới dạng logarit ln R_k.
+- Thanh sai số quanh điểm thực đo là khoảng tin cậy xấp xỉ ±2*SE của ln R_bar tính từ 3 fork độc lập (không phải ngưỡng đăng ký).
+- Ngưỡng sai số đăng ký trước |e_k| <= 0.015 (1.5%) được phân tích trong báo cáo văn bản.
+- Đồ thị chỉ thể hiện 3 mô hình dự báo chính: P1 (lý thuyết N lg N thuần), P2 (quy luật lũy thừa N^b), và P3c (mô hình M2 nội suy). Các mô hình P2b, P3, P3b có trong Bảng A1.
+- Vùng tô xám (k >= 19) là miền ngoại suy vượt quy mô huấn luyện (N >= 524K).
+- Chú giải đặt bên ngoài đáy trục, bảo đảm toàn bộ các điểm đo k = 10..21 ở cả hai panel đều thấy rõ (bao gồm điểm c=1, k=14: ln R_bar = 0.7407, CI [0.705, 0.763]).

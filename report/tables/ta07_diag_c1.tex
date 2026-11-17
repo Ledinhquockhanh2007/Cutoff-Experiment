@@ -1,0 +1,17 @@
+% Nguồn: report/report_outline_v3.md, Phụ lục C, Bảng C1 (đã bỏ cột Fact; dòng 0 bỏ (S§10); dòng 4 cập nhật giả thuyết gói nguồn)
+% Lệnh sinh: python report/make_tables.py
+% Sinh tự động, KHÔNG sửa tay (sửa make_tables.py rồi chạy lại).
+\footnotesize
+\begin{tabular}{cp{0.16\linewidth}p{0.22\linewidth}p{0.32\linewidth}p{0.22\linewidth}}
+\toprule
+Bước & Câu hỏi & Cách làm & Kết quả chính & Kết luận \\
+\midrule
+0 & Có hai mức không? & warm-up JVM, mức theo bộ dữ liệu & run 1/2 nhảy ở vòng 5–7, giữ mức chậm; pilot chuyển qua lại & có hai mức, tỉ lệ $\sim$1.6 \\
+1 & Do JIT? & -XX:+Print\-Compilation, pilot và JVM chính (28/10) & không có sự kiện biên dịch quanh lúc chuyển & loại JIT \\
+2 & Có tái hiện bằng công cụ riêng? & WarmupProbe + typeperf (E0\_1, E0\_2) & 296/300, 900/900 vòng nhanh; 4 vòng chậm khi luồng sang nhân 0 & gợi ý: nhân 0 \\
+3 & Benchmark chậm ở đâu? & Benchmark như run\_all.bat + typeperf (E6) & chậm = nhân 0 ở 77–79\%; nhanh = nhân 5/7 ở 125–128\% & cơ chế trực tiếp: xung của nhân 0 \\
+4 & Nhân 0 bị giới hạn phần cứng? & ghim nhân 0 / nhân 5 (T2) & nhân 0 lên 123.6–127\% khi bị ghim; gói nguồn min 80\% & không; mức 79\% trùng với mức sàn 80\% của gói nguồn (giả thuyết, chưa kiểm) \\
+5 & Ghim nhân 5 có giữ mức nhanh cả lượt? & run 3 + typeperf & 100\% mẫu trên nhân 5, 128–129.5\%; không bước nhảy & có \\
+6 & §10 cũ báo "chậm" trong run 3? & ghép typeperf + so chéo fork (D3) & không có tụt xung; f1 +8\% chỉ ở 2\^{}19; f3 dao động quanh ngưỡng & ngưỡng cũ không phù hợp; đổi §10 theo run 3 \\
+\bottomrule
+\end{tabular}

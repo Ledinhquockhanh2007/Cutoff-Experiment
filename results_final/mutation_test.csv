@@ -1,0 +1,6 @@
+mutation_id,description,target_file,failed_groups,total_checks,total_failed,status
+baseline,Bản gốc không đột biến (đối chứng),—,—,970425,0,PASS
+m1,merge lấy nửa phải khi hai khóa bằng nhau,MergeCutoff.java,"04, 05, 14",970425,90678,FAIL
+m2,dòng cutoff lệch 1: hi <= lo + cutoff,MergeCutoff.java,14,970425,14217,FAIL
+m3,insertion sort: j > lo + 1,MergeCutoff.java,"02, 03, 04, 05, 13, 14",466957,162859,FAIL
+m4,mid = lo + (hi - lo + 1)/2,MergeCutoff.java,"13 (StackOverflow), 14",959063,80048,FAIL

@@ -1,0 +1,9 @@
+Hình: fig06_r_diminishing_returns
+Loại: Khám phá / Ngoại suy quy mô lớn (Exploratory / Scalability Analysis)
+Nguồn dữ liệu: results_doubling/analysis/tables/B3_cutoff_ratio_r.csv
+Mô tả chuỗi:
+- Tỉ số thời gian r(N, 30) = T(30)/T(1) trên thang doubling từ N = 2^10 (1 024) đến N = 2^22 (4 194 304).
+- Lưu ý quan trọng về cây đệ quy: Tại N = 2^k, c = 30 cho chiều dài lá bằng đúng 16 (tức tạo ra cấu trúc cây đệ quy hoàn toàn giống nhau với mọi c trong đoạn [16, 31]).
+- Dải màu lam biểu thị khoảng giá trị nhỏ nhất và lớn nhất (min-max) giữa 3 fork độc lập.
+- Đường đứt nét đỏ ngang biểu thị mức tăng tốc 'khoảng 20%' (tương ứng r = 0.80) nêu trong bài giảng Sedgewick.
+- Kết quả cho thấy lợi ích của cutoff giảm đơn điệu theo N: từ giảm ~18.9% ở N = 1K xuống chỉ còn ~5.9% ở N = 4M, do chi phí truy cập bộ nhớ ở các tầng merge trên cùng chiếm ưu thế tuyệt đối khi N vượt kích thước cache.

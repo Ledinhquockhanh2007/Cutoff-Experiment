@@ -1,0 +1,30 @@
+% Nguồn: DB/A1_pred_error_full.csv (e_k, abs_e_k, k_from = 19, 20, 21), DB/A1_pred_error_summary.csv (k_pass, total_k), DB/A3_step_test.csv (D_mean, D_hat_P3, reject_P3)
+% Lệnh sinh: python report/make_tables.py
+% Sinh tự động, KHÔNG sửa tay (sửa make_tables.py rồi chạy lại).
+% e_k = ln R_hat - ln R_bar; ngưỡng đã đăng ký |e_k| <= 1.5% (PR: handoff/preregistration/T04_predictions.md, Phần E).
+% (a) Ngưỡng $|e_k| \le 1.5\% \approx 1\text{ SE}$ của $\ln\bar R$ (SE trung bình $\approx 1.44\%$ với $c=1$, $1.22\%$ với $c=30$), nên một mốc đạt không phải bằng chứng ủng hộ. (b) Kiểm soát cùng cây ($c = 4/7, 8/10, 16/30$): $|\bar\Delta| \le 0.32\%$, đạt ngưỡng 1\% đã đăng ký. (c) Phép thử $S$ ($P2$ so với $P3c$): tại $c=1$, sai lệch so với đo là 2.73\% ($P2$) và 8.91\% ($P3c$); tại $c=30$ là 2.34\% ($P2$) và 9.28\% ($P3c$); cả hai mô hình đều không đạt ngưỡng 1.5\% (kết luận: không phân biệt được).
+\begin{tabularx}{\linewidth}{llrrrccX}
+\toprule
+Dự đoán & $c$ & $e_{19}$ & $e_{20}$ & $e_{21}$ & \makecell{Đạt \\ $k{=}19..21$} & \makecell{Đạt \\ $k{=}10..21$} & Kết luận theo hợp đồng \\
+\midrule
+P1 ($N\lg N$) & 1 & $-$9.8\% & $-$8.6\% & $-$8.9\% & 0/3 & 2/12 & không đạt ngưỡng ở $k\ge19$ \\
+ & 30 & $-$11.1\% & $-$8.6\% & $-$9.9\% & 0/3 & 3/12 & không đạt ngưỡng ở $k\ge19$ \\
+\addlinespace
+P2 (lũy thừa, 48 $N$) & 1 & $-$3.7\% & $-$2.2\% & $-$2.3\% & 0/3 & 1/12 & không đạt ngưỡng ở $k\ge19$ \\
+ & 30 & $-$3.8\% & $-$1.1\% & $-$2.2\% & 1/3 & 4/12 & đạt 1/3 mốc $k\ge19$ \\
+\addlinespace
+P2b (lũy thừa, 72 $N$) & 1 & $-$6.8\% & $-$5.4\% & $-$5.5\% & 0/3 & 6/12 & không đạt ngưỡng ở $k\ge19$ \\
+ & 30 & $-$7.0\% & $-$4.2\% & $-$5.4\% & 0/3 & 5/12 & không đạt ngưỡng ở $k\ge19$ \\
+\addlinespace
+P3 (M2, bước) & 1 & $-$9.6\% & $-$8.4\% & $-$8.7\% & 0/3 & 3/12 & bị bác (phép thử bước: $D$ đo +0.009, dự đoán +0.165) \\
+ & 30 & $-$10.4\% & $-$8.0\% & $-$9.4\% & 0/3 & 2/12 & bị bác (phép thử bước: $D$ đo +0.022, dự đoán +0.180) \\
+\addlinespace
+P3b (M2, trơn) & 1 & $-$10.1\% & $-$8.9\% & $-$9.2\% & 0/3 & 3/12 & không đạt ngưỡng ở $k\ge19$ \\
+ & 30 & $-$10.9\% & $-$8.4\% & $-$9.8\% & 0/3 & 2/12 & không đạt ngưỡng ở $k\ge19$ \\
+\addlinespace
+P3c (M2, nội suy $\alpha$) & 1 & $-$9.6\% & $-$8.4\% & $-$8.7\% & 0/3 & 5/12 & không đạt ngưỡng ở $k\ge19$ \\
+ & 30 & $-$10.4\% & $-$8.0\% & $-$9.4\% & 0/3 & 4/12 & không đạt ngưỡng ở $k\ge19$ \\
+\bottomrule
+\end{tabularx}
+\medskip\par\raggedright\footnotesize
+\textit{Ghi chú:} (a) Ngưỡng $|e_k| \le 1.5\% \approx 1\text{ SE}$ của $\ln\bar R$ (SE trung bình $\approx 1.44\%$ với $c=1$, $1.22\%$ với $c=30$), nên một mốc đạt không phải bằng chứng ủng hộ. (b) Kiểm soát cùng cây ($c = 4/7, 8/10, 16/30$): $|\bar\Delta| \le 0.32\%$, đạt ngưỡng 1\% đã đăng ký. (c) Phép thử $S$ ($P2$ so với $P3c$): tại $c=1$, sai lệch so với đo là 2.73\% ($P2$) và 8.91\% ($P3c$); tại $c=30$ là 2.34\% ($P2$) và 9.28\% ($P3c$); cả hai mô hình đều không đạt ngưỡng 1.5\% (kết luận: không phân biệt được).

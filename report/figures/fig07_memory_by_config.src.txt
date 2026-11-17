@@ -1,0 +1,10 @@
+Hình: fig07_memory_by_config
+Loại: Khám phá / Đo đạc bộ nhớ độc lập (T05 / T05b)
+Nguồn dữ liệu: results_final/analysis_v2/tables/memory_measurements.csv
+Mô tả chuỗi:
+- Panel (a): Số byte thực đo trên mỗi phần tử N theo 3 cấu hình JVM:
+  * Mặc định (nén oops + nén con trỏ lớp): 24 byte/phần tử (mô hình 24N + 32 byte).
+  * Trung gian (-XX:-UseCompressedOops): 32 byte/phần tử (mô hình 32N + 32 byte).
+  * Giống bài giảng (-XX:-UseCompressedOops -XX:-UseCompressedClassPointers): 40 byte/phần tử (mô hình 40N + 48 byte).
+- Panel (b): Tổng dung lượng bộ nhớ hoạt động (a + aux + N đối tượng Integer) theo N so với các mốc phần cứng L2 (1 MiB/nhân) và L3 (16 MiB). Trục y biểu thị theo thang log với các mốc thập phân MiB (0.01, 0.1, 1, 10, 100).
+- Cả hai phương pháp đo độc lập (JOL GraphLayout và ThreadMXBean allocated bytes sau warmup) đều cho kết quả hoàn toàn trùng khớp với mô hình lý thuyết (sai số 0.000%).

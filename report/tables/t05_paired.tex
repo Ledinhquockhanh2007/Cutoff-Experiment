@@ -1,0 +1,21 @@
+% Nguồn: RF/rq3_paired_tests.csv (kind = in-sample với (7,10); kind = holdout với b = 7 và b = 10; ratio, ci_lo, ci_hi, n_N_a_faster, p_holm)
+% Lệnh sinh: python report/make_tables.py
+% Sinh tự động, KHÔNG sửa tay (sửa make_tables.py rồi chạy lại).
+% holdout: c tốt nhất chọn trên trial lẻ, đánh giá trên trial chẵn (cột best_selected_on của CSV).
+\begin{tabular}{llcccc}
+\toprule
+Thang & Loại & $a$ / $b$ & $T_a/T_b$ [CI 95\%] & So sánh theo $N$ & $p$ (Holm) \\
+\midrule
+$2^{12}$ & trong mẫu & 7 / 10 & 1.0180 [1.0099, 1.0262] & 10 nhanh hơn ở 17/24 & 0.002 \\
+ & holdout & 40 / 7 & 0.9345 [0.9273, 0.9422] & 40 nhanh hơn ở 24/24 & $2.1\cdot10^{-6}$ \\
+ & holdout & 40 / 10 & 0.9532 [0.9479, 0.9599] & 40 nhanh hơn ở 23/24 & $2.1\cdot10^{-6}$ \\
+\addlinespace
+$2^{16}$ & trong mẫu & 7 / 10 & 1.0120 [1.0079, 1.0162] & 10 nhanh hơn ở 22/24 & $6.0\cdot10^{-5}$ \\
+ & holdout & 28 / 7 & 0.9593 [0.9564, 0.9625] & 28 nhanh hơn ở 24/24 & $2.1\cdot10^{-6}$ \\
+ & holdout & 28 / 10 & 0.9721 [0.9685, 0.9757] & 28 nhanh hơn ở 24/24 & $2.1\cdot10^{-6}$ \\
+\addlinespace
+$2^{19}$ & trong mẫu & 7 / 10 & 1.0103 [1.0051, 1.0160] & 10 nhanh hơn ở 18/24 & 0.002 \\
+ & holdout & 27 / 7 & 0.9702 [0.9667, 0.9738] & 27 nhanh hơn ở 24/24 & $2.1\cdot10^{-6}$ \\
+ & holdout & 27 / 10 & 0.9806 [0.9769, 0.9844] & 27 nhanh hơn ở 23/24 & $2.1\cdot10^{-6}$ \\
+\bottomrule
+\end{tabular}

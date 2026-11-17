@@ -31,6 +31,7 @@ bin/
 
 ### Project ignore rules ###
 build/
+build_mut/
 data/
 data.zip
 data_doubling/

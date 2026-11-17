@@ -1,0 +1,11 @@
+Hình: fig03_cost_decomposition
+Loại: Khám phá / Mô hình lý thuyết (Exploratory / Model Analysis)
+Nguồn dữ liệu:
+- Phân rã chi phí: results_final/analysis_v2/tables/cost_model_decomposition.csv
+- Độ nhạy & vùng gần tối ưu: results_final/analysis_v2/tables/cost_model_sensitivity.csv
+Mô tả chuỗi:
+- Phân rã thành phần chi phí của mô hình M2 trên thang chuẩn S = 2^16: 1 - r_hat = ratio_save - ratio_insert.
+- Đường 'Tiết kiệm bỏ merge & đệ quy' (ratio_save): tăng logarit theo c do triệt tiêu các tầng cây đệ quy dưới đáy.
+- Đường 'Chi phí thêm insertion sort' (ratio_insert): tăng bậc hai O(c^2) theo chiều dài lá.
+- Vùng tô mờ xám là vùng gần tối ưu 2% [14, 48] theo kịch bản cơ sở (c*_curve = 40, min r_hat = 0.8835, net reduction 11.65%).
+- Đánh dấu cực trị c* = 40 của đường cong liên tục giải thích cơ chế hình thành đáy phẳng rộng của đường cong thời gian.

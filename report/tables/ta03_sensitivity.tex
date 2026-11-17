@@ -1,0 +1,14 @@
+% Nguồn: V2/cost_model_sensitivity.csv (scenario, c_star_curve, min_rhat, near_opt_min, near_opt_max)
+% Lệnh sinh: python report/make_tables.py
+% Sinh tự động, KHÔNG sửa tay (sửa make_tables.py rồi chạy lại).
+\begin{tabular}{lccc}
+\toprule
+Kịch bản (thang $2^{16}$) & $c^*$ & $\min\hat r$ & Vùng gần tối ưu 2\% \\
+\midrule
+cơ sở & 40 & 0.8835 & [14, 48] \\
+$\beta\times0.8$ & 48 & 0.8506 & [24, 64] \\
+$\beta\times1.25$ & 20 & 0.9048 & [11, 40] \\
+$w_{1,2}\times0.8$ & 20 & 0.9202 & [10, 48] \\
+$w_{1,2}\times1.25$ & 40 & 0.8354 & [19, 48] \\
+\bottomrule
+\end{tabular}

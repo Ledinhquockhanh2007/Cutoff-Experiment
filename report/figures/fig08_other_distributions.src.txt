@@ -1,0 +1,10 @@
+Hình: fig08_other_distributions
+Loại: Khám phá / Kiểm chứng phạm vi hợp lệ của mô hình (Scope Limitation Analysis)
+Nguồn dữ liệu: results_final/analysis_v2/tables/validate_other_distributions.csv
+Mô tả chuỗi:
+- Khảo sát tỉ số thời gian r(N, c) trên 4 phân bố dữ liệu không ngẫu nhiên tại thang S = 2^16 (trung bình nhân trên 24 kích thước N hình học từ 65 536 đến 131 072).
+- Thanh sai số là khoảng tin cậy CI 95% bootstrap cụm theo N.
+- Đường đứt nét đỏ biểu thị dự báo của mô hình M2 (vốn chỉ được xây dựng cho dữ liệu ngẫu nhiên đồng đều).
+- Kết quả cho thấy (Quy tắc C):
+  * Mô hình M2 KHÔNG ÁP DỤNG ĐƯỢC cho các phân bố có thứ tự sẵn (sai khác lên tới +8.8% trên sorted và -13.2% trên reversed).
+  * CUTOFF tối ưu khác nhau nhiều theo cấu trúc dữ liệu: c* = 64 cho sorted/nearly sorted (đây là BIÊN TRÊN của lưới CUTOFF đo đạc; cực tiểu thực tế có thể > 64, xem chẩn đoán D4), c* = 8 cho reversed (insertion sort suy biến thành O(N^2)), và c* = 32 cho few_distinct.

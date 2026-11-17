@@ -1,0 +1,15 @@
+% Nguồn: RF/rq1_best_cutoff.csv (distribution = random: scale, best_cutoff, r_best, ci_lo, ci_hi, near_optimal_2pct, boot_top3); RF/rq1_pooled_random.csv (r_gm_pooled, ci, freq_best; vùng gần tối ưu = r <= 1.02 min tính trong script)
+% Lệnh sinh: python report/make_tables.py
+% Sinh tự động, KHÔNG sửa tay (sửa make_tables.py rồi chạy lại).
+\begin{tabularx}{\linewidth}{lcclXl}
+\toprule
+Thang & $c^*$ & $r$ [CI 95\%] & Giảm & \makecell{Gần tối ưu \\ ($r\le1.02\,r_{\min}$)} & Argmin bootstrap \\
+\midrule
+$2^{12}$ & 40 & 0.848 [0.840, 0.856] & 15.2\% & 17--32, 40, 48, 64 & 40: 71\%; 48: 19\%; 28: 6\% \\
+$2^{16}$ & 31 & 0.888 [0.885, 0.890] & 11.2\% & 13--32, 40, 48 & 31: 36\%; 30: 25\%; 32: 20\% \\
+$2^{19}$ & 27 & 0.918 [0.916, 0.920] & 8.2\% & 11--32, 40, 48, 64 & 27: 75\%; 30: 11\%; 31: 9\% \\
+\midrule
+gộp 3 thang & 30 & 0.886 [0.884, 0.888] & 11.4\% & 13--32, 40, 48, 64 & 30: 47\% \\
+giao 3 thang &  &  &  & 17--32, 40, 48 &  \\
+\bottomrule
+\end{tabularx}

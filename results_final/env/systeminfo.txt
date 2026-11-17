@@ -1,0 +1,91 @@
+
+Host Name:                     [REDACTED]
+OS Name:                       Microsoft Windows 11 Home
+OS Version:                    10.0.26300 N/A Build 26300
+OS Manufacturer:               Microsoft Corporation
+OS Configuration:              Standalone Workstation
+OS Build Type:                 Multiprocessor Free
+Registered Owner:              N/A
+Registered Organization:       N/A
+Product ID:                    [REDACTED]
+Original Install Date:         11/13/2025, 10:58:14 AM
+System Boot Time:              11/14/2026, 9:09:17 PM
+System Manufacturer:           LENOVO
+System Model:                  83M0
+System Type:                   x64-based PC
+Processor(s):                  1 Processor(s) Installed.
+[01]: AMD64 Family 25 Model 117 Stepping 2 AuthenticAMD ~3040 Mhz
+BIOS Version:                  LENOVO RGCN36WW, 7/23/2026
+Windows Directory:             C:\WINDOWS
+System Directory:              C:\WINDOWS\system32
+Boot Device:                   \Device\HarddiskVolume1
+System Locale:                 en-us;English (United States)
+Input Locale:                  en-us;English (United States)
+Time Zone:                     (UTC+07:00) Bangkok, Hanoi, Jakarta
+Total Physical Memory:         15,677 MB
+Available Physical Memory:     2,063 MB
+Virtual Memory: Max Size:      36,157 MB
+Virtual Memory: Available:     8,115 MB
+Virtual Memory: In Use:        28,042 MB
+Page File Location(s):         D:\pagefile.sys
+Domain:                        WORKGROUP
+Logon Server:                  [REDACTED]
+Hotfix(s):                     6 Hotfix(s) Installed.
+[01]: KB5127694
+[02]: KB5054156
+[03]: KB5121794
+[04]: KB5132061
+[05]: KB5127647
+[06]: KB5132688
+Network Card(s):               6 NIC(s) Installed.
+[01]: Realtek RTL8852BE WiFi 6 802.11ax PCIe Adapter
+Connection Name: Wi-Fi
+DHCP Enabled:    Yes
+DHCP Server:     [REDACTED]
+IP address(es)
+[01]: [REDACTED]
+[02]: [REDACTED]
+[02]: Bluetooth Device (Personal Area Network)
+Connection Name: Bluetooth Network Connection
+Status:          Media disconnected
+[03]: Realtek PCIe GbE Family Controller
+Connection Name: Ethernet
+Status:          Media disconnected
+[04]: Famatech Radmin VPN Ethernet Adapter
+Connection Name: Radmin VPN
+DHCP Enabled:    No
+IP address(es)
+[01]: [REDACTED]
+[02]: [REDACTED]
+[03]: [REDACTED]
+[05]: Wintun Userspace Tunnel
+Connection Name: Tailscale
+DHCP Enabled:    No
+IP address(es)
+[01]: [REDACTED]
+[02]: [REDACTED]
+[06]: Wintun Userspace Tunnel
+Connection Name: CloudflareWARP
+DHCP Enabled:    No
+IP address(es)
+[01]: [REDACTED]
+[02]: [REDACTED]
+[03]: [REDACTED]
+Virtualization-based security: Status: Running
+Required Security Properties:
+Available Security Properties:
+Base Virtualization Support
+Secure Boot
+DMA Protection
+UEFI Code Readonly
+SMM Security Mitigations 1.0
+Mode Based Execution Control
+Services Configured:
+Hypervisor enforced Code Integrity
+Services Running:
+Hypervisor enforced Code Integrity
+App Control for Business policy: Enforced
+App Control for Business user mode policy: Off
+Security Features Enabled:
+Hyper-V Requirements:          A hypervisor has been detected. Features required for Hyper-V will not be displayed.
+

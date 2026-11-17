@@ -1,0 +1,26 @@
+% Nguồn: V2/cost_model_M0_coef.csv, V2/cost_model_M1_coef.csv (coef, std_err)
+% Lệnh sinh: python report/make_tables.py
+% Sinh tự động, KHÔNG sửa tay (sửa make_tables.py rồi chạy lại).
+% Báo cáo nguyên văn: M0 có hệ số leaves2 âm (-16.60 ns, vô lý về vật lý). Không diễn giải riêng từng hệ số.
+% ML_b4 và ML_b5 của M1 trùng nhau đến 12 chữ số (5.594 +- 3.452): hai cột không định danh được trong dữ liệu; M1 không được dùng.
+\begin{tabular}{llc}
+\toprule
+Mô hình & Tham số & Hệ số $\pm$ SE (ns) \\
+\midrule
+M0 & \texttt{ML\_12} & 11.02 $\pm$ 0.01 \\
+ & \texttt{ML\_16} & 10.20 $\pm$ 0.02 \\
+ & \texttt{ML\_19} & 12.19 $\pm$ 0.06 \\
+ & \texttt{exchanges} & 3.13 $\pm$ 0.03 \\
+ & \texttt{leaves2} & -16.60 $\pm$ 0.42 \\
+\addlinespace
+M1 & \texttt{ML\_b1} & 5.99 $\pm$ 0.28 \\
+ & \texttt{ML\_b2} & 11.27 $\pm$ 2.03 \\
+ & \texttt{ML\_b3} & 18.30 $\pm$ 4.53 \\
+ & \texttt{ML\_b4} & 5.59 $\pm$ 3.45 \\
+ & \texttt{ML\_b5} & 5.59 $\pm$ 3.45 \\
+ & \texttt{ML\_b6} & 12.10 $\pm$ 0.37 \\
+ & \texttt{exchanges} & 3.57 $\pm$ 0.83 \\
+\bottomrule
+\end{tabular}
+\medskip\par\raggedright\footnotesize
+\textit{Ghi chú:} ML\_b4 và ML\_b5 của M1 trùng nhau đến 12 chữ số (5.594 $\pm$ 3.452): hai cột không định danh được trong dữ liệu; M1 không được dùng.

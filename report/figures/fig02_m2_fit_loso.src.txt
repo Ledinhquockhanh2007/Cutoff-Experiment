@@ -1,0 +1,9 @@
+Hình: fig02_m2_fit_loso
+Loại: Khám phá / Kiểm tra ngoài mẫu, KHÔNG đăng ký trước (Exploratory / Out-of-sample Cross-Validation)
+Nguồn dữ liệu:
+- Panel (a): results_final/analysis_v2/tables/cost_model_in_sample_errors.csv
+- Panel (b): results_final/analysis_v2/tables/validate_2e19_loso.csv
+Mô tả chuỗi:
+- Panel (a): So sánh r thực đo (điểm kèm thanh sai số CI 95% bootstrap) với r dự đoán bởi mô hình chi phí M2 (đường đứt) trên 3 thang N.
+- Panel (b): Thử nghiệm Leave-One-Scale-Out (LOSO) trên thang S = 2^19: Mô hình M2 được huấn luyện trên 2 thang nhỏ (2^12 và 2^16). Theo giao thức LOSO, hệ số alpha_19 của thang bị giữ lại được hiệu chỉnh từ dữ liệu c = 1 của chính 2^19; các tham số w1, w2, w3, beta lấy từ 2^12 + 2^16 để ngoại suy cho các c > 1.
+- Dải màu mờ ở Panel (b) biểu thị khoảng dung sai thực nghiệm ±0.01 (xác lập ở R03b sau khi khớp). Mọi điểm đo đều nằm trọn trong dải dung sai (RMSE LOSO = 0.0029).

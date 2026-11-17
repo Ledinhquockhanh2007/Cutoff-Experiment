@@ -1,0 +1,13 @@
+% Nguồn: V2/memory_class_layouts.csv (parse từ results_final/analysis_v2/memory_layouts_*.txt); đơn vị: byte
+% Lệnh sinh: python report/make_tables.py
+% Sinh tự động, KHÔNG sửa tay (sửa make_tables.py rồi chạy lại).
+\begin{tabular}{lcccccccc}
+\toprule
+Cấu hình & \makecell{Tham \\ chiếu} & \makecell{Header \\ Integer} & \makecell{Giá \\ trị} & Độn & \makecell{Integer \\ tổng} & \makecell{Offset \\ phần tử} & \makecell{Cỡ phần \\ tử mảng} & \makecell{Mảng \\ rỗng} \\
+\midrule
+mặc định & 4 & 12 & 4 & 0 & 16 & 16 & 4 & 16 \\
+$-$Oops & 8 & 12 & 4 & 0 & 16 & 16 & 8 & 16 \\
+bài giảng & 8 & 16 & 4 & 4 & 24 & 24 & 8 & 24 \\
+compact & 4 & 8 & 4 & 4 & 16 & 12 & 4 & 16 \\
+\bottomrule
+\end{tabular}

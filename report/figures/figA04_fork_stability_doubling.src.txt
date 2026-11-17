@@ -1,0 +1,9 @@
+Hình: figA04_fork_stability_doubling
+Loại: Phụ lục / Khám phá (Diagnostic Check / Exploratory Analysis)
+Nguồn dữ liệu: results_doubling/analysis/tables/A1_pred_error_full.csv
+Mô tả chuỗi:
+- Đại lượng biểu diễn: Chênh lệch phần trăm giữa tỉ số doubling của từng fork JVM so với trung bình 3 fork:
+  (\ln R_{k,\mathrm{fork}} - \ln \bar{R}_k) \times 100 \approx (R_{k,\mathrm{fork}} - \bar{R}_k) / \bar{R}_k \times 100 (với c = 1).
+- Dải xám tô mờ là ngưỡng hợp đồng đã đăng ký trước \pm 1.5\% (A1), đưa vào làm mốc tham chiếu.
+- Sai số chuẩn thực tế (SE) giữa 3 fork độc lập là 1.44% (đối với c = 1 trên các bước k = 19..21, ghi nhận tại CONTEXT T04d). Như vậy ngưỡng hợp đồng \pm 1.5\% tương đương xấp xỉ 1\cdot\mathrm{SE}.
+- Phân loại: [khám phá] vì phân tích độ ổn định giữa các fork này là kiểm tra chẩn đoán hậu nghiệm, không phải là một giả thuyết kiểm định hiệu năng chính đã đăng ký trước trong hợp đồng A1/A3.

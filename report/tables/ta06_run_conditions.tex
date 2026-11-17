@@ -1,0 +1,15 @@
+% Nguồn: results_run1, results, results_run3, results_run4, results_doubling: env_fork{1,2,3}.txt (start_time, elapsed, physical_memory_free_at_start); cột ghim nhân: scripts/run_run4.bat, scripts/run_doubling.bat; dagger: handoff/CONTEXT.md (run 1, 2 không ghim; run 3 ghim nhân 5) vì không có tệp nguồn
+% Lệnh sinh: python report/make_tables.py
+% Sinh tự động, KHÔNG sửa tay (sửa make_tables.py rồi chạy lại).
+% GB = 1e9 B.
+\begin{tabular}{llccc}
+\toprule
+Lượt & Ghim nhân & \makecell{Bắt đầu \\ fork 1} & \makecell{Thời gian \\ fork 1 / 2 / 3} & \makecell{RAM trống đầu \\ fork (GB)} \\
+\midrule
+run 1 & không & 2026-10-27 23:17:57 & 0:42:28 / 0:47:22 / 0:46:58 & 2.45 / 1.44 / 0.14 \\
+run 2 & không & 2026-10-28 16:04:59 & 0:44:40 / 0:46:48 / 0:41:44 & 5.42 / 5.35 / 5.11 \\
+run 3 & nhân 5$^{\dagger}$ & 2026-10-29 07:36:00 & 0:26:44 / 0:24:00 / 0:24:37 & 3.95 / 4.62 / 4.48 \\
+Run 4 ($2^{12}$) & nhân 5 & 2026-10-29 21:58:53 & 0:00:32 / 0:00:33 / 0:00:32 & 5.08 / 5.02 / 5.19 \\
+doubling & nhân 5 & 2026-10-30 22:23:16 & 0:03:11 / 0:03:02 / 0:03:07 & 6.59 / 6.61 / 6.59 \\
+\bottomrule
+\end{tabular}

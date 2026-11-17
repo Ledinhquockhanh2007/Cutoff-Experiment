@@ -1,0 +1,26 @@
+% Nguồn: results/correctness_test_output.txt (CorrectnessTest, JDK 25, -ea)
+% Lệnh sinh: python report/make_tables.py
+% Sinh tự động, KHÔNG sửa tay (sửa make_tables.py rồi chạy lại).
+\begin{tabularx}{\linewidth}{rXrrl}
+\toprule
+Nhóm & Nội dung kiểm tra & Số lần & Lỗi & KQ \\
+\midrule
+00 & JVM runs with -ea & \num{1} & \num{0} & PASS \\
+01 & DataGenerator: values, encoding, determinism, plan & \num{266} & \num{0} & PASS \\
+02 & isSorted (N=0..300 $\times$ cutoff=1..70 $\times$ 5 distributions) & \num{105350} & \num{0} & PASS \\
+03 & output is a permutation of input (vs Arrays.sort) & \num{105350} & \num{0} & PASS \\
+04 & MergeCutoff $=$ MergeCutoffCounted (same objects, same order) & \num{105350} & \num{0} & PASS \\
+05 & stability (Item(key, idx)) & \num{126420} & \num{0} & PASS \\
+06 & cutoff $<$ 1 $\to$ IllegalArgumentException & \num{32} & \num{0} & PASS \\
+07 & 1/2 N lgN $\le$ C $\le$ N lgN (cutoff=1, N=2\^{}k) & \num{85} & \num{0} & PASS \\
+08 & S = N(lgN - m) (N=2\^{}k, cutoff=2\^{}m, m$<$k) & \num{403} & \num{0} & PASS \\
+09 & S = simulated recursion tree (independent) & \num{105350} & \num{0} & PASS \\
+10 & A = 4S + 2C + 4E & \num{105668} & \num{0} & PASS \\
+11 & E = inversions of original array on leaves (independent) & \num{105350} & \num{0} & PASS \\
+12 & insertion alone: sorted / reversed, k=1..50 & \num{100} & \num{0} & PASS \\
+13 & no unexpected exception & \num{105350} & \num{0} & PASS \\
+14 & MergeCutoff (timed version) has same tree: compares match & \num{105350} & \num{0} & PASS \\
+\midrule
+ & Tổng & \num{970425} & \num{0} &  \\
+\bottomrule
+\end{tabularx}

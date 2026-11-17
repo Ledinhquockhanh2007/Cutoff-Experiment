@@ -1,0 +1,12 @@
+Hình: fig05_t_over_nlgn_cache
+Loại: Khám phá / Đối chiếu phần cứng (Exploratory Analysis)
+Nguồn dữ liệu:
+- Thời gian chuẩn hóa T/(N lg N): results_doubling/analysis/tables/B2_t_over_nlgn.csv
+- Dung lượng bộ nhớ hoạt động: results_final/analysis_v2/tables/memory_cache_discussion.csv
+Mô tả chuỗi:
+- v_mean_ns = T / (N lg N) (ns) là thời gian chạy trung bình trên một đơn vị độ phức tạp.
+- Thanh sai số biểu thị độ lệch chuẩn (SD) giữa 3 fork độc lập ghim nhân 5.
+- Các vạch đứng biểu thị điểm chuyển tiếp khi dung lượng hoạt động (a + aux + Integer = 24N + 32 byte) vượt quá kích thước bộ nhớ đệm:
+  * L2 = 1.00 MiB / nhân (tại k ≈ 15.41, giữa k=15 và k=16).
+  * L3 = 16.00 MiB chia sẻ (tại k ≈ 19.41, giữa k=19 và k=20).
+- Ghi chú cơ chế (Quy tắc C): Mức tăng mạnh của T/(N lg N) ở khoảng k = 19..20 (+10.3%) là NHẤT QUÁN VỚI giả thuyết dữ liệu tràn L3 sang RAM chính, nhưng không thể kết luận quan hệ nhân quả duy nhất nếu không có hardware counters.
