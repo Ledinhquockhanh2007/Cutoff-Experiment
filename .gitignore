@@ -30,12 +30,26 @@ bin/
 .DS_Store
 
 ### Project ignore rules ###
+.idea/
 build/
 build_mut/
 data/
 data.zip
-data_doubling/
+data_doubling/*
+!data_doubling/manifest.csv
 data_doubling.zip
+data_run5/*
+!data_run5/manifest.csv
+data_run5.zip
+results_smoke/
+results_run5_s1/
+results_run5_s2/
+results_doubling_v2/
+results_d3/
+results_jmh/
+jmh/build/
+jmh/src_gen/
+jmh/target/
 results_doubling_test/
 run1.zip
 run2.zip

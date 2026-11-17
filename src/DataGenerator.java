@@ -46,7 +46,9 @@ public final class DataGenerator
    public static final int OTHER_SCALE = 1 << 16;
    public static final int NS_PER_SCALE = 24;
    public static final int DOUBLING_MIN_K = 10;
-   public static final int DOUBLING_MAX_K = 22;
+   public static final int DOUBLING_MAX_K = 24;
+   public static final int[] RUN5_RANDOM_SCALES = {1 << 12, 1 << 14, 1 << 16, 1 << 18, 1 << 19};
+   public static final int[] RUN5_OTHER_SCALES = {1 << 12, 1 << 16, 1 << 19};
    public static final List<String> DISTRIBUTIONS =
       List.of("random", "sorted", "reversed", "nearly_sorted", "few_distinct");
    public static final String MANIFEST_HEADER = "distribution,N,seed,file,sha256";
@@ -64,8 +66,16 @@ public final class DataGenerator
    {
       int id = DISTRIBUTIONS.indexOf(dist);
       if (id < 0) throw new IllegalArgumentException("unknown distribution: " + dist);
-      if (n < 0 || n >= 10_000_000) throw new IllegalArgumentException("N out of range: " + n);
+      if (n < 0 || n >= 100_000_000) throw new IllegalArgumentException("N out of range: " + n);
       return 10_000_000L * (id + 1) + n;
+   }
+
+   public static long seedForRun5(String dist, int n)
+   {
+      int id = DISTRIBUTIONS.indexOf(dist);
+      if (id < 0) throw new IllegalArgumentException("unknown distribution: " + dist);
+      if (n < 0 || n >= 100_000_000) throw new IllegalArgumentException("N out of range: " + n);
+      return 10_000_000L * (id + 1) + n + 500_000_000L;
    }
 
    /** 24 giá trị N hình học trong [S, 2S). */
@@ -88,6 +98,22 @@ public final class DataGenerator
          if (d.equals("random")) continue;
          for (int n : scaleNs(OTHER_SCALE))
             specs.add(new Spec(d, n, seedFor(d, n)));
+      }
+      return specs;
+   }
+
+   public static List<Spec> planRun5()
+   {
+      List<Spec> specs = new ArrayList<>();
+      for (int s : RUN5_RANDOM_SCALES)
+         for (int n : scaleNs(s))
+            specs.add(new Spec("random", n, seedForRun5("random", n)));
+      for (String d : DISTRIBUTIONS)
+      {
+         if (d.equals("random")) continue;
+         for (int s : RUN5_OTHER_SCALES)
+            for (int n : scaleNs(s))
+               specs.add(new Spec(d, n, seedForRun5(d, n)));
       }
       return specs;
    }
@@ -185,10 +211,10 @@ public final class DataGenerator
 
    // ------------------------------------------------------------------ modes
 
-   static void generateAll(Path out, boolean zip, boolean doubling) throws IOException
+   static void generateAll(Path out, boolean zip, boolean doubling, boolean run5) throws IOException
    {
       long t0 = System.nanoTime();
-      List<Spec> specs = doubling ? planDoubling() : plan();
+      List<Spec> specs = run5 ? planRun5() : (doubling ? planDoubling() : plan());
       StringBuilder manifest = new StringBuilder(MANIFEST_HEADER).append('\n');
       for (Spec s : specs)
       {
@@ -216,9 +242,14 @@ public final class DataGenerator
       }
    }
 
+   static void generateAll(Path out, boolean zip, boolean doubling) throws IOException
+   {
+      generateAll(out, zip, doubling, false);
+   }
+
    static void generateAll(Path out, boolean zip) throws IOException
    {
-      generateAll(out, zip, false);
+      generateAll(out, zip, false, false);
    }
 
    static Path zipDir(Path out) throws IOException
@@ -244,7 +275,7 @@ public final class DataGenerator
    }
 
    /** @return số lỗi */
-   static int verify(Path out, boolean doubling) throws IOException
+   static int verify(Path out, boolean doubling, boolean run5) throws IOException
    {
       List<String> lines = Files.readAllLines(out.resolve("manifest.csv"), StandardCharsets.UTF_8);
       int fail = 0, ok = 0;
@@ -253,7 +284,7 @@ public final class DataGenerator
          System.out.println("FAIL manifest header");
          return 1;
       }
-      List<Spec> expected = doubling ? planDoubling() : plan();
+      List<Spec> expected = run5 ? planRun5() : (doubling ? planDoubling() : plan());
       if (lines.size() - 1 != expected.size())
       {
          System.out.printf("FAIL manifest has %d rows, plan has %d%n", lines.size() - 1, expected.size());
@@ -272,7 +303,8 @@ public final class DataGenerator
             if (!e.dist().equals(dist) || e.n() != n || e.seed() != seed || !e.file().equals(file))
                errs.add("row differs from plan");
          }
-         if (seed != seedFor(dist, n)) errs.add("seed != seedFor(dist, N)");
+         long expectedSeed = run5 ? seedForRun5(dist, n) : seedFor(dist, n);
+         if (seed != expectedSeed) errs.add("seed != expectedSeed");
          Path f = out.resolve(file);
          if (!Files.exists(f)) errs.add("file missing");
          else
@@ -289,15 +321,20 @@ public final class DataGenerator
       return fail;
    }
 
+   static int verify(Path out, boolean doubling) throws IOException
+   {
+      return verify(out, doubling, false);
+   }
+
    static int verify(Path out) throws IOException
    {
-      return verify(out, false);
+      return verify(out, false, false);
    }
 
    public static void main(String[] args) throws IOException
    {
       Path out = null;
-      boolean verify = false, zip = true, doubling = false;
+      boolean verify = false, zip = true, doubling = false, run5 = false;
       for (int i = 0; i < args.length; i++)
       {
          switch (args[i])
@@ -305,15 +342,18 @@ public final class DataGenerator
             case "--verify"   -> verify = true;
             case "--no-zip"   -> zip = false;
             case "--doubling" -> doubling = true;
+            case "--run5"     -> run5 = true;
             case "--out"      -> out = Paths.get(args[++i]);
             default -> { System.err.println("unknown argument: " + args[i]); System.exit(2); }
          }
       }
       if (out == null)
       {
-         out = doubling ? Paths.get("data_doubling") : Paths.get("data");
+         if (run5) out = Paths.get("data_run5");
+         else if (doubling) out = Paths.get("data_doubling");
+         else out = Paths.get("data");
       }
-      if (verify) System.exit(verify(out, doubling) == 0 ? 0 : 1);
-      generateAll(out, zip, doubling);
+      if (verify) System.exit(verify(out, doubling, run5) == 0 ? 0 : 1);
+      generateAll(out, zip, doubling, run5);
    }
 }

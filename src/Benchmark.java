@@ -40,6 +40,14 @@ public final class Benchmark
 
    static final int[] FULL_GRID = fullGrid();                                    // 1..32, 40, 48, 64
    static final int[] SPARSE_GRID = {1, 2, 4, 6, 8, 10, 12, 16, 20, 24, 32, 48, 64};
+   static final int[] SORTED_NEARLY_GRID = {
+      1, 2, 4, 6, 8, 10, 12, 16, 20, 24, 32, 48, 64,
+      96, 128, 192, 256, 384, 512, 768, 1024, 1536, 2048, 4096
+   };
+   static final int[] REVERSED_FEW_GRID = {
+      1, 2, 4, 6, 8, 10, 12, 16, 20, 24, 32, 48, 64,
+      96, 128
+   };
    static final int DATASET_WARMUP_ROUNDS = 3;
    static final long TARGET_BATCH_NS = 2_000_000L;
    static final int K_MAX = 1000;
@@ -50,7 +58,7 @@ public final class Benchmark
    static final int PILOT_R = 2;
 
    static final String RAW_HEADER =
-      "fork,run_order,timestamp_ns,trial,distribution,N,seed,cutoff,batch_k,time_ns,gc_during_run";
+      "fork,run_order,timestamp_ns,trial,distribution,N,seed,cutoff,batch_k,time_ns,gc_during_run,key";
    static final String WARMUP_HEADER = "fork,distribution,N,cutoff,warmup_iter,time_ns";
 
    static int[] fullGrid()
@@ -72,13 +80,23 @@ public final class Benchmark
 
    static int[] gridFor(String dist)
    {
-      if (dist.equals("random")) return customGrid != null ? customGrid : FULL_GRID;
-      return SPARSE_GRID;
+      if (customGrid != null) return customGrid;
+      return switch (dist)
+      {
+         case "random" -> FULL_GRID;
+         case "sorted", "nearly_sorted" -> SORTED_NEARLY_GRID;
+         case "reversed", "few_distinct" -> REVERSED_FEW_GRID;
+         default -> SPARSE_GRID;
+      };
    }
 
    static int repsFor(DS ds)
    {
-      if (ds.dist().equals("random")) return ds.scale() <= (1 << 16) ? 10 : 5;
+      if (ds.dist().equals("random"))
+      {
+         if (ds.n() == ds.scale() && ds.scale() >= (1 << 21)) return 3;
+         return ds.scale() <= (1 << 16) ? 10 : 5;
+      }
       return 5;
    }
 
@@ -89,6 +107,9 @@ public final class Benchmark
    static int fixedK = -1;
    static int onlyScale = -1;
    static int limitDatasets = -1;
+   static String keyType = "integer";
+   static Set<String> filterDists = null;
+   static Set<Integer> filterScales = null;
    static long sink = 0;
    static long runOrder = 0;
    static long gcFlagged = 0;
@@ -138,6 +159,60 @@ public final class Benchmark
       return Math.round((t1 - t0) / (double) k);
    }
 
+   static boolean isSortedDouble(Double[] a)
+   {
+      for (int i = 1; i < a.length; i++)
+         if (a[i].doubleValue() < a[i - 1].doubleValue()) return false;
+      return true;
+   }
+
+   static long measureDouble(Double[] base, int cutoff, int k)
+   {
+      System.gc();
+      Double[][] copies = new Double[k][];
+      for (int i = 0; i < k; i++) copies[i] = base.clone();
+      long gc0 = gcCount();
+      long t0 = System.nanoTime();
+      for (int i = 0; i < k; i++) MergeCutoff.sort(copies[i], cutoff);
+      long t1 = System.nanoTime();
+      long gc1 = gcCount();
+
+      Double[] a = copies[0];
+      if (!isSortedDouble(a))
+         fatal("output NOT sorted: N=" + a.length + " cutoff=" + cutoff);
+      if (a.length > 0) sink += (long) (a[0] + 31.0 * a[a.length / 2] + 961.0 * a[a.length - 1]);
+      lastT0 = t0;
+      lastGc = gc1 != gc0;
+      return Math.round((t1 - t0) / (double) k);
+   }
+
+   static boolean isSortedInt(int[] a)
+   {
+      for (int i = 1; i < a.length; i++)
+         if (a[i] < a[i - 1]) return false;
+      return true;
+   }
+
+   static long measureInt(int[] base, int cutoff, int k)
+   {
+      System.gc();
+      int[][] copies = new int[k][];
+      for (int i = 0; i < k; i++) copies[i] = base.clone();
+      long gc0 = gcCount();
+      long t0 = System.nanoTime();
+      for (int i = 0; i < k; i++) MergeCutoffInt.sort(copies[i], cutoff);
+      long t1 = System.nanoTime();
+      long gc1 = gcCount();
+
+      int[] a = copies[0];
+      if (!isSortedInt(a))
+         fatal("output NOT sorted: N=" + a.length + " cutoff=" + cutoff);
+      if (a.length > 0) sink += a[0] + 31L * a[a.length / 2] + 961L * a[a.length - 1];
+      lastT0 = t0;
+      lastGc = gc1 != gc0;
+      return Math.round((t1 - t0) / (double) k);
+   }
+
    static int kFor(long perSortNs)
    {
       if (perSortNs <= 0) return K_MAX;
@@ -169,6 +244,13 @@ public final class Benchmark
       return a;
    }
 
+   static Double[] boxDouble(int[] v)
+   {
+      Double[] a = new Double[v.length];
+      for (int i = 0; i < v.length; i++) a[i] = Double.valueOf((double) v[i]);
+      return a;
+   }
+
    static int[] decode(byte[] b)
    {
       int[] a = new int[b.length / 4];
@@ -190,9 +272,11 @@ public final class Benchmark
          DS ds = new DS(c[0], Integer.parseInt(c[1]), Long.parseLong(c[2]), c[3], c[4]);
          boolean ok = switch (ds.dist())
          {
-            case "random" -> (ds.scale() == (1 << 12) || ds.scale() == (1 << 16) || ds.scale() == (1 << 19))
-                          || (ds.n() == ds.scale() && ds.scale() >= (1 << 10) && ds.scale() <= (1 << 22));
-            case "sorted", "reversed", "nearly_sorted", "few_distinct" -> ds.scale() == (1 << 16);
+            case "random" -> (ds.scale() == (1 << 12) || ds.scale() == (1 << 14) || ds.scale() == (1 << 16)
+                           || ds.scale() == (1 << 18) || ds.scale() == (1 << 19))
+                          || (ds.n() == ds.scale() && ds.scale() >= (1 << 10) && ds.scale() <= (1 << 24));
+            case "sorted", "reversed", "nearly_sorted", "few_distinct" ->
+               ds.scale() == (1 << 12) || ds.scale() == (1 << 16) || ds.scale() == (1 << 19);
             default -> false;
          };
          if (!ok) fatal("manifest row does not match the design: " + lines.get(i));
@@ -301,6 +385,9 @@ public final class Benchmark
       sb.append("start_time=").append(ZonedDateTime.now()).append('\n');
       sb.append("mode=").append(pilot ? "pilot" : "full").append('\n');
       sb.append("fork=").append(fork).append('\n');
+      sb.append("key=").append(keyType).append('\n');
+      if (filterDists != null) sb.append("dists=").append(String.join(",", filterDists)).append('\n');
+      if (filterScales != null) sb.append("scales=").append(filterScales).append('\n');
       if (fixedK > 0) sb.append("fixed_k=").append(fixedK).append('\n');
       if (customGridStr != null) sb.append("grid=").append(customGridStr).append('\n');
       if (onlyScale > 0) sb.append("only_scale=").append(onlyScale).append('\n');
@@ -333,7 +420,11 @@ public final class Benchmark
    static double jvmWarmup(BufferedWriter warmW) throws IOException
    {
       long start = System.nanoTime();
-      Integer[] base = box(DataGenerator.generate("random", JVM_WARMUP_N, JVM_WARMUP_SEED));
+      int[] raw = DataGenerator.generate("random", JVM_WARMUP_N, JVM_WARMUP_SEED);
+      Integer[] base = keyType.equals("integer") ? box(raw) : null;
+      Double[] baseDouble = keyType.equals("double") ? boxDouble(raw) : null;
+      int[] baseInt = keyType.equals("int") ? raw : null;
+
       StringBuilder rows = new StringBuilder();
       List<Double> totals = new ArrayList<>();
       boolean converged = false;
@@ -342,7 +433,12 @@ public final class Benchmark
          double tot = 0;
          for (int c : shuffled(FULL_GRID, trialSeed(0, 5000 + r)))
          {
-            long t = measure(base, c, fixedK > 0 ? fixedK : 1);
+            int fk = fixedK > 0 ? fixedK : 1;
+            long t;
+            if (keyType.equals("integer")) t = measure(base, c, fk);
+            else if (keyType.equals("double")) t = measureDouble(baseDouble, c, fk);
+            else t = measureInt(baseInt, c, fk);
+
             tot += t;
             rows.append(fork).append(",jvm_warmup,").append(JVM_WARMUP_N).append(',').append(c).append(',')
                 .append(r).append(',').append(t).append('\n');
@@ -377,8 +473,11 @@ public final class Benchmark
       if (!DataGenerator.sha256(bytes).equals(ds.sha())) fatal("sha256 mismatch: " + ds.file());
       int[] v = decode(bytes);
       if (v.length != ds.n()) fatal("length mismatch: " + ds.file());
-      Integer[] base = box(v);            // box MỘT lần; mọi lần đo clone từ base
-      bytes = null; v = null;
+      Integer[] base = keyType.equals("integer") ? box(v) : null;
+      Double[] baseDouble = keyType.equals("double") ? boxDouble(v) : null;
+      int[] baseInt = keyType.equals("int") ? v : null;
+      bytes = null;
+      if (!keyType.equals("int")) v = null;
       long tl1 = System.nanoTime();
 
       int[] grid = gridFor(ds.dist());
@@ -394,7 +493,15 @@ public final class Benchmark
       {
          // dò sơ bộ để chọn K cho warm-up (không ghi lại)
          long probe = Long.MAX_VALUE;
-         for (int i = 0; i < 3; i++) probe = Math.min(probe, measure(base, grid[grid.length / 2], 1));
+         int midCutoff = grid[grid.length / 2];
+         for (int i = 0; i < 3; i++)
+         {
+            long t;
+            if (keyType.equals("integer")) t = measure(base, midCutoff, 1);
+            else if (keyType.equals("double")) t = measureDouble(baseDouble, midCutoff, 1);
+            else t = measureInt(baseInt, midCutoff, 1);
+            probe = Math.min(probe, t);
+         }
          kw = kFor(probe);
          k = -1;
       }
@@ -404,7 +511,11 @@ public final class Benchmark
       for (int r = 1; r <= DATASET_WARMUP_ROUNDS; r++)
          for (int c : shuffled(grid, trialSeed(ds.seed(), 1000 + r)))
          {
-            long t = measure(base, c, kw);
+            long t;
+            if (keyType.equals("integer")) t = measure(base, c, kw);
+            else if (keyType.equals("double")) t = measureDouble(baseDouble, c, kw);
+            else t = measureInt(baseInt, c, kw);
+
             warmRows.append(fork).append(',').append(ds.dist()).append(',').append(ds.n()).append(',')
                     .append(c).append(',').append(r).append(',').append(t).append('\n');
             if (r == DATASET_WARMUP_ROUNDS) minLast = Math.min(minLast, t);
@@ -417,13 +528,17 @@ public final class Benchmark
       for (int trial = 1; trial <= reps; trial++)
          for (int c : shuffled(grid, trialSeed(ds.seed(), trial)))
          {
-            long t = measure(base, c, k);
+            long t;
+            if (keyType.equals("integer")) t = measure(base, c, k);
+            else if (keyType.equals("double")) t = measureDouble(baseDouble, c, k);
+            else t = measureInt(baseInt, c, k);
+
             runOrder++;
             if (lastGc) flagged++;
             rawRows.append(fork).append(',').append(runOrder).append(',').append(lastT0).append(',')
                    .append(trial).append(',').append(ds.dist()).append(',').append(ds.n()).append(',')
                    .append(ds.seed()).append(',').append(c).append(',').append(k).append(',')
-                   .append(t).append(',').append(lastGc).append('\n');
+                   .append(t).append(',').append(lastGc).append(',').append(keyType).append('\n');
          }
       long tm1 = System.nanoTime();
       gcFlagged += flagged;
@@ -433,8 +548,8 @@ public final class Benchmark
 
       double[] t = {(tl1 - tl0) / 1e9, (tw1 - tl1) / 1e9, (tm1 - tw1) / 1e9, k};
       env(String.format(Locale.ROOT,
-          "dataset %s N=%d seed=%d R=%d grid=%d K_warmup=%d K=%d load=%.2fs warmup=%.1fs measure=%.1fs gc_flagged=%d",
-          ds.dist(), ds.n(), ds.seed(), reps, grid.length, kw, k, t[0], t[1], t[2], flagged));
+          "dataset %s N=%d seed=%d R=%d grid=%d K_warmup=%d K=%d load=%.2fs warmup=%.1fs measure=%.1fs gc_flagged=%d key=%s",
+          ds.dist(), ds.n(), ds.seed(), reps, grid.length, kw, k, t[0], t[1], t[2], flagged, keyType));
       return t;
    }
 
@@ -495,6 +610,18 @@ public final class Benchmark
             }
             case "--only-scale"     -> onlyScale = parseScale(args[++i]);
             case "--limit-datasets" -> limitDatasets = Integer.parseInt(args[++i]);
+            case "--dists"          -> {
+               filterDists = new HashSet<>(Arrays.asList(args[++i].split(",")));
+            }
+            case "--scales"         -> {
+               filterScales = new HashSet<>();
+               for (String s : args[++i].split(",")) filterScales.add(parseScale(s.trim()));
+            }
+            case "--key"            -> {
+               keyType = args[++i].toLowerCase(Locale.ROOT);
+               if (!keyType.equals("integer") && !keyType.equals("double") && !keyType.equals("int"))
+                  fatal("unknown --key: " + keyType + " (must be integer, double, or int)");
+            }
             default -> { System.err.println("unknown argument: " + args[i]); System.exit(2); }
          }
       }
@@ -504,7 +631,7 @@ public final class Benchmark
          resume = false;
          resultsDir = resultsDir.resolve("pilot");
       }
-      if (fork < 1 || fork > 3) { System.err.println("--fork must be 1..3"); System.exit(2); }
+      if (fork < 1 || fork > 6) { System.err.println("--fork must be 1..6"); System.exit(2); }
 
       gcs = ManagementFactory.getGarbageCollectorMXBeans();
       Files.createDirectories(resultsDir);
@@ -514,6 +641,20 @@ public final class Benchmark
 
       List<DS> all = readManifest(dataDir);
       List<DS> chosen = pilot ? pilotSubset(all) : all;
+      if (filterDists != null)
+      {
+         List<DS> filtered = new ArrayList<>();
+         for (DS ds : chosen)
+            if (filterDists.contains(ds.dist())) filtered.add(ds);
+         chosen = filtered;
+      }
+      if (filterScales != null)
+      {
+         List<DS> filtered = new ArrayList<>();
+         for (DS ds : chosen)
+            if (filterScales.contains(ds.scale())) filtered.add(ds);
+         chosen = filtered;
+      }
       if (onlyScale > 0)
       {
          List<DS> filtered = new ArrayList<>();

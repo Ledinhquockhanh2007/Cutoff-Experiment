@@ -377,7 +377,8 @@ def t6_doubling():
         "đạt ngưỡng 1\\% đã đăng ký. "
         f"(c) Phép thử $S$ ($P2$ so với $P3c$): tại $c=1$, sai lệch so với đo là {s1.diff_P2*100:.2f}\\% ($P2$) "
         f"và {s1.diff_P3c*100:.2f}\\% ($P3c$); tại $c=30$ là {s30.diff_P2*100:.2f}\\% ($P2$) "
-        f"và {s30.diff_P3c*100:.2f}\\% ($P3c$); cả hai mô hình đều không đạt ngưỡng 1.5\\% (kết luận: không phân biệt được)."
+        f"và {s30.diff_P3c*100:.2f}\\% ($P3c$); hai giả thuyết phân biệt rõ: $P3c$ (bão hòa) bị bác "
+        f"(cách đo $\\approx 9\\% \\approx 6\\text{{ SE}}$); $P2$ gần hơn nhưng vẫn thấp hơn đo, cũng không đạt ngưỡng 1.5\\%."
     )
 
     body = (tabular("llrrrccX", ["Dự đoán", "$c$", "$e_{19}$", "$e_{20}$", "$e_{21}$", hc("Đạt", "$k{=}19..21$"), hc("Đạt", "$k{=}10..21$"),

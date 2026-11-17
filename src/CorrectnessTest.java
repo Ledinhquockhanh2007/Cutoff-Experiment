@@ -38,6 +38,8 @@ public class CorrectnessTest
    private static final String G_INS    = "12. insertion alone: sorted / reversed, k=1..50";
    private static final String G_THROW  = "13. no unexpected exception";
    private static final String G_TREE   = "14. MergeCutoff (timed version) has same tree: compares match";
+   private static final String G_EXT    = "15. Extended grid up to 4096 (sorted, nearly_sorted, reversed)";
+   private static final String G_INT    = "16. MergeCutoffInt: identical output and compare count vs MergeCutoff";
 
    // ------------------------------------------------------------------ helpers
 
@@ -85,6 +87,13 @@ public class CorrectnessTest
    {
       for (int i = 1; i < a.length; i++)
          if (a[i].compareTo(a[i - 1]) < 0) return false;
+      return true;
+   }
+
+   static boolean isSorted(int[] a)
+   {
+      for (int i = 1; i < a.length; i++)
+         if (a[i] < a[i - 1]) return false;
       return true;
    }
 
@@ -377,13 +386,177 @@ public class CorrectnessTest
       }
    }
 
+   /** Nhóm 15: Lưới mở rộng tới 4096 (sorted, nearly_sorted, reversed). */
+   static void testExtendedGrid()
+   {
+      int[] cutoffs = {96, 128, 192, 256, 384, 512, 768, 1024, 1536, 2048, 4096};
+      int[] sizes = {0, 1, 10, 50, 100, 500, 1024, 2048, 4096, 5000, 8192};
+      String[] dists = {"sorted", "nearly_sorted", "reversed"};
+      for (String d : dists)
+         for (int n : sizes)
+            for (int c : cutoffs)
+            {
+               long seed = DataGenerator.seedFor(d, n) * 1000 + c;
+               int[] v = DataGenerator.generate(d, n, seed);
+               int[] expected = v.clone();
+               Arrays.sort(expected);
+
+               Integer[] a = box(v);
+               try
+               {
+                  MergeCutoff.sort(a, c);
+               }
+               catch (Throwable t)
+               {
+                  check(G_THROW, false, "Extended %s N=%d cutoff=%d: %s", d, n, c, t);
+                  continue;
+               }
+               check(G_THROW, true, "");
+               check(G_EXT, isSorted(a) && sameValues(a, expected),
+                     "Extended %s N=%d cutoff=%d", d, n, c);
+            }
+   }
+
+   /** Nhóm 16: MergeCutoffInt (kiểm tra tính đúng và số phép so sánh). */
+   static void testMergeCutoffInt()
+   {
+      // 1. Cutoff < 1 -> IllegalArgumentException
+      try
+      {
+         MergeCutoffInt.sort(new int[10], 0);
+         check(G_INT, false, "MergeCutoffInt cutoff=0 did not throw");
+      }
+      catch (IllegalArgumentException e) { check(G_INT, true, ""); }
+      catch (Throwable t) { check(G_INT, false, "MergeCutoffInt cutoff=0 threw %s", t); }
+
+      try
+      {
+         MergeCutoffInt.sort(new int[10], -5);
+         check(G_INT, false, "MergeCutoffInt cutoff=-5 did not throw");
+      }
+      catch (IllegalArgumentException e) { check(G_INT, true, ""); }
+      catch (Throwable t) { check(G_INT, false, "MergeCutoffInt cutoff=-5 threw %s", t); }
+
+      // 2. Kết quả giống hệt MergeCutoff trên 5 phân bố, N=0..300, các cutoff tiêu biểu và mở rộng
+      int[] cutoffs = {1, 2, 4, 7, 10, 16, 30, 32, 48, 64, 70, 96, 128, 256, 512, 1024};
+      for (String d : DISTS)
+      {
+         for (int n = 0; n <= 300; n += (n < 50 ? 1 : 10))
+         {
+            for (int c : cutoffs)
+            {
+               long seed = DataGenerator.seedFor(d, n) * 1000 + c;
+               int[] v = DataGenerator.generate(d, n, seed);
+               int[] expected = v.clone();
+               Arrays.sort(expected);
+
+               Integer[] a = box(v);
+               int[] b = v.clone();
+
+               try
+               {
+                  MergeCutoff.sort(a, c);
+                  MergeCutoffInt.sort(b, c);
+               }
+               catch (Throwable t)
+               {
+                  check(G_THROW, false, "MergeCutoffInt %s N=%d cutoff=%d: %s", d, n, c, t);
+                  continue;
+               }
+               check(G_THROW, true, "");
+               check(G_INT, isSorted(b) && Arrays.equals(b, expected) && sameValues(a, b),
+                     "MergeCutoffInt %s N=%d cutoff=%d: output mismatch", d, n, c);
+            }
+         }
+      }
+
+      // 3. Số phép so sánh: đếm so sánh trên chuỗi thao tác của MergeCutoffInt,
+      // đối chiếu với Key.count của MergeCutoff trên cùng dữ liệu và cùng cờ assertions.
+      for (String d : DISTS)
+      {
+         for (int n : new int[]{0, 1, 5, 10, 25, 50, 100, 200, 300})
+         {
+            for (int c : new int[]{1, 2, 7, 10, 16, 30, 64})
+            {
+               long seed = DataGenerator.seedFor(d, n) * 1000 + c;
+               int[] v = DataGenerator.generate(d, n, seed);
+
+               Key[] k = keys(v);
+               Key.count = 0;
+               MergeCutoff.sort(k, c);
+               long keyCount = Key.count;
+
+               long intCount = countComparesInt(v.clone(), c, assertionsOn());
+               check(G_INT, keyCount == intCount,
+                     "MergeCutoffInt compares %s N=%d c=%d: int=%d, Key=%d", d, n, c, intCount, keyCount);
+            }
+         }
+      }
+   }
+
+   static long countComparesInt(int[] a, int cutoff, boolean withAsserts)
+   {
+      long[] cnt = new long[1];
+      int[] aux = new int[a.length];
+      sortCountedInt(a, aux, 0, a.length - 1, cutoff, cnt, withAsserts);
+      return cnt[0];
+   }
+
+   private static void sortCountedInt(int[] a, int[] aux, int lo, int hi, int cutoff, long[] cnt, boolean withAsserts)
+   {
+      if (hi <= lo + cutoff - 1)
+      {
+         for (int i = lo + 1; i <= hi; i++)
+            for (int j = i; j > lo; j--)
+            {
+               cnt[0]++;
+               if (a[j] < a[j - 1])
+               {
+                  int swap = a[j]; a[j] = a[j - 1]; a[j - 1] = swap;
+               }
+               else break;
+            }
+         return;
+      }
+      int mid = lo + (hi - lo) / 2;
+      sortCountedInt(a, aux, lo, mid, cutoff, cnt, withAsserts);
+      sortCountedInt(a, aux, mid + 1, hi, cutoff, cnt, withAsserts);
+      mergeCountedInt(a, aux, lo, mid, hi, cnt, withAsserts);
+   }
+
+   private static void mergeCountedInt(int[] a, int[] aux, int lo, int mid, int hi, long[] cnt, boolean withAsserts)
+   {
+      if (withAsserts)
+      {
+         for (int i = lo + 1; i <= mid; i++) { cnt[0]++; if (a[i] < a[i - 1]) break; }
+         for (int i = mid + 2; i <= hi; i++) { cnt[0]++; if (a[i] < a[i - 1]) break; }
+      }
+      for (int k = lo; k <= hi; k++) aux[k] = a[k];
+      int i = lo, j = mid + 1;
+      for (int k = lo; k <= hi; k++)
+      {
+         if      (i > mid)          a[k] = aux[j++];
+         else if (j > hi)           a[k] = aux[i++];
+         else
+         {
+            cnt[0]++;
+            if (aux[j] < aux[i])   a[k] = aux[j++];
+            else                   a[k] = aux[i++];
+         }
+      }
+      if (withAsserts)
+      {
+         for (int k = lo + 1; k <= hi; k++) { cnt[0]++; if (a[k] < a[k - 1]) break; }
+      }
+   }
+
    // ------------------------------------------------------------------ main
 
    public static void main(String[] args)
    {
       long t0 = System.nanoTime();
       for (String g : new String[]{G_EA, G_GEN, G_SORT, G_PERM, G_SAME, G_STAB, G_CUT, G_CBND,
-                                   G_SPOW, G_SSIM, G_AID, G_EINV, G_INS, G_THROW, G_TREE})
+                                   G_SPOW, G_SSIM, G_AID, G_EINV, G_INS, G_THROW, G_TREE, G_EXT, G_INT})
          TALLY.put(g, new long[2]);
       testAssertionsEnabled();
       testGenerator();
@@ -392,6 +565,8 @@ public class CorrectnessTest
       testBadCutoff();
       testPowersOfTwo();
       testInsertionAlone();
+      testExtendedGrid();
+      testMergeCutoffInt();
 
       long totalFail = 0, totalPass = 0;
       System.out.printf("%-66s %8s %5s%n", "GROUP", "PASS", "FAIL");

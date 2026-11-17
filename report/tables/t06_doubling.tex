@@ -2,7 +2,7 @@
 % Lệnh sinh: python report/make_tables.py
 % Sinh tự động, KHÔNG sửa tay (sửa make_tables.py rồi chạy lại).
 % e_k = ln R_hat - ln R_bar; ngưỡng đã đăng ký |e_k| <= 1.5% (PR: handoff/preregistration/T04_predictions.md, Phần E).
-% (a) Ngưỡng $|e_k| \le 1.5\% \approx 1\text{ SE}$ của $\ln\bar R$ (SE trung bình $\approx 1.44\%$ với $c=1$, $1.22\%$ với $c=30$), nên một mốc đạt không phải bằng chứng ủng hộ. (b) Kiểm soát cùng cây ($c = 4/7, 8/10, 16/30$): $|\bar\Delta| \le 0.32\%$, đạt ngưỡng 1\% đã đăng ký. (c) Phép thử $S$ ($P2$ so với $P3c$): tại $c=1$, sai lệch so với đo là 2.73\% ($P2$) và 8.91\% ($P3c$); tại $c=30$ là 2.34\% ($P2$) và 9.28\% ($P3c$); cả hai mô hình đều không đạt ngưỡng 1.5\% (kết luận: không phân biệt được).
+% (a) Ngưỡng $|e_k| \le 1.5\% \approx 1\text{ SE}$ của $\ln\bar R$ (SE trung bình $\approx 1.44\%$ với $c=1$, $1.22\%$ với $c=30$), nên một mốc đạt không phải bằng chứng ủng hộ. (b) Kiểm soát cùng cây ($c = 4/7, 8/10, 16/30$): $|\bar\Delta| \le 0.32\%$, đạt ngưỡng 1\% đã đăng ký. (c) Phép thử $S$ ($P2$ so với $P3c$): tại $c=1$, sai lệch so với đo là 2.73\% ($P2$) và 8.91\% ($P3c$); tại $c=30$ là 2.34\% ($P2$) và 9.28\% ($P3c$); hai giả thuyết phân biệt rõ: $P3c$ (bão hòa) bị bác (cách đo $\approx 9\% \approx 6\text{ SE}$); $P2$ gần hơn nhưng vẫn thấp hơn đo, cũng không đạt ngưỡng 1.5\%.
 \begin{tabularx}{\linewidth}{llrrrccX}
 \toprule
 Dự đoán & $c$ & $e_{19}$ & $e_{20}$ & $e_{21}$ & \makecell{Đạt \\ $k{=}19..21$} & \makecell{Đạt \\ $k{=}10..21$} & Kết luận theo hợp đồng \\
@@ -27,4 +27,4 @@ P3c (M2, nội suy $\alpha$) & 1 & $-$9.6\% & $-$8.4\% & $-$8.7\% & 0/3 & 5/12 &
 \bottomrule
 \end{tabularx}
 \medskip\par\raggedright\footnotesize
-\textit{Ghi chú:} (a) Ngưỡng $|e_k| \le 1.5\% \approx 1\text{ SE}$ của $\ln\bar R$ (SE trung bình $\approx 1.44\%$ với $c=1$, $1.22\%$ với $c=30$), nên một mốc đạt không phải bằng chứng ủng hộ. (b) Kiểm soát cùng cây ($c = 4/7, 8/10, 16/30$): $|\bar\Delta| \le 0.32\%$, đạt ngưỡng 1\% đã đăng ký. (c) Phép thử $S$ ($P2$ so với $P3c$): tại $c=1$, sai lệch so với đo là 2.73\% ($P2$) và 8.91\% ($P3c$); tại $c=30$ là 2.34\% ($P2$) và 9.28\% ($P3c$); cả hai mô hình đều không đạt ngưỡng 1.5\% (kết luận: không phân biệt được).
+\textit{Ghi chú:} (a) Ngưỡng $|e_k| \le 1.5\% \approx 1\text{ SE}$ của $\ln\bar R$ (SE trung bình $\approx 1.44\%$ với $c=1$, $1.22\%$ với $c=30$), nên một mốc đạt không phải bằng chứng ủng hộ. (b) Kiểm soát cùng cây ($c = 4/7, 8/10, 16/30$): $|\bar\Delta| \le 0.32\%$, đạt ngưỡng 1\% đã đăng ký. (c) Phép thử $S$ ($P2$ so với $P3c$): tại $c=1$, sai lệch so với đo là 2.73\% ($P2$) và 8.91\% ($P3c$); tại $c=30$ là 2.34\% ($P2$) và 9.28\% ($P3c$); hai giả thuyết phân biệt rõ: $P3c$ (bão hòa) bị bác (cách đo $\approx 9\% \approx 6\text{ SE}$); $P2$ gần hơn nhưng vẫn thấp hơn đo, cũng không đạt ngưỡng 1.5\%.
