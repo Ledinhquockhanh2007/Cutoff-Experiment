@@ -82,11 +82,11 @@ call :report %T0% %T1% "javac"
 rem ---------------------------------------------------------------- 2. Bat dau typeperf
 echo === Bat dau typeperf ghi nhan 5 va cac LP...
 taskkill /F /IM typeperf.exe >nul 2>&1
-start "typeperf" /min typeperf "\Processor Information(*)\%% Processor Performance" "\Processor Information(*)\%% Processor Utility" -si 1 -o "%RESULTS_DIR%\typeperf.csv"
+start "typeperf" /min typeperf "\Processor Information(*)\%% Processor Performance" "\Processor Information(*)\%% Processor Utility" -si 1 -y -o "%RESULTS_DIR%\typeperf_%T_ALL0%.csv"
 
 rem ---------------------------------------------------------------- 3-7. Benchmark forks 1..5
 for /l %%f in (1, 1, 5) do (
-  echo === [%%f/5] Benchmark fork %%f (ghim nhan 5, affinity C00)
+  echo === [%%f/5] Benchmark fork %%f - ghim nhan 5, affinity C00
   call :bench %%f || goto fail
 )
 

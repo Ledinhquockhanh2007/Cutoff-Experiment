@@ -81,13 +81,13 @@ call :report %T0% %T1% "javac"
 rem ---------------------------------------------------------------- 2. Bat dau typeperf
 echo === Bat dau typeperf ghi nhan 5 va cac LP
 taskkill /F /IM typeperf.exe >nul 2>&1
-start "typeperf" /min typeperf "\Processor Information(*)\%% Processor Performance" "\Processor Information(*)\%% Processor Utility" -si 1 -o "%RESULTS_DIR%\typeperf.csv"
+start "typeperf" /min typeperf "\Processor Information(*)\%% Processor Performance" "\Processor Information(*)\%% Processor Utility" -si 1 -y -o "%RESULTS_DIR%\typeperf_%T_ALL0%.csv"
 
 rem ---------------------------------------------------------------- 3-11. Do 3 kieu khoa (integer, double, int)
 for %%k in (integer double int) do (
   if not exist "%RESULTS_DIR%\%%k" mkdir "%RESULTS_DIR%\%%k"
   for /l %%f in (1, 1, 3) do (
-    echo === Benchmark key=%%k fork %%f (ghim nhan 5, affinity C00)
+    echo === Benchmark key=%%k fork %%f - ghim nhan 5, affinity C00
     call :bench %%k %%f || goto fail
   )
 )
@@ -107,7 +107,7 @@ exit /b 1
 
 :bench
 call :now TB0
-start "bench" /affinity C00 /wait java %JVM_BENCH% -cp "lib/*;build" Benchmark --fork %2 --key %1 --data "%DATA_DIR%" --results "%RESULTS_DIR%\%1" --dists random --scales 2^12,2^16,2^19 --grid %GRID% %RESUME% %LIMIT%
+start "bench" /affinity C00 /wait java %JVM_BENCH% -cp "lib/*;build" Benchmark --fork %2 --key %1 --data "%DATA_DIR%" --results "%RESULTS_DIR%\%1" --dists random --scales 4096,65536,524288 --grid %GRID% --fixed-k 1 %RESUME% %LIMIT%
 if errorlevel 1 (
   echo Benchmark key %1 fork %2 FAILED
   exit /b 1

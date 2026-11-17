@@ -75,10 +75,10 @@ call :report %T0% %T1% "javac"
 rem ---------------------------------------------------------------- 2. Bat dau typeperf
 echo === Bat dau typeperf ghi nhan 5 va cac LP
 taskkill /F /IM typeperf.exe >nul 2>&1
-start "typeperf" /min typeperf "\Processor Information(*)\%% Processor Performance" "\Processor Information(*)\%% Processor Utility" -si 1 -o "%RESULTS_DIR%\typeperf.csv"
+start "typeperf" /min typeperf "\Processor Information(*)\%% Processor Performance" "\Processor Information(*)\%% Processor Utility" -si 1 -y -o "%RESULTS_DIR%\typeperf_%T_ALL0%.csv"
 
 rem ---------------------------------------------------------------- 3. Chay JMH
-echo === [2/3] Chay JMH benchmark (ghim nhan 5, affinity C00)
+echo === [2/3] Chay JMH benchmark - ghim nhan 5, affinity C00
 call :now TB0
 start "bench" /affinity C00 /wait java %JVM_ARGS% -cp "jmh/build;build;lib/*" org.openjdk.jmh.Main %JMH_OPTS% -jvmArgs "%JVM_ARGS%" -rff "%RESULTS_DIR%\jmh_results.csv" -rf csv
 if errorlevel 1 (
