@@ -67,7 +67,7 @@ H12,P_baohoa_k=23_c=1,|lnR_v2 - lnR_hat|,0.0871 (3SE=0.0140),<= 3*SE_k,False,,p2
 H12,P_baohoa_k=23_c=30,|lnR_v2 - lnR_hat|,0.0929 (3SE=0.0176),<= 3*SE_k,False,,p2_H12.csv,[ĐK]
 H12,P_tiep_summary,4/4 cells pass,4/4,4/4,True,,p2_H12.csv,[ĐK]
 H12,P_baohoa_summary,4/4 cells pass,0/4,4/4,False,,p2_H12.csv,[ĐK]
-H12,OVERALL,P-tiếp vs P-bão hòa,"P_tiep=4/4, P_baohoa=0/4",4/4 cells <= 3*SE_k,True,ĐẠT (P-tiếp ĐẠT; P-bão hòa KHÔNG ĐẠT),p2_H12.csv,[ĐK]
+H12,OVERALL,P-tiếp vs P-bão hòa,"P_tiep=4/4, P_baohoa=0/4",4/4 cells <= 3*SE_k,True,XEM TỪNG DỰ ĐOÁN (P-tiếp ĐẠT; P-bão hòa KHÔNG ĐẠT),p2_H12.csv,[ĐK]
 H13,"pair_(16, 30)",max |Delta(k)| over k=10..24,"12/15 pass, max=0.01408",<= 0.01 ở mọi k,False,,p2_H13.csv,[ĐK]
 H13,"pair_(4, 7)",max |Delta(k)| over k=10..24,"12/15 pass, max=0.03339",<= 0.01 ở mọi k,False,,p2_H13.csv,[ĐK]
 H13,"pair_(8, 10)",max |Delta(k)| over k=10..24,"14/15 pass, max=0.01141",<= 0.01 ở mọi k,False,,p2_H13.csv,[ĐK]

@@ -48,6 +48,11 @@ public final class Benchmark
       1, 2, 4, 6, 8, 10, 12, 16, 20, 24, 32, 48, 64,
       96, 128
    };
+   static final int[] INT_EXT_GRID = {
+      1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
+      17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32,
+      40, 48, 56, 64, 80, 96, 112, 128, 160, 192, 256
+   };
    static final int DATASET_WARMUP_ROUNDS = 3;
    static final long TARGET_BATCH_NS = 2_000_000L;
    static final int K_MAX = 1000;
@@ -603,10 +608,17 @@ public final class Benchmark
             case "--fixed-k"        -> fixedK = Integer.parseInt(args[++i]);
             case "--grid"           -> {
                customGridStr = args[++i];
-               String[] parts = customGridStr.split(",");
-               customGrid = new int[parts.length];
-               for (int j = 0; j < parts.length; j++)
-                  customGrid[j] = Integer.parseInt(parts[j].trim());
+               if (customGridStr.equalsIgnoreCase("int_ext"))
+               {
+                  customGrid = INT_EXT_GRID;
+               }
+               else
+               {
+                  String[] parts = customGridStr.split(",");
+                  customGrid = new int[parts.length];
+                  for (int j = 0; j < parts.length; j++)
+                     customGrid[j] = Integer.parseInt(parts[j].trim());
+               }
             }
             case "--only-scale"     -> onlyScale = parseScale(args[++i]);
             case "--limit-datasets" -> limitDatasets = Integer.parseInt(args[++i]);

@@ -945,7 +945,8 @@ def run_self_check(B: int = DEFAULT_B) -> int:
 
 # ──────────────────────────────────────────────────────────────── PHÂN TÍCH GIAI ĐOẠN 2 (§4)
 
-def run_phase2_analysis(out_dir: Path, B: int = DEFAULT_B, base_seed: int = DEFAULT_SEED) -> int:
+def run_phase2_analysis(out_dir: Path, B: int = DEFAULT_B, base_seed: int = DEFAULT_SEED,
+                        t11_fixes: bool = False) -> int:
     """Chạy toàn bộ phân tích giai đoạn 2 (H1–H17 + H10b + [KP] + [MT]) và xuất CSV + run_log.txt."""
     out_dir.mkdir(parents=True, exist_ok=True)
     tables_dir = out_dir / "tables"
@@ -956,13 +957,13 @@ def run_phase2_analysis(out_dir: Path, B: int = DEFAULT_B, base_seed: int = DEFA
     log_f = log_path.open("w", encoding="utf-8")
     sys.stdout = TeeStream(orig_stdout, log_f)
     try:
-        return _run_phase2_body(tables_dir, B, base_seed)
+        return _run_phase2_body(tables_dir, B, base_seed, t11_fixes=t11_fixes)
     finally:
         sys.stdout = orig_stdout
         log_f.close()
 
 
-def _run_phase2_body(tables_dir: Path, B: int, base_seed: int) -> int:
+def _run_phase2_body(tables_dir: Path, B: int, base_seed: int, t11_fixes: bool = False) -> int:
     print("=" * 96)
     print("T10: PHÂN TÍCH DỮ LIỆU GIAI ĐOẠN 2 THEO HỢP ĐỒNG T09 (commit c3e2b7f)")
     print(f"Bootstrap: B = {B}, seed gốc = {base_seed}")
@@ -1203,6 +1204,11 @@ def _run_phase2_body(tables_dir: Path, B: int, base_seed: int) -> int:
     df_h13_k["pass"] = df_h13_k["abs_delta_mean"] <= 0.01
     df_h13_k["row_type"] = "per_k"
     df_h13_k["label"] = "[ĐK]"
+    if t11_fixes:
+        fork_cols = [f"delta_fork{f}" for f in range(1, 6)]
+        sd_vals = df_h13_k[fork_cols].std(axis=1, ddof=1)
+        df_h13_k["se_k"] = sd_vals / math.sqrt(len(fork_cols))
+        df_h13_k["z_k"] = df_h13_k["delta_mean"] / df_h13_k["se_k"]
 
     pooled_a5_rows = []
     for row in df_a5_sum2.itertuples(index=False):
@@ -1764,7 +1770,12 @@ def _run_phase2_body(tables_dir: Path, B: int, base_seed: int) -> int:
           pass_tiep, "", "p2_H12.csv")
     add_v("H12", "P_baohoa_summary", "4/4 cells pass", f"{int(p_bh_sub['pass'].sum())}/4", "4/4",
           pass_bh, "", "p2_H12.csv")
-    if pass_tiep and not pass_bh:
+    if t11_fixes:
+        h12_verdict = (
+            f"XEM TỪNG DỰ ĐOÁN (P-tiếp {'ĐẠT' if pass_tiep else 'KHÔNG ĐẠT'}; "
+            f"P-bão hòa {'ĐẠT' if pass_bh else 'KHÔNG ĐẠT'})"
+        )
+    elif pass_tiep and not pass_bh:
         h12_verdict = "ĐẠT (P-tiếp ĐẠT; P-bão hòa KHÔNG ĐẠT)"
     elif pass_bh and not pass_tiep:
         h12_verdict = "ĐẠT (P-bão hòa ĐẠT; P-tiếp KHÔNG ĐẠT)"
@@ -1854,6 +1865,8 @@ def parse_args():
                     help=f"Số lần lặp bootstrap (mặc định: {DEFAULT_B})")
     ap.add_argument("--seed", type=int, default=DEFAULT_SEED,
                     help=f"Seed bootstrap gốc (mặc định: {DEFAULT_SEED})")
+    ap.add_argument("--t11-fixes", action="store_true",
+                    help="Áp dụng sửa nhỏ từ R10 (T11 §4): H12 verdict 'XEM TỪNG DỰ ĐOÁN', thêm cột [KP] se_k và z_k vào p2_H13.csv")
     return ap.parse_args()
 
 
@@ -1865,7 +1878,7 @@ def main():
     args = parse_args()
     if args.self_check:
         sys.exit(run_self_check(B=args.B))
-    sys.exit(run_phase2_analysis(args.out, B=args.B, base_seed=args.seed))
+    sys.exit(run_phase2_analysis(args.out, B=args.B, base_seed=args.seed, t11_fixes=args.t11_fixes))
 
 
 if __name__ == "__main__":
