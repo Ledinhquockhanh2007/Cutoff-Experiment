@@ -1,0 +1,125 @@
+==================================================================================================
+T12: PHÂN TÍCH GIAI ĐOẠN 2b THEO HỢP ĐỒNG T11 + PHỤ LỤC A1–A3 (ff163ba, b4bc8fa)
+Bootstrap: B = 10000, seed gốc = 20261118
+==================================================================================================
+
+Danh sách seed bootstrap theo bảng:
+  jmh_scores_boot         : 20261118
+  jmh_r_boot              : 20261119
+  jmh_J1_boot             : 20261120
+  jmh_J2_boot             : 20261121
+  jmh_J3_boot             : 20261122
+  jmh_J4_boot             : 20261123
+  jmh_J5_boot             : 20261124
+  jmh_J6_boot             : 20261125
+  jmh_J7_boot             : 20261126
+  jmh_effects_boot        : 20261127
+  int_r_by_cutoff_two     : 20261128
+  int_r_by_cutoff_one     : 20261129
+  int_I4_boot             : 20261130
+
+--------------------------------------------------------------------------------------------------
+1. NẠP DỮ LIỆU JMH V2 (results_jmh_v2/ — S6 LẦN 3 HỢP LỆ)
+--------------------------------------------------------------------------------------------------
+  [Quy tắc A] JMH v2: đọc đúng 72/72 cấu hình (48 reset=none + 24 reset=gc, mixed), 3 fork x 10 vòng
+  [Quy tắc A] Chênh lệch tương đối lớn nhất |Score_calc - Score_json|/Score_json = 4.315e-16 (dung sai 1e-9)
+
+--------------------------------------------------------------------------------------------------
+4.2 KIỂM ĐỊNH JMH V2: J1–J7 [ĐK]
+--------------------------------------------------------------------------------------------------
+  J1: KHÔNG ĐẠT (3/9 ô <= 0.03, max=0.0708)
+  J2: ĐẠT (4/4 điều kiện; ratio_c30=1.9898)
+  J3: KHÔNG ĐẠT (0/4 ô <= 0.03, max=0.1856)
+  J4: KHÔNG ĐẠT (0/2 N đúng thứ tự)
+  J5: KHÔNG ĐẠT (4/12 điều kiện)
+  J6: ĐẠT (ratio_gc/none=1.7861, CI=[1.6645, 1.9152])
+  J7: KHÔNG ĐẠT (8/12 điều kiện)
+  J2 x J6 (Phụ lục A2): cả hai đạt → cả hai cùng góp phần (không tách được tỉ trọng ngoài bảng mô tả)
+
+--------------------------------------------------------------------------------------------------
+4.3 HIỆU ỨNG E_in, E_prof, E_reset VÀ THỜI GIAN TUYỆT ĐỐI SO VỚI RUN 5 [MT]
+--------------------------------------------------------------------------------------------------
+Tóm tắt hiệu ứng tại c = 30, N = 4096 và 524288 [MT]:
+ effect     stratum      N  ln_ratio    ratio  ci_ln_lo  ci_ln_hi
+   E_in   pure_none   4096  0.688043 1.989817  0.634483  0.719441
+   E_in  mixed_none   4096  0.574280 1.775851  0.524721  0.623655
+   E_in    mixed_gc   4096  0.032066 1.032586 -0.027786  0.087761
+ E_prof   same_none   4096  0.048032 1.049204 -0.010203  0.106170
+ E_prof  fresh_none   4096 -0.065731 0.936383 -0.100350 -0.043442
+E_reset  same_mixed   4096  0.580035 1.786101  0.509544  0.649805
+E_reset fresh_mixed   4096  0.037821 1.038546  0.003919  0.073475
+   E_in   pure_none 524288  0.185553 1.203884  0.113642  0.257623
+   E_in  mixed_none 524288  0.187852 1.206655  0.160430  0.213770
+   E_in    mixed_gc 524288  0.218681 1.244435  0.177886  0.260845
+ E_prof   same_none 524288 -0.090067 0.913870 -0.143114 -0.026763
+ E_prof  fresh_none 524288 -0.087769 0.915972 -0.133639 -0.032714
+E_reset  same_mixed 524288 -0.017489 0.982664 -0.059652  0.020157
+E_reset fresh_mixed 524288  0.013341 1.013430 -0.015727  0.043066
+
+--------------------------------------------------------------------------------------------------
+4.4 CHẤT LƯỢNG PHIÊN GIAI ĐOẠN 2b: p2b_session_quality.csv [MT]
+--------------------------------------------------------------------------------------------------
+==================================================================================================
+CHẤT LƯỢNG CÁC PHIÊN GIAI ĐOẠN 2b (S6 lần 1-3, S7) [MT]
+==================================================================================================
+session  fork  n_samples  pct_outside_lp10_11  pct_low_clock_lt110  perf_median   perf_min  duration_min  flagged_gt5pct status
+S6_run1   ALL       4052             0.271471            54.269497    81.003868  74.433683     68.446033            True   LOẠI
+S6_run2   ALL       4139             3.116695            77.265040    80.071686  71.748071     69.746000            True   LOẠI
+S6_run3   ALL       3968             2.746976             0.025202   128.739012  94.081511     66.677400           False HỢP LỆ
+     S7 fork1        572             0.000000             0.000000   127.789257 124.872197      9.680553           False HỢP LỆ
+     S7 fork2        543             0.000000             0.000000   127.705097 121.555878      9.178496           False HỢP LỆ
+     S7 fork3        519             0.000000             0.000000   127.782467 123.606472      8.772789           False HỢP LỆ
+     S7 fork4        523             0.000000             0.000000   127.718656 122.425504      8.831688           False HỢP LỆ
+     S7 fork5        515             0.000000             0.000000   127.740359 122.758840      8.712370           False HỢP LỆ
+     S7 fork6        524             0.000000             0.000000   127.699179 122.222887      8.848116           False HỢP LỆ
+     S7   ALL       3196             0.000000             0.000000   127.728876 121.555878     54.024011           False HỢP LỆ
+
+ĐỐI CHIẾU QUY TẮC A GIAI ĐOẠN 2b (T12 §3.4, dung sai ±0.3 điểm %):
+Phiên/Fork     Chỉ số                  Tính được Tham chiếu      Chênh Trạng thái
+S6_run1/ALL    pct_low_clock_lt110         54.27      54.27       0.00         OK
+S6_run1/ALL    pct_outside_lp10_11          0.27       0.27       0.00         OK
+S6_run2/ALL    pct_low_clock_lt110         77.27      77.27       0.00         OK
+S6_run2/ALL    pct_outside_lp10_11          3.12       3.12       0.00         OK
+S6_run3/ALL    pct_low_clock_lt110          0.03       0.03       0.00         OK
+S6_run3/ALL    pct_outside_lp10_11          2.75       2.75       0.00         OK
+S7/ALL         pct_low_clock_lt110          0.00       0.00       0.00         OK
+S7/ALL         pct_outside_lp10_11          0.00       0.00       0.00         OK
+Đã ghi: results_phase2b\analysis\tables\p2b_session_quality.csv
+
+--------------------------------------------------------------------------------------------------
+4.5 S7 int[] LƯỚI MỞ RỘNG (results_int_ext/, 6 fork, 43 CUTOFF): I1–I4
+--------------------------------------------------------------------------------------------------
+  [Quy tắc A] S7 int_ext (6 fork, 43 c): đọc 154,800 hàng | tham chiếu 154,800 | chênh +0 | GC=0 | batch_k!=1: 0
+scale  c_star   r_star   ci2_lo   ci2_hi   ci1_lo   ci1_hi    near_optimal_2pct          boot2_argmin_top3_kp
+ 2^12     128 0.697173 0.677925 0.724744 0.679320 0.721644     30..32, 112, 128 128:47.2%, 112:42.0%, 31:9.4%
+ 2^16     112 0.766090 0.751613 0.786106 0.752996 0.780992 30..32, 96, 112, 128 112:48.8%, 128:44.9%, 31:3.4%
+ 2^19      64 0.783187 0.775904 0.793978 0.777224 0.792252               56, 64    64:90.2%, 56:9.8%, 48:0.0%
+  [Quy tắc A] D3/int (đối chiếu): đọc 66,600 hàng | tham chiếu 66,600 | chênh +0 | GC=0 | batch_k!=1: 0
+
+  I1: ĐẠT | I1b: ĐẠT | I2: ĐẠT | I3: ĐẠT | I4: ĐẠT
+  I4: delta_r_int=0.0860 (CI=[0.0592, 0.1071]) vs 0.5*delta_r_Integer_S1=0.0361 (ratio=1.191)
+  [MT] SD giữa fork (c>1 chung, 108 ô): median S7(6f)=0.0120 vs D3(3f)=0.0145; mean S7=0.0167 vs D3=0.0160
+
+--------------------------------------------------------------------------------------------------
+4.6 BẢNG PHÁN QUYẾT TỔNG GIAI ĐOẠN 2b (h2b_verdicts.csv) [ĐK]
+--------------------------------------------------------------------------------------------------
+   id                              quantity                               value                   threshold                                                               verdict_overall           source_table
+   J1                     9/9 cells <= 0.03                    3/9 (max=0.0708)                         9/9                                                                     KHÔNG ĐẠT             p2b_J1.csv
+   J2  (a) 3/3 diff>=0.10 & (b) ratio>=1.30              4/4 (ratio_c30=1.9898)                         4/4                                                                           ĐẠT             p2b_J2.csv
+   J3                   4/4 cutoffs <= 0.03                    0/4 (max=0.1856)                         4/4                                                                     KHÔNG ĐẠT             p2b_J3.csv
+   J4                        2/2 N order ok                                 0/2                         2/2                                                                     KHÔNG ĐẠT             p2b_J4.csv
+   J5            9/9 diff<=0.02 & 3/3 order                 diff=4/9, order=0/3                   9/9 & 3/3                                                                     KHÔNG ĐẠT             p2b_J5.csv
+   J6                         ratio >= 1.50                              1.7861                     >= 1.50                                                                           ĐẠT             p2b_J6.csv
+   J7            9/9 diff<=0.02 & 3/3 order                 diff=5/9, order=3/3                   9/9 & 3/3                                                                     KHÔNG ĐẠT             p2b_J7.csv
+J2xJ6             Bảng 4 kết cục Phụ lục A2                      J2=ĐẠT, J6=ĐẠT          T11_addendum.md A2 cả hai đạt → cả hai cùng góp phần (không tách được tỉ trọng ngoài bảng mô tả) p2b_J2.csv; p2b_J6.csv
+   I1             3/3 scales ci2_hi < 0.833                 3/3 (max_hi=0.7940)                         3/3                                                                           ĐẠT             p2b_I1.csv
+  I1b                  3/3 scales r* < 0.80                 3/3 (max_r*=0.7832)                         3/3                                                                           ĐẠT             p2b_I1.csv
+   I2                  3/3 scales c* <= 192                                 3/3                         3/3                                                                           ĐẠT             p2b_I2.csv
+   I3               2/2 scales hump repeats                                 2/2                         2/2                                                                           ĐẠT             p2b_I3.csv
+   I4 delta_r_int >= 0.5*delta_r_Integer_S1                    0.0860 vs 0.0361 >= 0.5 * delta_r_Integer_S1                                                                           ĐẠT             p2b_I4.csv
+   B1         D1 branch mispredict (N=4096) D1 hủy theo §3 (AMD uProf chưa cài)           <= 0.5 * M(fresh)                                                               KHÔNG THỰC HIỆN     handoff/CONTEXT.md
+   B2       D1 branch mispredict (N=524288) D1 hủy theo §3 (AMD uProf chưa cài)           >= 0.8 * M(fresh)                                                               KHÔNG THỰC HIỆN     handoff/CONTEXT.md
+
+==================================================================================================
+HOÀN TẤT PHÂN TÍCH T12! Đã xuất toàn bộ bảng vào: results_phase2b\analysis\tables
+==================================================================================================

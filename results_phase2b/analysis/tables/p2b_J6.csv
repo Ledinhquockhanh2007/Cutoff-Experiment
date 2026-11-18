@@ -1,0 +1,2 @@
+N,cutoff,score_gc_us,score_none_us,ratio_gc_over_none,ci_lo,ci_hi,threshold,condition_met,label
+4096,30,399.74136374144774,223.80673844597277,1.7861006621922861,1.6645314288783342,1.9151670333007933,>= 1.50,True,[ĐK]

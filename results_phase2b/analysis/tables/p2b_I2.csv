@@ -1,0 +1,4 @@
+scale,c_star,threshold,condition_met,label
+2^12,128,<= 192,True,[ĐK]
+2^16,112,<= 192,True,[ĐK]
+2^19,64,<= 192,True,[ĐK]

@@ -60,6 +60,15 @@ REF_PHASE2 = {
     ("D3", "ALL"): {"pct_low_clock_lt110": 0.00, "pct_outside_lp10_11": 0.05},
 }
 
+# Số đối chiếu Quy tắc A giai đoạn 2b (T12 §3.4 & CONTEXT.md, dung sai ±0.3 điểm %)
+REF_PHASE2B = {
+    ("S6_run1", "ALL"): {"pct_low_clock_lt110": 54.27, "pct_outside_lp10_11": 0.27},
+    ("S6_run2", "ALL"): {"pct_low_clock_lt110": 77.27, "pct_outside_lp10_11": 3.12},
+    ("S6_run3", "ALL"): {"pct_low_clock_lt110": 0.03, "pct_outside_lp10_11": 2.75},
+    ("S7", "ALL"): {"pct_low_clock_lt110": 0.00, "pct_outside_lp10_11": 0.00},
+}
+REJECT_PCT_THRESH = 20.0
+
 
 def load_session_typeperf(session_dir: Path) -> pd.DataFrame:
     """Đọc và ghép mọi tệp typeperf*.csv trong thư mục phiên."""
@@ -138,16 +147,17 @@ def analyze_env_session(session: str, session_dir: Path, env_specs: list[tuple[s
     return rows
 
 
-def analyze_jmh_session(session_dir: Path, active_util_thresh: float = 50.0) -> list[dict]:
+def analyze_jmh_session(session_dir: Path, active_util_thresh: float = 50.0,
+                        session_name: str = "JMH") -> list[dict]:
     """Phân tích phiên JMH (không có env_fork*.txt): cửa sổ [first, last] có pin_util >= active_util_thresh."""
     tp = load_session_typeperf(session_dir)
     active_idx = tp.index[tp["pin_util"] >= active_util_thresh]
     if len(active_idx) == 0:
-        return [summarize_window("JMH", "ALL", tp.iloc[0:0], 0.0)]
+        return [summarize_window(session_name, "ALL", tp.iloc[0:0], 0.0)]
     i0, i1 = int(active_idx[0]), int(active_idx[-1])
     w = tp.iloc[i0:i1 + 1]
     dur_s = (w["utc"].iloc[-1] - w["utc"].iloc[0]).total_seconds() + 1.0
-    return [summarize_window("JMH", "ALL", w, dur_s)]
+    return [summarize_window(session_name, "ALL", w, dur_s)]
 
 
 def run_self_check() -> int:
@@ -239,6 +249,57 @@ def run_phase2(out_dir: Path) -> pd.DataFrame:
     return df
 
 
+def run_phase2b(out_dir: Path | None = None) -> pd.DataFrame:
+    """Chạy kiểm tra chất lượng cho giai đoạn 2b: S6 (lần 1, 2, 3) và S7 (6 fork + ALL). KHÔNG đọc Score hay r."""
+    all_rows: list[dict] = []
+
+    # S6 lần 1, 2 (bị loại) và lần 3 (hợp lệ) — chỉ đọc typeperf*.csv
+    all_rows.extend(analyze_jmh_session(PROJECT_ROOT / "results_jmh_v2_rejected_lowclock", session_name="S6_run1"))
+    all_rows.extend(analyze_jmh_session(PROJECT_ROOT / "results_jmh_v2_rejected_lowclock_2", session_name="S6_run2"))
+    all_rows.extend(analyze_jmh_session(PROJECT_ROOT / "results_jmh_v2", session_name="S6_run3"))
+
+    # S7: results_int_ext (6 fork)
+    s7_dir = PROJECT_ROOT / "results_int_ext"
+    s7_specs = [(f"fork{f}", s7_dir / f"env_fork{f}.txt") for f in range(1, 7)]
+    all_rows.extend(analyze_env_session("S7", s7_dir, s7_specs))
+
+    df = pd.DataFrame(all_rows)
+    df["status"] = np.where(
+        (df["pct_outside_lp10_11"] > REJECT_PCT_THRESH) | (df["pct_low_clock_lt110"] > REJECT_PCT_THRESH),
+        "LOẠI",
+        "HỢP LỆ",
+    )
+
+    print("=" * 98)
+    print("CHẤT LƯỢNG CÁC PHIÊN GIAI ĐOẠN 2b (S6 lần 1-3, S7) [MT]")
+    print("=" * 98)
+    print(df[["session", "fork", "n_samples", "pct_outside_lp10_11", "pct_low_clock_lt110",
+              "perf_median", "perf_min", "duration_min", "flagged_gt5pct", "status"]].to_string(index=False))
+
+    print("\nĐỐI CHIẾU QUY TẮC A GIAI ĐOẠN 2b (T12 §3.4, dung sai ±0.3 điểm %):")
+    print(f"{'Phiên/Fork':<14s} {'Chỉ số':<22s} {'Tính được':>10s} {'Tham chiếu':>10s} {'Chênh':>10s} {'Trạng thái':>10s}")
+    all_ok = True
+    for (sess, fk), ref_map in REF_PHASE2B.items():
+        sub = df[(df["session"] == sess) & (df["fork"] == fk)]
+        assert len(sub) == 1, f"Không tìm thấy ({sess}, {fk})"
+        row = sub.iloc[0]
+        for col, ref_val in ref_map.items():
+            calc_val = float(row[col])
+            diff = abs(calc_val - ref_val)
+            ok = diff <= 0.30
+            if not ok:
+                all_ok = False
+            print(f"{sess + '/' + fk:<14s} {col:<22s} {calc_val:10.2f} {ref_val:10.2f} {diff:10.2f} {'OK' if ok else 'FAIL':>10s}")
+    assert all_ok, "DỪNG: Có chỉ số chất lượng phiên 2b lệch quá ±0.3 điểm % so với tham chiếu!"
+
+    if out_dir is not None:
+        out_dir.mkdir(parents=True, exist_ok=True)
+        out_path = out_dir / "p2b_session_quality.csv"
+        df.to_csv(out_path, index=False)
+        print(f"Đã ghi: {out_path}")
+    return df
+
+
 def parse_args():
     ap = argparse.ArgumentParser(
         description=__doc__,
@@ -246,8 +307,10 @@ def parse_args():
     )
     ap.add_argument("--self-check", action="store_true",
                     help="Chạy tự kiểm trên dữ liệu giai đoạn 1 (results_run3/)")
+    ap.add_argument("--phase2b", action="store_true",
+                    help="Chạy kiểm tra chất lượng giai đoạn 2b (S6 lần 1-3, S7) -> p2b_session_quality.csv")
     ap.add_argument("--out", type=Path, default=Path("results_phase2/analysis/tables"),
-                    help="Thư mục xuất p2_session_quality.csv (mặc định: results_phase2/analysis/tables)")
+                    help="Thư mục xuất CSV (mặc định: results_phase2/analysis/tables)")
     return ap.parse_args()
 
 
@@ -259,6 +322,9 @@ def main():
     args = parse_args()
     if args.self_check:
         sys.exit(run_self_check())
+    if args.phase2b:
+        run_phase2b(args.out)
+        return
     run_phase2(args.out)
 
 

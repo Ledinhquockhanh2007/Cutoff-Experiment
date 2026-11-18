@@ -1,0 +1,2 @@
+r_int_2e12,r_int_2e19,delta_r_int,ci2_delta_lo,ci2_delta_hi,delta_r_Integer_S1,half_delta_r_Integer_S1,ratio_int_over_Integer_S1,threshold,condition_met,label
+0.6971734192144863,0.7831868559760321,0.08601343676154583,0.059187114266527285,0.1071355204726144,0.072231456500421,0.0361157282502105,1.1908030230713194,>= 0.5 * delta_r_Integer_S1,True,[ĐK]
