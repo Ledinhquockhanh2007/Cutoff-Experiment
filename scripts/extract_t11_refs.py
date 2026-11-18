@@ -92,6 +92,20 @@ def build_hypotheses() -> pd.DataFrame:
             "threshold": "<= 0.02 (9/9 ô) & thứ tự đúng (3/3 N)",
         },
         {
+            "id": "J6",
+            "short_description": "Phụ lục A2: trạng thái nguội (reset=gc) làm chậm đáng kể ở N = 4096 (same + mixed)",
+            "metric": "Score(gc, 4096, 30) / Score(none, 4096, 30)",
+            "decision_rule": "Dưới same + mixed: Score(gc, 4096, 30) >= 1.5 * Score(none, 4096, 30)",
+            "threshold": ">= 1.50",
+        },
+        {
+            "id": "J7",
+            "short_description": "Phụ lục A2: JMH tái hiện trạng thái bộ đo tự viết thì khớp Run 5 (same + mixed + gc)",
+            "metric": "|r(same, mixed, gc, N, c) - r_Run5(N, c)|, thứ tự T(c)",
+            "decision_rule": "Cấu hình same + mixed + gc thỏa tiêu chí H17: |r - r_Run5(N, c)| <= 0.02 ở cả 9 ô VÀ thứ tự Score(30) < Score(10) < Score(7) < Score(1) ở cả 3 N",
+            "threshold": "<= 0.02 (9/9 ô) & thứ tự đúng (3/3 N)",
+        },
+        {
             "id": "I1",
             "short_description": "Khoảng 20% với khóa nguyên thủy int[] (xác nhận [KP] D3)",
             "metric": "CI hai tầng 95% cận trên của r_int(c*)",
@@ -246,7 +260,7 @@ def main():
     df_hyp = build_hypotheses()
     hyp_out = args.out_dir / "T11_hypotheses.csv"
     df_hyp.to_csv(hyp_out, index=False)
-    print(f"Đã ghi {len(df_hyp)} giả thuyết (J1-J5, I1, I1b, I2-I4, B1, B2) vào: {hyp_out}")
+    print(f"Đã ghi {len(df_hyp)} giả thuyết (J1-J7, I1, I1b, I2-I4, B1, B2) vào: {hyp_out}")
 
 
 if __name__ == "__main__":
