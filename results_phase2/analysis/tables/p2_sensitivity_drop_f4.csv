@@ -1,0 +1,9 @@
+hypothesis,verdict_5forks,verdict_4forks,verdict_changed,metrics_5forks,metrics_4forks,note,label
+H1,ĐẠT,ĐẠT,False,2^12:c*=32; 2^14:c*=32; 2^16:c*=31; 2^18:c*=31; 2^19:c*=30,2^12:c*=32; 2^14:c*=32; 2^16:c*=31; 2^18:c*=31; 2^19:c*=32,Kết luận chính dùng đủ 5 fork (§0 hợp đồng),[KP]
+H2,ĐẠT,ĐẠT,False,"min_ci2_lo=1.0033, max_p_holm=0.0032","min_ci2_lo=1.0019, max_p_holm=0.0152",Kết luận chính dùng đủ 5 fork (§0 hợp đồng),[KP]
+H3,ĐẠT,ĐẠT,False,2^12:|d|=0.0041; 2^16:|d|=0.0007; 2^19:|d|=0.0016,2^12:|d|=0.0045; 2^16:|d|=0.0011; 2^19:|d|=0.0036,Kết luận chính dùng đủ 5 fork (§0 hợp đồng),[KP]
+H4,ĐẠT,ĐẠT,False,"ci_12<16:True, ci_16<19:True, max_dec=0.0000","ci_12<16:True, ci_16<19:True, max_dec=0.0000",Kết luận chính dùng đủ 5 fork (§0 hợp đồng),[KP]
+H5,ĐẠT,ĐẠT,False,min r(c*)=0.8443,min r(c*)=0.8439,Kết luận chính dùng đủ 5 fork (§0 hợp đồng),[KP]
+H10,ĐẠT,ĐẠT,False,"RMSE 2^14=0.0042, 2^18=0.0040","RMSE 2^14=0.0037, 2^18=0.0033",Kết luận chính dùng đủ 5 fork (§0 hợp đồng),[KP]
+H10b,ĐẠT,ĐẠT,False,"RMSE 2^14=0.0048, 2^18=0.0048","RMSE 2^14=0.0036, 2^18=0.0031",Kết luận chính dùng đủ 5 fork (§0 hợp đồng),[KP]
+H17,KHÔNG ĐẠT,KHÔNG ĐẠT,False,"max|d|=0.2937, order_all=False","max|d|=0.2905, order_all=False",Kết luận chính dùng đủ 5 fork (§0 hợp đồng),[KP]

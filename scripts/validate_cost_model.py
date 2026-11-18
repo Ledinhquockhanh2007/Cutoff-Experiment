@@ -179,6 +179,14 @@ def validate_other_distributions(df: pd.DataFrame, m2_coef: dict, r_by_cutoff: p
     return pd.DataFrame(detail_rows), pd.DataFrame(summary_rows)
 
 
+def calibrate_alpha_c1(T_c1, base_c1, ml_b456_c1) -> float:
+    """Hiệu chỉnh hệ số alpha_s của M2 từ các hàng c = 1 bằng bình phương tối thiểu không trọng số."""
+    t_arr = np.asarray(T_c1, dtype=float)
+    b_arr = np.asarray(base_c1, dtype=float)
+    m_arr = np.asarray(ml_b456_c1, dtype=float)
+    return float(np.sum((t_arr - b_arr) * m_arr) / np.sum(m_arr ** 2))
+
+
 def validate_2e19_loso(df: pd.DataFrame, r_by_cutoff: pd.DataFrame) -> tuple[pd.DataFrame, dict]:
     """2. Thẩm định thật trên thang 2^19 bằng LOSO (khớp trên 2^12 + 2^16, dự đoán 2^19)."""
     df_rnd = df[df["distribution"] == "random"].copy()
@@ -203,7 +211,7 @@ def validate_2e19_loso(df: pd.DataFrame, r_by_cutoff: pd.DataFrame) -> tuple[pd.
     c1_base = base_te[df_te["cutoff"] == 1]
 
     # Hiệu chỉnh alpha_19 từ c=1
-    alpha_calib = np.sum((c1_te["T"] - c1_base) * c1_te["ML_b456"]) / np.sum(c1_te["ML_b456"] ** 2)
+    alpha_calib = calibrate_alpha_c1(c1_te["T"], c1_base, c1_te["ML_b456"])
     df_te["That_loso"] = base_te + alpha_calib * df_te["ML_b456"]
 
     t1_map = df_te[df_te["cutoff"] == 1].set_index("N")["That_loso"]

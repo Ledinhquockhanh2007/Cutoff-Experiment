@@ -1,0 +1,3 @@
+scale,rmse_interp,rmse_calib,c_star_M2,c_star_meas,near_optimal_2pct_meas,c_star_M2_in_near_opt,alpha_interp,alpha_calib,rmse_gd1_loso_2e19_ref,pass_H10,pass_H10b,label
+2^14,0.004176808133933012,0.004763695032902064,40,32,"16..32, 40, 48",True,8.931287836620223,9.999869966862772,0.0029,True,True,[ĐK]
+2^18,0.003998665132841704,0.004770954554509785,40,31,"13..32, 40, 48",True,10.650195743613338,12.295296923977515,0.0029,True,True,[ĐK]

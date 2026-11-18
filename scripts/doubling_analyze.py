@@ -324,11 +324,15 @@ def compute_geometric_means(df: pd.DataFrame) -> pd.DataFrame:
 def compute_r_and_rbar(df_g: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     """
     Tính R_k(f, c) = G(f, 2^(k+1), c) / G(f, 2^k, c)
-    và R_bar_k(c) = trung bình hình học qua 3 fork.
+    và R_bar_k(c) = trung bình hình học qua mọi fork có mặt trong df_g.
+    (Tổng quát hóa từ 3 fork sang F fork bất kỳ và dải k bất kỳ; giữ nguyên hành vi với 3 fork.)
     """
     piv = df_g.pivot(index=["fork", "cutoff"], columns="k", values="G")
+    ks = sorted(int(k) for k in piv.columns)
     records = []
-    for k in range(K_MIN, K_MAX):
+    for k in ks:
+        if (k + 1) not in piv.columns:
+            continue
         r_series = piv[k + 1] / piv[k]
         for (f, c), r_val in r_series.items():
             records.append({
@@ -341,25 +345,35 @@ def compute_r_and_rbar(df_g: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
             })
     df_r = pd.DataFrame(records)
 
-    # R_bar qua 3 fork
+    forks = sorted(int(f) for f in df_r["fork"].unique())
+    n_forks = len(forks)
+
+    # R_bar, sd_fork, SE_k qua n_forks fork
     summary_records = []
     for (c, k), group in df_r.groupby(["cutoff", "k_from"]):
-        r_f1 = group[group["fork"] == 1]["R"].values[0]
-        r_f2 = group[group["fork"] == 2]["R"].values[0]
-        r_f3 = group[group["fork"] == 3]["R"].values[0]
-        r_bar = float((r_f1 * r_f2 * r_f3) ** (1.0 / 3.0))
-        summary_records.append({
+        r_by_f = {int(f): float(group[group["fork"] == f]["R"].values[0]) for f in forks}
+        r_vals = [r_by_f[f] for f in forks]
+        ln_r_vals = [float(np.log(v)) for v in r_vals]
+        ln_r_bar = float(np.mean(ln_r_vals))
+        r_bar = float(np.exp(ln_r_bar))
+        sd_fork = float(np.std(ln_r_vals, ddof=1)) if n_forks > 1 else float("nan")
+        se_k = sd_fork / math.sqrt(n_forks) if n_forks > 1 else float("nan")
+        rec = {
             "cutoff": c,
             "k_from": k,
             "k_to": k + 1,
-            "R_fork1": r_f1,
-            "R_fork2": r_f2,
-            "R_fork3": r_f3,
-            "R_min": min(r_f1, r_f2, r_f3),
-            "R_max": max(r_f1, r_f2, r_f3),
+        }
+        for f in forks:
+            rec[f"R_fork{f}"] = r_by_f[f]
+        rec.update({
+            "R_min": min(r_vals),
+            "R_max": max(r_vals),
             "R_bar": r_bar,
-            "ln_R_bar": float(np.log(r_bar)),
+            "ln_R_bar": ln_r_bar,
+            "sd_fork": sd_fork,
+            "SE_k": se_k,
         })
+        summary_records.append(rec)
     df_rbar = pd.DataFrame(summary_records)
     return df_r, df_rbar
 
@@ -743,42 +757,39 @@ def analyze_a5_same_tree_control(df_g: pd.DataFrame) -> tuple[pd.DataFrame, pd.D
             })
     df_delta = pd.DataFrame(delta_rows)
 
+    forks = sorted(int(f) for f in df_delta["fork"].unique())
+
     # Tóm tắt theo cặp
     summary_records = []
     for pair, group in df_delta.groupby("pair"):
         mean_all = float(group["delta"].mean())
         sd_all = float(group["delta"].std(ddof=1))
-        f1_mean = float(group[group["fork"] == 1]["delta"].mean())
-        f2_mean = float(group[group["fork"] == 2]["delta"].mean())
-        f3_mean = float(group[group["fork"] == 3]["delta"].mean())
         warning = abs(mean_all) > 0.01
-        summary_records.append({
+        rec = {
             "pair": pair,
             "mean_delta": mean_all,
             "sd_delta": sd_all,
-            "mean_delta_fork1": f1_mean,
-            "mean_delta_fork2": f2_mean,
-            "mean_delta_fork3": f3_mean,
-            "warning_order_effect": warning,
-        })
+        }
+        for f in forks:
+            rec[f"mean_delta_fork{f}"] = float(group[group["fork"] == f]["delta"].mean())
+        rec["warning_order_effect"] = warning
+        summary_records.append(rec)
     df_pair_summary = pd.DataFrame(summary_records)
 
     # Tóm tắt theo (N, pair)
     n_records = []
     for (pair, k, n), group in df_delta.groupby(["pair", "k", "N"]):
-        d1 = group[group["fork"] == 1]["delta"].values[0]
-        d2 = group[group["fork"] == 2]["delta"].values[0]
-        d3 = group[group["fork"] == 3]["delta"].values[0]
-        d_mean = (d1 + d2 + d3) / 3.0
-        n_records.append({
+        d_by_f = {int(f): float(group[group["fork"] == f]["delta"].values[0]) for f in forks}
+        d_mean = float(np.mean([d_by_f[f] for f in forks]))
+        rec = {
             "pair": pair,
             "k": k,
             "N": n,
-            "delta_fork1": d1,
-            "delta_fork2": d2,
-            "delta_fork3": d3,
-            "delta_mean": d_mean,
-        })
+        }
+        for f in forks:
+            rec[f"delta_fork{f}"] = d_by_f[f]
+        rec["delta_mean"] = d_mean
+        n_records.append(rec)
     df_by_n = pd.DataFrame(n_records)
     return df_pair_summary, df_by_n
 
