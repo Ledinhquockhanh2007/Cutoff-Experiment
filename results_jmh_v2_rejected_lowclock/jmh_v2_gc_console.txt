@@ -1,0 +1,2105 @@
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+1-LTS
+# VM invoker: C:\Program Files\Microsoft\jdk-25.0.4.101-hotspot\bin\java.exe
+# VM options: -Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: bench.MergeCutoffBenchmarkV2.sort
+# Parameters: (cutoff = 1, input = same, n = 4096, profile = mixed, reset = gc)
+
+# Run progress: 0.00% complete, ETA 00:18:00
+# Fork: 1 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 468.967 us/op
+# Warmup Iteration   2: 493.288 us/op
+# Warmup Iteration   3: 466.886 us/op
+# Warmup Iteration   4: 466.240 us/op
+# Warmup Iteration   5: 472.395 us/op
+Iteration   1: 466.205 us/op
+Iteration   2: 474.291 us/op
+Iteration   3: 469.617 us/op
+Iteration   4: 466.636 us/op
+Iteration   5: 471.035 us/op
+Iteration   6: 470.087 us/op
+Iteration   7: 473.939 us/op
+Iteration   8: 479.194 us/op
+Iteration   9: 465.881 us/op
+Iteration  10: 467.084 us/op
+
+# Run progress: 1.39% complete, ETA 00:23:46
+# Fork: 2 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 483.008 us/op
+# Warmup Iteration   2: 492.447 us/op
+# Warmup Iteration   3: 480.334 us/op
+# Warmup Iteration   4: 481.916 us/op
+# Warmup Iteration   5: 484.903 us/op
+Iteration   1: 482.274 us/op
+Iteration   2: 489.036 us/op
+Iteration   3: 483.574 us/op
+Iteration   4: 481.983 us/op
+Iteration   5: 487.533 us/op
+Iteration   6: 481.203 us/op
+Iteration   7: 483.389 us/op
+Iteration   8: 481.773 us/op
+Iteration   9: 482.101 us/op
+Iteration  10: 485.885 us/op
+
+# Run progress: 2.78% complete, ETA 00:23:22
+# Fork: 3 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 459.397 us/op
+# Warmup Iteration   2: 457.156 us/op
+# Warmup Iteration   3: 461.114 us/op
+# Warmup Iteration   4: 452.954 us/op
+# Warmup Iteration   5: 453.396 us/op
+Iteration   1: 454.377 us/op
+Iteration   2: 452.687 us/op
+Iteration   3: 452.084 us/op
+Iteration   4: 452.189 us/op
+Iteration   5: 452.562 us/op
+Iteration   6: 452.413 us/op
+Iteration   7: 452.119 us/op
+Iteration   8: 454.552 us/op
+Iteration   9: 458.291 us/op
+Iteration  10: 452.677 us/op
+
+
+Result "bench.MergeCutoffBenchmarkV2.sort":
+  469.222 ±(99.9%) 8.715 us/op [Average]
+  (min, avg, max) = (452.084, 469.222, 489.036), stdev = 13.044
+  CI (99.9%): [460.508, 477.937] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+1-LTS
+# VM invoker: C:\Program Files\Microsoft\jdk-25.0.4.101-hotspot\bin\java.exe
+# VM options: -Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: bench.MergeCutoffBenchmarkV2.sort
+# Parameters: (cutoff = 1, input = same, n = 65536, profile = mixed, reset = gc)
+
+# Run progress: 4.17% complete, ETA 00:22:51
+# Fork: 1 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 10738.253 us/op
+# Warmup Iteration   2: 10721.887 us/op
+# Warmup Iteration   3: 10710.387 us/op
+# Warmup Iteration   4: 10731.558 us/op
+# Warmup Iteration   5: 10673.019 us/op
+Iteration   1: 10702.429 us/op
+Iteration   2: 10698.503 us/op
+Iteration   3: 10652.168 us/op
+Iteration   4: 10824.540 us/op
+Iteration   5: 10717.941 us/op
+Iteration   6: 10748.040 us/op
+Iteration   7: 10702.010 us/op
+Iteration   8: 10679.483 us/op
+Iteration   9: 10804.781 us/op
+Iteration  10: 10725.328 us/op
+
+# Run progress: 5.56% complete, ETA 00:22:33
+# Fork: 2 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 10470.211 us/op
+# Warmup Iteration   2: 10496.117 us/op
+# Warmup Iteration   3: 10449.232 us/op
+# Warmup Iteration   4: 10453.420 us/op
+# Warmup Iteration   5: 10536.893 us/op
+Iteration   1: 10435.010 us/op
+Iteration   2: 10459.133 us/op
+Iteration   3: 10440.732 us/op
+Iteration   4: 10448.253 us/op
+Iteration   5: 10456.132 us/op
+Iteration   6: 10548.300 us/op
+Iteration   7: 10492.983 us/op
+Iteration   8: 10525.435 us/op
+Iteration   9: 10427.214 us/op
+Iteration  10: 10438.339 us/op
+
+# Run progress: 6.94% complete, ETA 00:22:10
+# Fork: 3 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 10452.134 us/op
+# Warmup Iteration   2: 10452.864 us/op
+# Warmup Iteration   3: 10434.717 us/op
+# Warmup Iteration   4: 10440.136 us/op
+# Warmup Iteration   5: 10497.939 us/op
+Iteration   1: 10411.323 us/op
+Iteration   2: 10391.961 us/op
+Iteration   3: 10453.499 us/op
+Iteration   4: 10413.281 us/op
+Iteration   5: 10412.332 us/op
+Iteration   6: 10380.200 us/op
+Iteration   7: 10454.543 us/op
+Iteration   8: 10455.997 us/op
+Iteration   9: 10400.520 us/op
+Iteration  10: 10434.989 us/op
+
+
+Result "bench.MergeCutoffBenchmarkV2.sort":
+  10537.847 ±(99.9%) 95.063 us/op [Average]
+  (min, avg, max) = (10380.200, 10537.847, 10824.540), stdev = 142.287
+  CI (99.9%): [10442.783, 10632.910] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+1-LTS
+# VM invoker: C:\Program Files\Microsoft\jdk-25.0.4.101-hotspot\bin\java.exe
+# VM options: -Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: bench.MergeCutoffBenchmarkV2.sort
+# Parameters: (cutoff = 1, input = same, n = 524288, profile = mixed, reset = gc)
+
+# Run progress: 8.33% complete, ETA 00:21:48
+# Fork: 1 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 103743.389 us/op
+# Warmup Iteration   2: 103741.478 us/op
+# Warmup Iteration   3: 104912.978 us/op
+# Warmup Iteration   4: 103033.978 us/op
+# Warmup Iteration   5: 104630.933 us/op
+Iteration   1: 104241.489 us/op
+Iteration   2: 102646.378 us/op
+Iteration   3: 104472.011 us/op
+Iteration   4: 103600.422 us/op
+Iteration   5: 104027.356 us/op
+Iteration   6: 104093.222 us/op
+Iteration   7: 103780.767 us/op
+Iteration   8: 103961.733 us/op
+Iteration   9: 102786.044 us/op
+Iteration  10: 102863.700 us/op
+
+# Run progress: 9.72% complete, ETA 00:21:32
+# Fork: 2 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 107441.422 us/op
+# Warmup Iteration   2: 114018.378 us/op
+# Warmup Iteration   3: 116383.375 us/op
+# Warmup Iteration   4: 111705.963 us/op
+# Warmup Iteration   5: 110636.733 us/op
+Iteration   1: 108830.567 us/op
+Iteration   2: 106945.600 us/op
+Iteration   3: 106918.900 us/op
+Iteration   4: 107326.722 us/op
+Iteration   5: 106447.289 us/op
+Iteration   6: 108767.211 us/op
+Iteration   7: 111608.425 us/op
+Iteration   8: 108039.333 us/op
+Iteration   9: 106796.556 us/op
+Iteration  10: 107225.622 us/op
+
+# Run progress: 11.11% complete, ETA 00:21:19
+# Fork: 3 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 103522.322 us/op
+# Warmup Iteration   2: 104726.978 us/op
+# Warmup Iteration   3: 102613.244 us/op
+# Warmup Iteration   4: 102491.544 us/op
+# Warmup Iteration   5: 102625.811 us/op
+Iteration   1: 104343.433 us/op
+Iteration   2: 102828.989 us/op
+Iteration   3: 103441.022 us/op
+Iteration   4: 103818.233 us/op
+Iteration   5: 102409.978 us/op
+Iteration   6: 109647.163 us/op
+Iteration   7: 103161.322 us/op
+Iteration   8: 103410.267 us/op
+Iteration   9: 102961.667 us/op
+Iteration  10: 102435.244 us/op
+
+
+Result "bench.MergeCutoffBenchmarkV2.sort":
+  105127.889 ±(99.9%) 1666.856 us/op [Average]
+  (min, avg, max) = (102409.978, 105127.889, 111608.425), stdev = 2494.872
+  CI (99.9%): [103461.033, 106794.745] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+1-LTS
+# VM invoker: C:\Program Files\Microsoft\jdk-25.0.4.101-hotspot\bin\java.exe
+# VM options: -Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: bench.MergeCutoffBenchmarkV2.sort
+# Parameters: (cutoff = 1, input = fresh, n = 4096, profile = mixed, reset = gc)
+
+# Run progress: 12.50% complete, ETA 00:21:01
+# Fork: 1 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 479.577 us/op
+# Warmup Iteration   2: 478.078 us/op
+# Warmup Iteration   3: 473.730 us/op
+# Warmup Iteration   4: 477.275 us/op
+# Warmup Iteration   5: 474.196 us/op
+Iteration   1: 475.717 us/op
+Iteration   2: 475.894 us/op
+Iteration   3: 474.448 us/op
+Iteration   4: 474.432 us/op
+Iteration   5: 477.113 us/op
+Iteration   6: 473.098 us/op
+Iteration   7: 483.620 us/op
+Iteration   8: 472.231 us/op
+Iteration   9: 480.050 us/op
+Iteration  10: 474.390 us/op
+
+# Run progress: 13.89% complete, ETA 00:20:37
+# Fork: 2 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 479.409 us/op
+# Warmup Iteration   2: 489.601 us/op
+# Warmup Iteration   3: 482.757 us/op
+# Warmup Iteration   4: 482.935 us/op
+# Warmup Iteration   5: 480.284 us/op
+Iteration   1: 479.485 us/op
+Iteration   2: 480.380 us/op
+Iteration   3: 488.808 us/op
+Iteration   4: 486.487 us/op
+Iteration   5: 479.797 us/op
+Iteration   6: 480.427 us/op
+Iteration   7: 479.972 us/op
+Iteration   8: 481.800 us/op
+Iteration   9: 481.529 us/op
+Iteration  10: 480.762 us/op
+
+# Run progress: 15.28% complete, ETA 00:20:14
+# Fork: 3 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 480.271 us/op
+# Warmup Iteration   2: 480.993 us/op
+# Warmup Iteration   3: 482.387 us/op
+# Warmup Iteration   4: 487.551 us/op
+# Warmup Iteration   5: 488.813 us/op
+Iteration   1: 480.007 us/op
+Iteration   2: 484.420 us/op
+Iteration   3: 485.882 us/op
+Iteration   4: 482.555 us/op
+Iteration   5: 486.275 us/op
+Iteration   6: 480.352 us/op
+Iteration   7: 479.743 us/op
+Iteration   8: 486.418 us/op
+Iteration   9: 488.199 us/op
+Iteration  10: 484.336 us/op
+
+
+Result "bench.MergeCutoffBenchmarkV2.sort":
+  480.621 ±(99.9%) 3.040 us/op [Average]
+  (min, avg, max) = (472.231, 480.621, 488.808), stdev = 4.550
+  CI (99.9%): [477.581, 483.661] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+1-LTS
+# VM invoker: C:\Program Files\Microsoft\jdk-25.0.4.101-hotspot\bin\java.exe
+# VM options: -Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: bench.MergeCutoffBenchmarkV2.sort
+# Parameters: (cutoff = 1, input = fresh, n = 65536, profile = mixed, reset = gc)
+
+# Run progress: 16.67% complete, ETA 00:19:52
+# Fork: 1 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 10930.355 us/op
+# Warmup Iteration   2: 10913.955 us/op
+# Warmup Iteration   3: 10875.400 us/op
+# Warmup Iteration   4: 11000.379 us/op
+# Warmup Iteration   5: 10792.779 us/op
+Iteration   1: 10902.184 us/op
+Iteration   2: 10739.036 us/op
+Iteration   3: 10857.244 us/op
+Iteration   4: 10929.376 us/op
+Iteration   5: 10971.008 us/op
+Iteration   6: 10865.205 us/op
+Iteration   7: 10776.074 us/op
+Iteration   8: 10907.964 us/op
+Iteration   9: 11258.070 us/op
+Iteration  10: 10838.962 us/op
+
+# Run progress: 18.06% complete, ETA 00:19:32
+# Fork: 2 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 10887.113 us/op
+# Warmup Iteration   2: 10836.221 us/op
+# Warmup Iteration   3: 10932.413 us/op
+# Warmup Iteration   4: 10856.372 us/op
+# Warmup Iteration   5: 11021.197 us/op
+Iteration   1: 10876.764 us/op
+Iteration   2: 11015.405 us/op
+Iteration   3: 11260.584 us/op
+Iteration   4: 10905.415 us/op
+Iteration   5: 10952.900 us/op
+Iteration   6: 10855.046 us/op
+Iteration   7: 10844.590 us/op
+Iteration   8: 10834.833 us/op
+Iteration   9: 10920.284 us/op
+Iteration  10: 11020.000 us/op
+
+# Run progress: 19.44% complete, ETA 00:19:12
+# Fork: 3 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 11272.121 us/op
+# Warmup Iteration   2: 11170.708 us/op
+# Warmup Iteration   3: 11177.077 us/op
+# Warmup Iteration   4: 11096.542 us/op
+# Warmup Iteration   5: 11258.008 us/op
+Iteration   1: 11283.157 us/op
+Iteration   2: 11304.073 us/op
+Iteration   3: 11232.755 us/op
+Iteration   4: 11035.336 us/op
+Iteration   5: 11085.350 us/op
+Iteration   6: 11154.266 us/op
+Iteration   7: 11227.339 us/op
+Iteration   8: 11096.192 us/op
+Iteration   9: 11082.821 us/op
+Iteration  10: 11289.147 us/op
+
+
+Result "bench.MergeCutoffBenchmarkV2.sort":
+  11010.713 ±(99.9%) 114.651 us/op [Average]
+  (min, avg, max) = (10739.036, 11010.713, 11304.073), stdev = 171.604
+  CI (99.9%): [10896.062, 11125.363] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+1-LTS
+# VM invoker: C:\Program Files\Microsoft\jdk-25.0.4.101-hotspot\bin\java.exe
+# VM options: -Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: bench.MergeCutoffBenchmarkV2.sort
+# Parameters: (cutoff = 1, input = fresh, n = 524288, profile = mixed, reset = gc)
+
+# Run progress: 20.83% complete, ETA 00:18:51
+# Fork: 1 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 122895.950 us/op
+# Warmup Iteration   2: 125327.667 us/op
+# Warmup Iteration   3: 124863.167 us/op
+# Warmup Iteration   4: 125303.217 us/op
+# Warmup Iteration   5: 130660.417 us/op
+Iteration   1: 122116.150 us/op
+Iteration   2: 124921.433 us/op
+Iteration   3: 125805.550 us/op
+Iteration   4: 157471.260 us/op
+Iteration   5: 172267.100 us/op
+Iteration   6: 139939.180 us/op
+Iteration   7: 145247.220 us/op
+Iteration   8: 167278.120 us/op
+Iteration   9: 160430.260 us/op
+Iteration  10: 125886.983 us/op
+
+# Run progress: 22.22% complete, ETA 00:18:38
+# Fork: 2 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 127566.217 us/op
+# Warmup Iteration   2: 132960.317 us/op
+# Warmup Iteration   3: 131170.500 us/op
+# Warmup Iteration   4: 129634.617 us/op
+# Warmup Iteration   5: 129282.950 us/op
+Iteration   1: 131287.117 us/op
+Iteration   2: 128612.533 us/op
+Iteration   3: 129479.850 us/op
+Iteration   4: 126691.600 us/op
+Iteration   5: 132894.483 us/op
+Iteration   6: 126762.600 us/op
+Iteration   7: 130245.667 us/op
+Iteration   8: 132941.650 us/op
+Iteration   9: 125603.900 us/op
+Iteration  10: 128510.550 us/op
+
+# Run progress: 23.61% complete, ETA 00:18:24
+# Fork: 3 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 121106.817 us/op
+# Warmup Iteration   2: 126009.650 us/op
+# Warmup Iteration   3: 119370.367 us/op
+# Warmup Iteration   4: 123277.867 us/op
+# Warmup Iteration   5: 121546.083 us/op
+Iteration   1: 120354.833 us/op
+Iteration   2: 123582.683 us/op
+Iteration   3: 121593.033 us/op
+Iteration   4: 123001.567 us/op
+Iteration   5: 122064.450 us/op
+Iteration   6: 124291.133 us/op
+Iteration   7: 122987.183 us/op
+Iteration   8: 127230.650 us/op
+Iteration   9: 121618.367 us/op
+Iteration  10: 120533.333 us/op
+
+
+Result "bench.MergeCutoffBenchmarkV2.sort":
+  132055.015 ±(99.9%) 9459.883 us/op [Average]
+  (min, avg, max) = (120354.833, 132055.015, 172267.100), stdev = 14159.108
+  CI (99.9%): [122595.132, 141514.897] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+1-LTS
+# VM invoker: C:\Program Files\Microsoft\jdk-25.0.4.101-hotspot\bin\java.exe
+# VM options: -Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: bench.MergeCutoffBenchmarkV2.sort
+# Parameters: (cutoff = 7, input = same, n = 4096, profile = mixed, reset = gc)
+
+# Run progress: 25.00% complete, ETA 00:18:07
+# Fork: 1 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 451.333 us/op
+# Warmup Iteration   2: 447.328 us/op
+# Warmup Iteration   3: 445.507 us/op
+# Warmup Iteration   4: 444.809 us/op
+# Warmup Iteration   5: 450.752 us/op
+Iteration   1: 446.107 us/op
+Iteration   2: 450.158 us/op
+Iteration   3: 447.115 us/op
+Iteration   4: 453.654 us/op
+Iteration   5: 452.427 us/op
+Iteration   6: 446.882 us/op
+Iteration   7: 446.878 us/op
+Iteration   8: 446.425 us/op
+Iteration   9: 460.128 us/op
+Iteration  10: 449.580 us/op
+
+# Run progress: 26.39% complete, ETA 00:17:45
+# Fork: 2 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 431.901 us/op
+# Warmup Iteration   2: 435.185 us/op
+# Warmup Iteration   3: 432.631 us/op
+# Warmup Iteration   4: 431.658 us/op
+# Warmup Iteration   5: 432.054 us/op
+Iteration   1: 431.360 us/op
+Iteration   2: 430.786 us/op
+Iteration   3: 429.954 us/op
+Iteration   4: 434.703 us/op
+Iteration   5: 431.449 us/op
+Iteration   6: 430.781 us/op
+Iteration   7: 430.809 us/op
+Iteration   8: 432.762 us/op
+Iteration   9: 437.055 us/op
+Iteration  10: 433.142 us/op
+
+# Run progress: 27.78% complete, ETA 00:17:23
+# Fork: 3 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 442.584 us/op
+# Warmup Iteration   2: 444.735 us/op
+# Warmup Iteration   3: 443.787 us/op
+# Warmup Iteration   4: 441.303 us/op
+# Warmup Iteration   5: 445.627 us/op
+Iteration   1: 441.853 us/op
+Iteration   2: 443.181 us/op
+Iteration   3: 441.721 us/op
+Iteration   4: 448.143 us/op
+Iteration   5: 442.718 us/op
+Iteration   6: 441.072 us/op
+Iteration   7: 443.671 us/op
+Iteration   8: 440.225 us/op
+Iteration   9: 440.728 us/op
+Iteration  10: 442.480 us/op
+
+
+Result "bench.MergeCutoffBenchmarkV2.sort":
+  441.598 ±(99.9%) 5.320 us/op [Average]
+  (min, avg, max) = (429.954, 441.598, 460.128), stdev = 7.963
+  CI (99.9%): [436.278, 446.919] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+1-LTS
+# VM invoker: C:\Program Files\Microsoft\jdk-25.0.4.101-hotspot\bin\java.exe
+# VM options: -Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: bench.MergeCutoffBenchmarkV2.sort
+# Parameters: (cutoff = 7, input = same, n = 65536, profile = mixed, reset = gc)
+
+# Run progress: 29.17% complete, ETA 00:17:02
+# Fork: 1 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 10147.494 us/op
+# Warmup Iteration   2: 10096.083 us/op
+# Warmup Iteration   3: 10118.065 us/op
+# Warmup Iteration   4: 10110.489 us/op
+# Warmup Iteration   5: 10131.596 us/op
+Iteration   1: 10176.704 us/op
+Iteration   2: 10093.203 us/op
+Iteration   3: 10188.467 us/op
+Iteration   4: 10139.770 us/op
+Iteration   5: 10142.037 us/op
+Iteration   6: 10143.021 us/op
+Iteration   7: 10099.515 us/op
+Iteration   8: 10087.582 us/op
+Iteration   9: 10111.824 us/op
+Iteration  10: 10079.189 us/op
+
+# Run progress: 30.56% complete, ETA 00:16:41
+# Fork: 2 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 9719.309 us/op
+# Warmup Iteration   2: 9810.254 us/op
+# Warmup Iteration   3: 9795.637 us/op
+# Warmup Iteration   4: 9810.783 us/op
+# Warmup Iteration   5: 9737.874 us/op
+Iteration   1: 9747.133 us/op
+Iteration   2: 9818.250 us/op
+Iteration   3: 9731.714 us/op
+Iteration   4: 9696.597 us/op
+Iteration   5: 9712.777 us/op
+Iteration   6: 9754.385 us/op
+Iteration   7: 9761.792 us/op
+Iteration   8: 9774.830 us/op
+Iteration   9: 9777.204 us/op
+Iteration  10: 9753.123 us/op
+
+# Run progress: 31.94% complete, ETA 00:16:20
+# Fork: 3 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 9672.329 us/op
+# Warmup Iteration   2: 9671.212 us/op
+# Warmup Iteration   3: 9753.858 us/op
+# Warmup Iteration   4: 9662.726 us/op
+# Warmup Iteration   5: 9651.246 us/op
+Iteration   1: 9679.870 us/op
+Iteration   2: 9701.127 us/op
+Iteration   3: 9701.735 us/op
+Iteration   4: 9664.700 us/op
+Iteration   5: 9657.073 us/op
+Iteration   6: 9696.205 us/op
+Iteration   7: 9644.516 us/op
+Iteration   8: 9728.559 us/op
+Iteration   9: 9687.523 us/op
+Iteration  10: 9674.127 us/op
+
+
+Result "bench.MergeCutoffBenchmarkV2.sort":
+  9854.152 ±(99.9%) 133.774 us/op [Average]
+  (min, avg, max) = (9644.516, 9854.152, 10188.467), stdev = 200.226
+  CI (99.9%): [9720.378, 9987.925] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+1-LTS
+# VM invoker: C:\Program Files\Microsoft\jdk-25.0.4.101-hotspot\bin\java.exe
+# VM options: -Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: bench.MergeCutoffBenchmarkV2.sort
+# Parameters: (cutoff = 7, input = same, n = 524288, profile = mixed, reset = gc)
+
+# Run progress: 33.33% complete, ETA 00:15:59
+# Fork: 1 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 99129.222 us/op
+# Warmup Iteration   2: 98916.589 us/op
+# Warmup Iteration   3: 99162.744 us/op
+# Warmup Iteration   4: 100288.633 us/op
+# Warmup Iteration   5: 99613.711 us/op
+Iteration   1: 100303.700 us/op
+Iteration   2: 99386.622 us/op
+Iteration   3: 98712.789 us/op
+Iteration   4: 99696.456 us/op
+Iteration   5: 101475.522 us/op
+Iteration   6: 99321.378 us/op
+Iteration   7: 99536.900 us/op
+Iteration   8: 98273.680 us/op
+Iteration   9: 99404.589 us/op
+Iteration  10: 99739.078 us/op
+
+# Run progress: 34.72% complete, ETA 00:15:38
+# Fork: 2 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 106045.411 us/op
+# Warmup Iteration   2: 105267.778 us/op
+# Warmup Iteration   3: 105565.444 us/op
+# Warmup Iteration   4: 108242.289 us/op
+# Warmup Iteration   5: 106725.800 us/op
+Iteration   1: 107116.778 us/op
+Iteration   2: 105357.167 us/op
+Iteration   3: 105333.544 us/op
+Iteration   4: 107831.011 us/op
+Iteration   5: 105994.267 us/op
+Iteration   6: 105813.467 us/op
+Iteration   7: 106231.467 us/op
+Iteration   8: 105700.111 us/op
+Iteration   9: 105693.622 us/op
+Iteration  10: 106771.978 us/op
+
+# Run progress: 36.11% complete, ETA 00:15:20
+# Fork: 3 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 101183.078 us/op
+# Warmup Iteration   2: 100098.678 us/op
+# Warmup Iteration   3: 100436.289 us/op
+# Warmup Iteration   4: 101236.689 us/op
+# Warmup Iteration   5: 102839.800 us/op
+Iteration   1: 100332.222 us/op
+Iteration   2: 101668.022 us/op
+Iteration   3: 100393.278 us/op
+Iteration   4: 102833.167 us/op
+Iteration   5: 104065.222 us/op
+Iteration   6: 100858.778 us/op
+Iteration   7: 100332.311 us/op
+Iteration   8: 101616.056 us/op
+Iteration   9: 101792.467 us/op
+Iteration  10: 101610.833 us/op
+
+
+Result "bench.MergeCutoffBenchmarkV2.sort":
+  102439.883 ±(99.9%) 1981.925 us/op [Average]
+  (min, avg, max) = (98273.680, 102439.883, 107831.011), stdev = 2966.453
+  CI (99.9%): [100457.957, 104421.808] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+1-LTS
+# VM invoker: C:\Program Files\Microsoft\jdk-25.0.4.101-hotspot\bin\java.exe
+# VM options: -Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: bench.MergeCutoffBenchmarkV2.sort
+# Parameters: (cutoff = 7, input = fresh, n = 4096, profile = mixed, reset = gc)
+
+# Run progress: 37.50% complete, ETA 00:15:00
+# Fork: 1 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 436.897 us/op
+# Warmup Iteration   2: 430.929 us/op
+# Warmup Iteration   3: 435.206 us/op
+# Warmup Iteration   4: 429.238 us/op
+# Warmup Iteration   5: 435.969 us/op
+Iteration   1: 429.481 us/op
+Iteration   2: 430.089 us/op
+Iteration   3: 429.478 us/op
+Iteration   4: 438.566 us/op
+Iteration   5: 432.526 us/op
+Iteration   6: 431.482 us/op
+Iteration   7: 435.074 us/op
+Iteration   8: 440.639 us/op
+Iteration   9: 429.324 us/op
+Iteration  10: 436.962 us/op
+
+# Run progress: 38.89% complete, ETA 00:14:39
+# Fork: 2 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 443.432 us/op
+# Warmup Iteration   2: 434.375 us/op
+# Warmup Iteration   3: 436.600 us/op
+# Warmup Iteration   4: 436.078 us/op
+# Warmup Iteration   5: 436.682 us/op
+Iteration   1: 441.993 us/op
+Iteration   2: 437.540 us/op
+Iteration   3: 439.378 us/op
+Iteration   4: 440.053 us/op
+Iteration   5: 437.112 us/op
+Iteration   6: 438.295 us/op
+Iteration   7: 434.611 us/op
+Iteration   8: 435.877 us/op
+Iteration   9: 436.635 us/op
+Iteration  10: 440.821 us/op
+
+# Run progress: 40.28% complete, ETA 00:14:18
+# Fork: 3 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 448.560 us/op
+# Warmup Iteration   2: 449.248 us/op
+# Warmup Iteration   3: 445.420 us/op
+# Warmup Iteration   4: 446.858 us/op
+# Warmup Iteration   5: 445.612 us/op
+Iteration   1: 446.255 us/op
+Iteration   2: 449.901 us/op
+Iteration   3: 447.651 us/op
+Iteration   4: 456.398 us/op
+Iteration   5: 450.221 us/op
+Iteration   6: 446.528 us/op
+Iteration   7: 447.416 us/op
+Iteration   8: 446.355 us/op
+Iteration   9: 445.870 us/op
+Iteration  10: 445.748 us/op
+
+
+Result "bench.MergeCutoffBenchmarkV2.sort":
+  439.943 ±(99.9%) 4.728 us/op [Average]
+  (min, avg, max) = (429.324, 439.943, 456.398), stdev = 7.076
+  CI (99.9%): [435.215, 444.670] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+1-LTS
+# VM invoker: C:\Program Files\Microsoft\jdk-25.0.4.101-hotspot\bin\java.exe
+# VM options: -Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: bench.MergeCutoffBenchmarkV2.sort
+# Parameters: (cutoff = 7, input = fresh, n = 65536, profile = mixed, reset = gc)
+
+# Run progress: 41.67% complete, ETA 00:13:57
+# Fork: 1 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 10474.877 us/op
+# Warmup Iteration   2: 10552.931 us/op
+# Warmup Iteration   3: 10468.036 us/op
+# Warmup Iteration   4: 10467.974 us/op
+# Warmup Iteration   5: 10410.023 us/op
+Iteration   1: 10374.050 us/op
+Iteration   2: 10272.621 us/op
+Iteration   3: 10599.624 us/op
+Iteration   4: 10380.967 us/op
+Iteration   5: 10342.233 us/op
+Iteration   6: 10347.023 us/op
+Iteration   7: 10311.028 us/op
+Iteration   8: 10529.561 us/op
+Iteration   9: 10303.738 us/op
+Iteration  10: 10339.295 us/op
+
+# Run progress: 43.06% complete, ETA 00:13:37
+# Fork: 2 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 9979.546 us/op
+# Warmup Iteration   2: 10009.962 us/op
+# Warmup Iteration   3: 9971.987 us/op
+# Warmup Iteration   4: 10189.297 us/op
+# Warmup Iteration   5: 9903.085 us/op
+Iteration   1: 10015.750 us/op
+Iteration   2: 9920.590 us/op
+Iteration   3: 9934.798 us/op
+Iteration   4: 10122.068 us/op
+Iteration   5: 10036.453 us/op
+Iteration   6: 9912.230 us/op
+Iteration   7: 9959.400 us/op
+Iteration   8: 10007.213 us/op
+Iteration   9: 10137.262 us/op
+Iteration  10: 9950.243 us/op
+
+# Run progress: 44.44% complete, ETA 00:13:17
+# Fork: 3 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 10057.163 us/op
+# Warmup Iteration   2: 10024.698 us/op
+# Warmup Iteration   3: 10111.308 us/op
+# Warmup Iteration   4: 10070.485 us/op
+# Warmup Iteration   5: 10176.085 us/op
+Iteration   1: 9946.546 us/op
+Iteration   2: 10059.359 us/op
+Iteration   3: 9950.118 us/op
+Iteration   4: 10071.579 us/op
+Iteration   5: 10068.474 us/op
+Iteration   6: 10042.587 us/op
+Iteration   7: 10124.003 us/op
+Iteration   8: 10066.867 us/op
+Iteration   9: 9988.783 us/op
+Iteration  10: 10188.613 us/op
+
+
+Result "bench.MergeCutoffBenchmarkV2.sort":
+  10143.436 ±(99.9%) 127.589 us/op [Average]
+  (min, avg, max) = (9912.230, 10143.436, 10599.624), stdev = 190.969
+  CI (99.9%): [10015.847, 10271.024] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+1-LTS
+# VM invoker: C:\Program Files\Microsoft\jdk-25.0.4.101-hotspot\bin\java.exe
+# VM options: -Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: bench.MergeCutoffBenchmarkV2.sort
+# Parameters: (cutoff = 7, input = fresh, n = 524288, profile = mixed, reset = gc)
+
+# Run progress: 45.83% complete, ETA 00:12:56
+# Fork: 1 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 117024.933 us/op
+# Warmup Iteration   2: 119089.767 us/op
+# Warmup Iteration   3: 115625.817 us/op
+# Warmup Iteration   4: 123295.167 us/op
+# Warmup Iteration   5: 125370.417 us/op
+Iteration   1: 117199.400 us/op
+Iteration   2: 119230.550 us/op
+Iteration   3: 121266.517 us/op
+Iteration   4: 120937.067 us/op
+Iteration   5: 122494.717 us/op
+Iteration   6: 118988.533 us/op
+Iteration   7: 119516.333 us/op
+Iteration   8: 119179.767 us/op
+Iteration   9: 117972.967 us/op
+Iteration  10: 122782.800 us/op
+
+# Run progress: 47.22% complete, ETA 00:12:37
+# Fork: 2 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 116086.250 us/op
+# Warmup Iteration   2: 119508.333 us/op
+# Warmup Iteration   3: 124225.183 us/op
+# Warmup Iteration   4: 119090.017 us/op
+# Warmup Iteration   5: 119358.150 us/op
+Iteration   1: 116449.114 us/op
+Iteration   2: 120372.483 us/op
+Iteration   3: 115637.833 us/op
+Iteration   4: 125579.750 us/op
+Iteration   5: 115499.917 us/op
+Iteration   6: 122135.433 us/op
+Iteration   7: 118415.467 us/op
+Iteration   8: 118617.800 us/op
+Iteration   9: 118207.967 us/op
+Iteration  10: 118721.367 us/op
+
+# Run progress: 48.61% complete, ETA 00:12:19
+# Fork: 3 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 120843.950 us/op
+# Warmup Iteration   2: 122476.883 us/op
+# Warmup Iteration   3: 121043.717 us/op
+# Warmup Iteration   4: 125306.983 us/op
+# Warmup Iteration   5: 123161.050 us/op
+Iteration   1: 119795.167 us/op
+Iteration   2: 126146.733 us/op
+Iteration   3: 125433.350 us/op
+Iteration   4: 120582.433 us/op
+Iteration   5: 123355.233 us/op
+Iteration   6: 122883.217 us/op
+Iteration   7: 122671.767 us/op
+Iteration   8: 127211.633 us/op
+Iteration   9: 122718.367 us/op
+Iteration  10: 120718.150 us/op
+
+
+Result "bench.MergeCutoffBenchmarkV2.sort":
+  120690.728 ±(99.9%) 2030.680 us/op [Average]
+  (min, avg, max) = (115499.917, 120690.728, 127211.633), stdev = 3039.426
+  CI (99.9%): [118660.048, 122721.407] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+1-LTS
+# VM invoker: C:\Program Files\Microsoft\jdk-25.0.4.101-hotspot\bin\java.exe
+# VM options: -Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: bench.MergeCutoffBenchmarkV2.sort
+# Parameters: (cutoff = 10, input = same, n = 4096, profile = mixed, reset = gc)
+
+# Run progress: 50.00% complete, ETA 00:12:00
+# Fork: 1 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 416.006 us/op
+# Warmup Iteration   2: 415.408 us/op
+# Warmup Iteration   3: 418.955 us/op
+# Warmup Iteration   4: 413.948 us/op
+# Warmup Iteration   5: 413.527 us/op
+Iteration   1: 414.690 us/op
+Iteration   2: 414.757 us/op
+Iteration   3: 415.293 us/op
+Iteration   4: 422.510 us/op
+Iteration   5: 419.373 us/op
+Iteration   6: 414.345 us/op
+Iteration   7: 421.134 us/op
+Iteration   8: 413.579 us/op
+Iteration   9: 417.853 us/op
+Iteration  10: 413.704 us/op
+
+# Run progress: 51.39% complete, ETA 00:11:39
+# Fork: 2 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 431.142 us/op
+# Warmup Iteration   2: 430.342 us/op
+# Warmup Iteration   3: 430.147 us/op
+# Warmup Iteration   4: 430.739 us/op
+# Warmup Iteration   5: 433.125 us/op
+Iteration   1: 429.396 us/op
+Iteration   2: 432.530 us/op
+Iteration   3: 431.544 us/op
+Iteration   4: 430.717 us/op
+Iteration   5: 438.680 us/op
+Iteration   6: 435.730 us/op
+Iteration   7: 434.494 us/op
+Iteration   8: 430.073 us/op
+Iteration   9: 429.373 us/op
+Iteration  10: 430.852 us/op
+
+# Run progress: 52.78% complete, ETA 00:11:19
+# Fork: 3 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 408.282 us/op
+# Warmup Iteration   2: 400.155 us/op
+# Warmup Iteration   3: 402.098 us/op
+# Warmup Iteration   4: 401.574 us/op
+# Warmup Iteration   5: 401.344 us/op
+Iteration   1: 407.208 us/op
+Iteration   2: 400.780 us/op
+Iteration   3: 406.290 us/op
+Iteration   4: 400.302 us/op
+Iteration   5: 406.604 us/op
+Iteration   6: 402.230 us/op
+Iteration   7: 401.847 us/op
+Iteration   8: 403.548 us/op
+Iteration   9: 401.272 us/op
+Iteration  10: 402.013 us/op
+
+
+Result "bench.MergeCutoffBenchmarkV2.sort":
+  417.424 ±(99.9%) 8.313 us/op [Average]
+  (min, avg, max) = (400.302, 417.424, 438.680), stdev = 12.443
+  CI (99.9%): [409.111, 425.737] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+1-LTS
+# VM invoker: C:\Program Files\Microsoft\jdk-25.0.4.101-hotspot\bin\java.exe
+# VM options: -Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: bench.MergeCutoffBenchmarkV2.sort
+# Parameters: (cutoff = 10, input = same, n = 65536, profile = mixed, reset = gc)
+
+# Run progress: 54.17% complete, ETA 00:10:58
+# Fork: 1 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 9310.166 us/op
+# Warmup Iteration   2: 9431.664 us/op
+# Warmup Iteration   3: 9304.793 us/op
+# Warmup Iteration   4: 9292.337 us/op
+# Warmup Iteration   5: 9372.548 us/op
+Iteration   1: 9343.655 us/op
+Iteration   2: 9375.909 us/op
+Iteration   3: 9348.505 us/op
+Iteration   4: 9342.746 us/op
+Iteration   5: 9358.841 us/op
+Iteration   6: 9357.259 us/op
+Iteration   7: 9438.624 us/op
+Iteration   8: 9316.654 us/op
+Iteration   9: 9316.130 us/op
+Iteration  10: 9319.835 us/op
+
+# Run progress: 55.56% complete, ETA 00:10:38
+# Fork: 2 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 9638.539 us/op
+# Warmup Iteration   2: 9607.197 us/op
+# Warmup Iteration   3: 9562.374 us/op
+# Warmup Iteration   4: 9650.553 us/op
+# Warmup Iteration   5: 9606.124 us/op
+Iteration   1: 9630.934 us/op
+Iteration   2: 9641.628 us/op
+Iteration   3: 9700.294 us/op
+Iteration   4: 9610.407 us/op
+Iteration   5: 9591.969 us/op
+Iteration   6: 9597.269 us/op
+Iteration   7: 9642.877 us/op
+Iteration   8: 9780.357 us/op
+Iteration   9: 9594.865 us/op
+Iteration  10: 9673.153 us/op
+
+# Run progress: 56.94% complete, ETA 00:10:18
+# Fork: 3 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 9592.069 us/op
+# Warmup Iteration   2: 9623.538 us/op
+# Warmup Iteration   3: 9624.381 us/op
+# Warmup Iteration   4: 9655.314 us/op
+# Warmup Iteration   5: 9633.989 us/op
+Iteration   1: 9609.268 us/op
+Iteration   2: 9576.693 us/op
+Iteration   3: 9629.073 us/op
+Iteration   4: 9649.221 us/op
+Iteration   5: 9624.863 us/op
+Iteration   6: 9582.204 us/op
+Iteration   7: 9603.627 us/op
+Iteration   8: 9667.243 us/op
+Iteration   9: 9628.059 us/op
+Iteration  10: 9563.047 us/op
+
+
+Result "bench.MergeCutoffBenchmarkV2.sort":
+  9537.174 ±(99.9%) 93.964 us/op [Average]
+  (min, avg, max) = (9316.130, 9537.174, 9780.357), stdev = 140.641
+  CI (99.9%): [9443.209, 9631.138] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+1-LTS
+# VM invoker: C:\Program Files\Microsoft\jdk-25.0.4.101-hotspot\bin\java.exe
+# VM options: -Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: bench.MergeCutoffBenchmarkV2.sort
+# Parameters: (cutoff = 10, input = same, n = 524288, profile = mixed, reset = gc)
+
+# Run progress: 58.33% complete, ETA 00:09:57
+# Fork: 1 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 101662.478 us/op
+# Warmup Iteration   2: 103957.122 us/op
+# Warmup Iteration   3: 101587.289 us/op
+# Warmup Iteration   4: 102104.367 us/op
+# Warmup Iteration   5: 103039.989 us/op
+Iteration   1: 103211.922 us/op
+Iteration   2: 101497.856 us/op
+Iteration   3: 100874.100 us/op
+Iteration   4: 102220.944 us/op
+Iteration   5: 101860.878 us/op
+Iteration   6: 101052.789 us/op
+Iteration   7: 102357.378 us/op
+Iteration   8: 109650.622 us/op
+Iteration   9: 109256.463 us/op
+Iteration  10: 109066.922 us/op
+
+# Run progress: 59.72% complete, ETA 00:09:38
+# Fork: 2 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 101026.656 us/op
+# Warmup Iteration   2: 102656.833 us/op
+# Warmup Iteration   3: 101339.167 us/op
+# Warmup Iteration   4: 102439.467 us/op
+# Warmup Iteration   5: 101729.700 us/op
+Iteration   1: 104519.733 us/op
+Iteration   2: 102468.678 us/op
+Iteration   3: 101781.578 us/op
+Iteration   4: 102434.967 us/op
+Iteration   5: 101340.789 us/op
+Iteration   6: 102412.267 us/op
+Iteration   7: 100983.433 us/op
+Iteration   8: 101262.222 us/op
+Iteration   9: 103035.156 us/op
+Iteration  10: 101450.578 us/op
+
+# Run progress: 61.11% complete, ETA 00:09:18
+# Fork: 3 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 100362.911 us/op
+# Warmup Iteration   2: 102246.778 us/op
+# Warmup Iteration   3: 102873.444 us/op
+# Warmup Iteration   4: 100382.367 us/op
+# Warmup Iteration   5: 100725.533 us/op
+Iteration   1: 100793.544 us/op
+Iteration   2: 100924.511 us/op
+Iteration   3: 100323.211 us/op
+Iteration   4: 100659.633 us/op
+Iteration   5: 101160.778 us/op
+Iteration   6: 102153.978 us/op
+Iteration   7: 100003.733 us/op
+Iteration   8: 100775.378 us/op
+Iteration   9: 100663.756 us/op
+Iteration  10: 100520.144 us/op
+
+
+Result "bench.MergeCutoffBenchmarkV2.sort":
+  102357.265 ±(99.9%) 1706.304 us/op [Average]
+  (min, avg, max) = (100003.733, 102357.265, 109650.622), stdev = 2553.916
+  CI (99.9%): [100650.960, 104063.569] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+1-LTS
+# VM invoker: C:\Program Files\Microsoft\jdk-25.0.4.101-hotspot\bin\java.exe
+# VM options: -Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: bench.MergeCutoffBenchmarkV2.sort
+# Parameters: (cutoff = 10, input = fresh, n = 4096, profile = mixed, reset = gc)
+
+# Run progress: 62.50% complete, ETA 00:08:58
+# Fork: 1 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 431.320 us/op
+# Warmup Iteration   2: 431.288 us/op
+# Warmup Iteration   3: 431.264 us/op
+# Warmup Iteration   4: 430.652 us/op
+# Warmup Iteration   5: 433.455 us/op
+Iteration   1: 429.900 us/op
+Iteration   2: 430.433 us/op
+Iteration   3: 429.506 us/op
+Iteration   4: 430.325 us/op
+Iteration   5: 432.385 us/op
+Iteration   6: 435.648 us/op
+Iteration   7: 430.899 us/op
+Iteration   8: 435.896 us/op
+Iteration   9: 430.672 us/op
+Iteration  10: 436.280 us/op
+
+# Run progress: 63.89% complete, ETA 00:08:38
+# Fork: 2 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 436.916 us/op
+# Warmup Iteration   2: 434.514 us/op
+# Warmup Iteration   3: 439.103 us/op
+# Warmup Iteration   4: 439.298 us/op
+# Warmup Iteration   5: 432.944 us/op
+Iteration   1: 435.622 us/op
+Iteration   2: 434.193 us/op
+Iteration   3: 434.936 us/op
+Iteration   4: 434.669 us/op
+Iteration   5: 440.186 us/op
+Iteration   6: 436.053 us/op
+Iteration   7: 442.235 us/op
+Iteration   8: 440.175 us/op
+Iteration   9: 437.992 us/op
+Iteration  10: 433.674 us/op
+
+# Run progress: 65.28% complete, ETA 00:08:18
+# Fork: 3 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 428.487 us/op
+# Warmup Iteration   2: 430.453 us/op
+# Warmup Iteration   3: 426.739 us/op
+# Warmup Iteration   4: 427.803 us/op
+# Warmup Iteration   5: 428.531 us/op
+Iteration   1: 435.276 us/op
+Iteration   2: 430.018 us/op
+Iteration   3: 430.537 us/op
+Iteration   4: 427.588 us/op
+Iteration   5: 434.259 us/op
+Iteration   6: 427.700 us/op
+Iteration   7: 426.846 us/op
+Iteration   8: 432.225 us/op
+Iteration   9: 435.099 us/op
+Iteration  10: 428.898 us/op
+
+
+Result "bench.MergeCutoffBenchmarkV2.sort":
+  433.337 ±(99.9%) 2.618 us/op [Average]
+  (min, avg, max) = (426.846, 433.337, 442.235), stdev = 3.918
+  CI (99.9%): [430.720, 435.955] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+1-LTS
+# VM invoker: C:\Program Files\Microsoft\jdk-25.0.4.101-hotspot\bin\java.exe
+# VM options: -Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: bench.MergeCutoffBenchmarkV2.sort
+# Parameters: (cutoff = 10, input = fresh, n = 65536, profile = mixed, reset = gc)
+
+# Run progress: 66.67% complete, ETA 00:07:58
+# Fork: 1 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 9951.037 us/op
+# Warmup Iteration   2: 10042.553 us/op
+# Warmup Iteration   3: 10048.443 us/op
+# Warmup Iteration   4: 10002.245 us/op
+# Warmup Iteration   5: 9961.337 us/op
+Iteration   1: 10028.833 us/op
+Iteration   2: 10060.387 us/op
+Iteration   3: 9939.735 us/op
+Iteration   4: 9966.075 us/op
+Iteration   5: 10064.118 us/op
+Iteration   6: 9984.036 us/op
+Iteration   7: 10015.208 us/op
+Iteration   8: 10107.349 us/op
+Iteration   9: 10150.976 us/op
+Iteration  10: 9968.250 us/op
+
+# Run progress: 68.06% complete, ETA 00:07:38
+# Fork: 2 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 10076.033 us/op
+# Warmup Iteration   2: 10045.128 us/op
+# Warmup Iteration   3: 10087.318 us/op
+# Warmup Iteration   4: 10029.205 us/op
+# Warmup Iteration   5: 10113.544 us/op
+Iteration   1: 10037.895 us/op
+Iteration   2: 10026.213 us/op
+Iteration   3: 10182.426 us/op
+Iteration   4: 10176.113 us/op
+Iteration   5: 9974.930 us/op
+Iteration   6: 10046.472 us/op
+Iteration   7: 10105.928 us/op
+Iteration   8: 10060.410 us/op
+Iteration   9: 10117.056 us/op
+Iteration  10: 10099.749 us/op
+
+# Run progress: 69.44% complete, ETA 00:07:18
+# Fork: 3 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 11153.195 us/op
+# Warmup Iteration   2: 10900.422 us/op
+# Warmup Iteration   3: 10892.386 us/op
+# Warmup Iteration   4: 10676.490 us/op
+# Warmup Iteration   5: 11047.489 us/op
+Iteration   1: 10791.576 us/op
+Iteration   2: 10721.726 us/op
+Iteration   3: 10778.656 us/op
+Iteration   4: 10832.364 us/op
+Iteration   5: 10796.372 us/op
+Iteration   6: 11483.730 us/op
+Iteration   7: 11024.075 us/op
+Iteration   8: 11626.850 us/op
+Iteration   9: 10735.266 us/op
+Iteration  10: 10933.932 us/op
+
+
+Result "bench.MergeCutoffBenchmarkV2.sort":
+  10361.223 ±(99.9%) 319.524 us/op [Average]
+  (min, avg, max) = (9939.735, 10361.223, 11626.850), stdev = 478.249
+  CI (99.9%): [10041.699, 10680.748] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+1-LTS
+# VM invoker: C:\Program Files\Microsoft\jdk-25.0.4.101-hotspot\bin\java.exe
+# VM options: -Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: bench.MergeCutoffBenchmarkV2.sort
+# Parameters: (cutoff = 10, input = fresh, n = 524288, profile = mixed, reset = gc)
+
+# Run progress: 70.83% complete, ETA 00:06:58
+# Fork: 1 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 124505.650 us/op
+# Warmup Iteration   2: 122326.717 us/op
+# Warmup Iteration   3: 121370.333 us/op
+# Warmup Iteration   4: 122280.200 us/op
+# Warmup Iteration   5: 131491.000 us/op
+Iteration   1: 117188.733 us/op
+Iteration   2: 121324.000 us/op
+Iteration   3: 122968.733 us/op
+Iteration   4: 123228.100 us/op
+Iteration   5: 121003.633 us/op
+Iteration   6: 119666.600 us/op
+Iteration   7: 122657.017 us/op
+Iteration   8: 126172.450 us/op
+Iteration   9: 123624.067 us/op
+Iteration  10: 123039.583 us/op
+
+# Run progress: 72.22% complete, ETA 00:06:38
+# Fork: 2 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 122011.867 us/op
+# Warmup Iteration   2: 121411.583 us/op
+# Warmup Iteration   3: 119396.483 us/op
+# Warmup Iteration   4: 126308.217 us/op
+# Warmup Iteration   5: 124146.650 us/op
+Iteration   1: 117409.633 us/op
+Iteration   2: 121838.850 us/op
+Iteration   3: 125922.183 us/op
+Iteration   4: 118866.167 us/op
+Iteration   5: 120214.433 us/op
+Iteration   6: 117467.650 us/op
+Iteration   7: 132222.750 us/op
+Iteration   8: 130887.683 us/op
+Iteration   9: 119690.683 us/op
+Iteration  10: 122875.150 us/op
+
+# Run progress: 73.61% complete, ETA 00:06:19
+# Fork: 3 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 118925.017 us/op
+# Warmup Iteration   2: 119108.383 us/op
+# Warmup Iteration   3: 115958.867 us/op
+# Warmup Iteration   4: 123735.617 us/op
+# Warmup Iteration   5: 118314.500 us/op
+Iteration   1: 117177.200 us/op
+Iteration   2: 120658.067 us/op
+Iteration   3: 127007.533 us/op
+Iteration   4: 115118.400 us/op
+Iteration   5: 117313.683 us/op
+Iteration   6: 115255.883 us/op
+Iteration   7: 122173.833 us/op
+Iteration   8: 124374.267 us/op
+Iteration   9: 115287.000 us/op
+Iteration  10: 119289.533 us/op
+
+
+Result "bench.MergeCutoffBenchmarkV2.sort":
+  121397.450 ±(99.9%) 2844.858 us/op [Average]
+  (min, avg, max) = (115118.400, 121397.450, 132222.750), stdev = 4258.049
+  CI (99.9%): [118552.592, 124242.308] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+1-LTS
+# VM invoker: C:\Program Files\Microsoft\jdk-25.0.4.101-hotspot\bin\java.exe
+# VM options: -Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: bench.MergeCutoffBenchmarkV2.sort
+# Parameters: (cutoff = 30, input = same, n = 4096, profile = mixed, reset = gc)
+
+# Run progress: 75.00% complete, ETA 00:05:59
+# Fork: 1 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 393.453 us/op
+# Warmup Iteration   2: 391.677 us/op
+# Warmup Iteration   3: 391.919 us/op
+# Warmup Iteration   4: 398.542 us/op
+# Warmup Iteration   5: 392.504 us/op
+Iteration   1: 392.623 us/op
+Iteration   2: 392.806 us/op
+Iteration   3: 393.203 us/op
+Iteration   4: 393.994 us/op
+Iteration   5: 392.786 us/op
+Iteration   6: 393.673 us/op
+Iteration   7: 396.131 us/op
+Iteration   8: 393.000 us/op
+Iteration   9: 398.802 us/op
+Iteration  10: 392.136 us/op
+
+# Run progress: 76.39% complete, ETA 00:05:39
+# Fork: 2 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 392.856 us/op
+# Warmup Iteration   2: 392.818 us/op
+# Warmup Iteration   3: 394.059 us/op
+# Warmup Iteration   4: 393.023 us/op
+# Warmup Iteration   5: 397.890 us/op
+Iteration   1: 393.462 us/op
+Iteration   2: 390.872 us/op
+Iteration   3: 393.867 us/op
+Iteration   4: 396.615 us/op
+Iteration   5: 395.166 us/op
+Iteration   6: 395.941 us/op
+Iteration   7: 398.544 us/op
+Iteration   8: 396.357 us/op
+Iteration   9: 396.871 us/op
+Iteration  10: 397.004 us/op
+
+# Run progress: 77.78% complete, ETA 00:05:19
+# Fork: 3 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 411.012 us/op
+# Warmup Iteration   2: 405.117 us/op
+# Warmup Iteration   3: 408.365 us/op
+# Warmup Iteration   4: 403.893 us/op
+# Warmup Iteration   5: 409.752 us/op
+Iteration   1: 408.363 us/op
+Iteration   2: 415.237 us/op
+Iteration   3: 405.538 us/op
+Iteration   4: 404.534 us/op
+Iteration   5: 404.899 us/op
+Iteration   6: 410.528 us/op
+Iteration   7: 404.662 us/op
+Iteration   8: 402.674 us/op
+Iteration   9: 404.716 us/op
+Iteration  10: 406.083 us/op
+
+
+Result "bench.MergeCutoffBenchmarkV2.sort":
+  398.703 ±(99.9%) 4.267 us/op [Average]
+  (min, avg, max) = (390.872, 398.703, 415.237), stdev = 6.386
+  CI (99.9%): [394.436, 402.970] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+1-LTS
+# VM invoker: C:\Program Files\Microsoft\jdk-25.0.4.101-hotspot\bin\java.exe
+# VM options: -Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: bench.MergeCutoffBenchmarkV2.sort
+# Parameters: (cutoff = 30, input = same, n = 65536, profile = mixed, reset = gc)
+
+# Run progress: 79.17% complete, ETA 00:04:59
+# Fork: 1 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 9431.053 us/op
+# Warmup Iteration   2: 9502.315 us/op
+# Warmup Iteration   3: 9445.923 us/op
+# Warmup Iteration   4: 9472.622 us/op
+# Warmup Iteration   5: 9511.883 us/op
+Iteration   1: 9443.791 us/op
+Iteration   2: 9469.415 us/op
+Iteration   3: 9453.827 us/op
+Iteration   4: 9453.545 us/op
+Iteration   5: 9476.005 us/op
+Iteration   6: 9452.133 us/op
+Iteration   7: 9501.749 us/op
+Iteration   8: 9446.969 us/op
+Iteration   9: 9461.787 us/op
+Iteration  10: 9437.112 us/op
+
+# Run progress: 80.56% complete, ETA 00:04:39
+# Fork: 2 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 9591.923 us/op
+# Warmup Iteration   2: 9402.204 us/op
+# Warmup Iteration   3: 9337.607 us/op
+# Warmup Iteration   4: 9310.543 us/op
+# Warmup Iteration   5: 9324.664 us/op
+Iteration   1: 9330.297 us/op
+Iteration   2: 9376.295 us/op
+Iteration   3: 9358.457 us/op
+Iteration   4: 9323.748 us/op
+Iteration   5: 9328.529 us/op
+Iteration   6: 9355.788 us/op
+Iteration   7: 9331.804 us/op
+Iteration   8: 9395.114 us/op
+Iteration   9: 9291.153 us/op
+Iteration  10: 9286.388 us/op
+
+# Run progress: 81.94% complete, ETA 00:04:19
+# Fork: 3 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 8967.516 us/op
+# Warmup Iteration   2: 8962.247 us/op
+# Warmup Iteration   3: 9012.338 us/op
+# Warmup Iteration   4: 8956.347 us/op
+# Warmup Iteration   5: 8965.751 us/op
+Iteration   1: 8977.448 us/op
+Iteration   2: 9004.830 us/op
+Iteration   3: 9035.066 us/op
+Iteration   4: 9024.633 us/op
+Iteration   5: 9032.553 us/op
+Iteration   6: 8959.670 us/op
+Iteration   7: 8973.640 us/op
+Iteration   8: 8953.992 us/op
+Iteration   9: 8964.441 us/op
+Iteration  10: 8916.968 us/op
+
+
+Result "bench.MergeCutoffBenchmarkV2.sort":
+  9260.572 ±(99.9%) 138.511 us/op [Average]
+  (min, avg, max) = (8916.968, 9260.572, 9501.749), stdev = 207.317
+  CI (99.9%): [9122.061, 9399.082] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+1-LTS
+# VM invoker: C:\Program Files\Microsoft\jdk-25.0.4.101-hotspot\bin\java.exe
+# VM options: -Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: bench.MergeCutoffBenchmarkV2.sort
+# Parameters: (cutoff = 30, input = same, n = 524288, profile = mixed, reset = gc)
+
+# Run progress: 83.33% complete, ETA 00:03:59
+# Fork: 1 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 95458.600 us/op
+# Warmup Iteration   2: 96778.244 us/op
+# Warmup Iteration   3: 96542.322 us/op
+# Warmup Iteration   4: 96566.350 us/op
+# Warmup Iteration   5: 95622.200 us/op
+Iteration   1: 95679.590 us/op
+Iteration   2: 98719.733 us/op
+Iteration   3: 95372.040 us/op
+Iteration   4: 95873.990 us/op
+Iteration   5: 96094.630 us/op
+Iteration   6: 96510.590 us/op
+Iteration   7: 95867.350 us/op
+Iteration   8: 95513.090 us/op
+Iteration   9: 101265.467 us/op
+Iteration  10: 103161.656 us/op
+
+# Run progress: 84.72% complete, ETA 00:03:39
+# Fork: 2 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 104337.889 us/op
+# Warmup Iteration   2: 108120.088 us/op
+# Warmup Iteration   3: 107265.444 us/op
+# Warmup Iteration   4: 106814.333 us/op
+# Warmup Iteration   5: 107885.625 us/op
+Iteration   1: 105687.444 us/op
+Iteration   2: 110884.388 us/op
+Iteration   3: 108761.222 us/op
+Iteration   4: 106933.011 us/op
+Iteration   5: 106079.644 us/op
+Iteration   6: 105968.456 us/op
+Iteration   7: 104957.633 us/op
+Iteration   8: 105998.956 us/op
+Iteration   9: 106669.267 us/op
+Iteration  10: 107292.222 us/op
+
+# Run progress: 86.11% complete, ETA 00:03:19
+# Fork: 3 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 105043.333 us/op
+# Warmup Iteration   2: 106180.789 us/op
+# Warmup Iteration   3: 106188.978 us/op
+# Warmup Iteration   4: 110011.875 us/op
+# Warmup Iteration   5: 105921.967 us/op
+Iteration   1: 107836.350 us/op
+Iteration   2: 107666.122 us/op
+Iteration   3: 105804.822 us/op
+Iteration   4: 106468.556 us/op
+Iteration   5: 105962.256 us/op
+Iteration   6: 105423.300 us/op
+Iteration   7: 105570.522 us/op
+Iteration   8: 101481.244 us/op
+Iteration   9: 98390.211 us/op
+Iteration  10: 99453.022 us/op
+
+
+Result "bench.MergeCutoffBenchmarkV2.sort":
+  102911.559 ±(99.9%) 3244.516 us/op [Average]
+  (min, avg, max) = (95372.040, 102911.559, 110884.388), stdev = 4856.239
+  CI (99.9%): [99667.044, 106156.075] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+1-LTS
+# VM invoker: C:\Program Files\Microsoft\jdk-25.0.4.101-hotspot\bin\java.exe
+# VM options: -Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: bench.MergeCutoffBenchmarkV2.sort
+# Parameters: (cutoff = 30, input = fresh, n = 4096, profile = mixed, reset = gc)
+
+# Run progress: 87.50% complete, ETA 00:02:59
+# Fork: 1 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 408.329 us/op
+# Warmup Iteration   2: 409.063 us/op
+# Warmup Iteration   3: 409.020 us/op
+# Warmup Iteration   4: 424.688 us/op
+# Warmup Iteration   5: 412.669 us/op
+Iteration   1: 408.499 us/op
+Iteration   2: 413.921 us/op
+Iteration   3: 407.514 us/op
+Iteration   4: 407.086 us/op
+Iteration   5: 410.555 us/op
+Iteration   6: 409.142 us/op
+Iteration   7: 410.102 us/op
+Iteration   8: 407.668 us/op
+Iteration   9: 415.097 us/op
+Iteration  10: 407.856 us/op
+
+# Run progress: 88.89% complete, ETA 00:02:39
+# Fork: 2 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 418.264 us/op
+# Warmup Iteration   2: 424.909 us/op
+# Warmup Iteration   3: 420.383 us/op
+# Warmup Iteration   4: 416.412 us/op
+# Warmup Iteration   5: 420.619 us/op
+Iteration   1: 416.385 us/op
+Iteration   2: 417.353 us/op
+Iteration   3: 417.292 us/op
+Iteration   4: 422.661 us/op
+Iteration   5: 420.439 us/op
+Iteration   6: 416.967 us/op
+Iteration   7: 416.760 us/op
+Iteration   8: 418.149 us/op
+Iteration   9: 416.000 us/op
+Iteration  10: 420.638 us/op
+
+# Run progress: 90.28% complete, ETA 00:02:19
+# Fork: 3 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 403.192 us/op
+# Warmup Iteration   2: 407.668 us/op
+# Warmup Iteration   3: 402.038 us/op
+# Warmup Iteration   4: 402.945 us/op
+# Warmup Iteration   5: 402.235 us/op
+Iteration   1: 404.778 us/op
+Iteration   2: 401.911 us/op
+Iteration   3: 406.221 us/op
+Iteration   4: 402.712 us/op
+Iteration   5: 401.904 us/op
+Iteration   6: 404.631 us/op
+Iteration   7: 401.967 us/op
+Iteration   8: 405.715 us/op
+Iteration   9: 403.157 us/op
+Iteration  10: 406.104 us/op
+
+
+Result "bench.MergeCutoffBenchmarkV2.sort":
+  410.640 ±(99.9%) 4.268 us/op [Average]
+  (min, avg, max) = (401.904, 410.640, 422.661), stdev = 6.388
+  CI (99.9%): [406.371, 414.908] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+1-LTS
+# VM invoker: C:\Program Files\Microsoft\jdk-25.0.4.101-hotspot\bin\java.exe
+# VM options: -Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: bench.MergeCutoffBenchmarkV2.sort
+# Parameters: (cutoff = 30, input = fresh, n = 65536, profile = mixed, reset = gc)
+
+# Run progress: 91.67% complete, ETA 00:01:59
+# Fork: 1 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 10063.373 us/op
+# Warmup Iteration   2: 10164.308 us/op
+# Warmup Iteration   3: 10189.100 us/op
+# Warmup Iteration   4: 10101.093 us/op
+# Warmup Iteration   5: 10117.269 us/op
+Iteration   1: 10090.051 us/op
+Iteration   2: 10225.361 us/op
+Iteration   3: 10151.115 us/op
+Iteration   4: 10033.862 us/op
+Iteration   5: 10078.928 us/op
+Iteration   6: 10204.623 us/op
+Iteration   7: 10063.793 us/op
+Iteration   8: 10036.354 us/op
+Iteration   9: 10047.597 us/op
+Iteration  10: 10097.855 us/op
+
+# Run progress: 93.06% complete, ETA 00:01:39
+# Fork: 2 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 10055.879 us/op
+# Warmup Iteration   2: 10010.308 us/op
+# Warmup Iteration   3: 9953.630 us/op
+# Warmup Iteration   4: 9950.905 us/op
+# Warmup Iteration   5: 9954.905 us/op
+Iteration   1: 9893.793 us/op
+Iteration   2: 9872.683 us/op
+Iteration   3: 9960.860 us/op
+Iteration   4: 9953.710 us/op
+Iteration   5: 9943.538 us/op
+Iteration   6: 9892.175 us/op
+Iteration   7: 9876.144 us/op
+Iteration   8: 9909.258 us/op
+Iteration   9: 9843.705 us/op
+Iteration  10: 9921.023 us/op
+
+# Run progress: 94.44% complete, ETA 00:01:19
+# Fork: 3 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 9819.193 us/op
+# Warmup Iteration   2: 9958.615 us/op
+# Warmup Iteration   3: 9753.760 us/op
+# Warmup Iteration   4: 9736.159 us/op
+# Warmup Iteration   5: 9803.310 us/op
+Iteration   1: 9809.288 us/op
+Iteration   2: 9778.288 us/op
+Iteration   3: 9744.934 us/op
+Iteration   4: 9888.967 us/op
+Iteration   5: 9825.298 us/op
+Iteration   6: 9781.585 us/op
+Iteration   7: 9721.658 us/op
+Iteration   8: 9766.563 us/op
+Iteration   9: 9820.933 us/op
+Iteration  10: 9783.110 us/op
+
+
+Result "bench.MergeCutoffBenchmarkV2.sort":
+  9933.902 ±(99.9%) 93.632 us/op [Average]
+  (min, avg, max) = (9721.658, 9933.902, 10225.361), stdev = 140.145
+  CI (99.9%): [9840.269, 10027.534] (assumes normal distribution)
+
+
+# JMH version: 1.37
+# VM version: JDK 25.0.4.1, OpenJDK 64-Bit Server VM, 25.0.4.1+1-LTS
+# VM invoker: C:\Program Files\Microsoft\jdk-25.0.4.101-hotspot\bin\java.exe
+# VM options: -Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch
+# Blackhole mode: compiler (auto-detected, use -Djmh.blackhole.autoDetect=false to disable)
+# Warmup: 5 iterations, 1 s each
+# Measurement: 10 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Average time, time/op
+# Benchmark: bench.MergeCutoffBenchmarkV2.sort
+# Parameters: (cutoff = 30, input = fresh, n = 524288, profile = mixed, reset = gc)
+
+# Run progress: 95.83% complete, ETA 00:00:59
+# Fork: 1 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 114933.343 us/op
+# Warmup Iteration   2: 117949.833 us/op
+# Warmup Iteration   3: 111378.483 us/op
+# Warmup Iteration   4: 115795.250 us/op
+# Warmup Iteration   5: 117784.700 us/op
+Iteration   1: 112675.917 us/op
+Iteration   2: 114642.917 us/op
+Iteration   3: 110774.571 us/op
+Iteration   4: 122389.817 us/op
+Iteration   5: 114841.417 us/op
+Iteration   6: 115003.700 us/op
+Iteration   7: 115210.371 us/op
+Iteration   8: 117548.500 us/op
+Iteration   9: 116792.900 us/op
+Iteration  10: 116366.917 us/op
+
+# Run progress: 97.22% complete, ETA 00:00:39
+# Fork: 2 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 123258.433 us/op
+# Warmup Iteration   2: 117226.067 us/op
+# Warmup Iteration   3: 115153.233 us/op
+# Warmup Iteration   4: 117873.283 us/op
+# Warmup Iteration   5: 118412.300 us/op
+Iteration   1: 115365.700 us/op
+Iteration   2: 127193.520 us/op
+Iteration   3: 116389.167 us/op
+Iteration   4: 119197.400 us/op
+Iteration   5: 119871.383 us/op
+Iteration   6: 114926.971 us/op
+Iteration   7: 118420.417 us/op
+Iteration   8: 120513.867 us/op
+Iteration   9: 115828.300 us/op
+Iteration  10: 118206.900 us/op
+
+# Run progress: 98.61% complete, ETA 00:00:19
+# Fork: 3 of 3
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::objectFieldOffset has been called by org.openjdk.jmh.util.Utils (file:/D:/DSA/cutoff-experiment/lib/jmh-core-1.37.jar)
+WARNING: Please consider reporting this to the maintainers of class org.openjdk.jmh.util.Utils
+WARNING: sun.misc.Unsafe::objectFieldOffset will be removed in a future release
+# Warmup Iteration   1: 115804.567 us/op
+# Warmup Iteration   2: 115734.133 us/op
+# Warmup Iteration   3: 111568.783 us/op
+# Warmup Iteration   4: 115411.357 us/op
+# Warmup Iteration   5: 119738.550 us/op
+Iteration   1: 112045.100 us/op
+Iteration   2: 113708.700 us/op
+Iteration   3: 116164.017 us/op
+Iteration   4: 121505.750 us/op
+Iteration   5: 119572.300 us/op
+Iteration   6: 113579.900 us/op
+Iteration   7: 116555.750 us/op
+Iteration   8: 119071.083 us/op
+Iteration   9: 114412.467 us/op
+Iteration  10: 116551.867 us/op
+
+
+Result "bench.MergeCutoffBenchmarkV2.sort":
+  116844.253 ±(99.9%) 2258.952 us/op [Average]
+  (min, avg, max) = (110774.571, 116844.253, 127193.520), stdev = 3381.094
+  CI (99.9%): [114585.300, 119103.205] (assumes normal distribution)
+
+
+# Run complete. Total time: 00:23:57
+
+REMEMBER: The numbers below are just data. To gain reusable insights, you need to follow up on
+why the numbers are the way they are. Use profilers (see -prof, -lprof), design factorial
+experiments, perform baseline and negative tests that provide experimental control, make sure
+the benchmarking environment is safe on JVM/OS/HW level, ask for reviews from the domain experts.
+Do not assume the numbers tell you what you want them to tell.
+
+NOTE: Current JVM experimentally supports Compiler Blackholes, and they are in use. Please exercise
+extra caution when trusting the results, look into the generated code to check the benchmark still
+works, and factor in a small probability of new VM bugs. Additionally, while comparisons between
+different JVMs are already problematic, the performance difference caused by different Blackhole
+modes can be very significant. Please make sure you use the consistent Blackhole mode for comparisons.
+
+Benchmark                    (cutoff)  (input)     (n)  (profile)  (reset)  Mode  Cnt       Score      Error  Units
+MergeCutoffBenchmarkV2.sort         1     same    4096      mixed       gc  avgt   30     469.222 ±    8.715  us/op
+MergeCutoffBenchmarkV2.sort         1     same   65536      mixed       gc  avgt   30   10537.847 ±   95.063  us/op
+MergeCutoffBenchmarkV2.sort         1     same  524288      mixed       gc  avgt   30  105127.889 ± 1666.856  us/op
+MergeCutoffBenchmarkV2.sort         1    fresh    4096      mixed       gc  avgt   30     480.621 ±    3.040  us/op
+MergeCutoffBenchmarkV2.sort         1    fresh   65536      mixed       gc  avgt   30   11010.713 ±  114.651  us/op
+MergeCutoffBenchmarkV2.sort         1    fresh  524288      mixed       gc  avgt   30  132055.015 ± 9459.883  us/op
+MergeCutoffBenchmarkV2.sort         7     same    4096      mixed       gc  avgt   30     441.598 ±    5.320  us/op
+MergeCutoffBenchmarkV2.sort         7     same   65536      mixed       gc  avgt   30    9854.152 ±  133.774  us/op
+MergeCutoffBenchmarkV2.sort         7     same  524288      mixed       gc  avgt   30  102439.883 ± 1981.925  us/op
+MergeCutoffBenchmarkV2.sort         7    fresh    4096      mixed       gc  avgt   30     439.943 ±    4.728  us/op
+MergeCutoffBenchmarkV2.sort         7    fresh   65536      mixed       gc  avgt   30   10143.436 ±  127.589  us/op
+MergeCutoffBenchmarkV2.sort         7    fresh  524288      mixed       gc  avgt   30  120690.728 ± 2030.680  us/op
+MergeCutoffBenchmarkV2.sort        10     same    4096      mixed       gc  avgt   30     417.424 ±    8.313  us/op
+MergeCutoffBenchmarkV2.sort        10     same   65536      mixed       gc  avgt   30    9537.174 ±   93.964  us/op
+MergeCutoffBenchmarkV2.sort        10     same  524288      mixed       gc  avgt   30  102357.265 ± 1706.304  us/op
+MergeCutoffBenchmarkV2.sort        10    fresh    4096      mixed       gc  avgt   30     433.337 ±    2.618  us/op
+MergeCutoffBenchmarkV2.sort        10    fresh   65536      mixed       gc  avgt   30   10361.223 ±  319.524  us/op
+MergeCutoffBenchmarkV2.sort        10    fresh  524288      mixed       gc  avgt   30  121397.450 ± 2844.858  us/op
+MergeCutoffBenchmarkV2.sort        30     same    4096      mixed       gc  avgt   30     398.703 ±    4.267  us/op
+MergeCutoffBenchmarkV2.sort        30     same   65536      mixed       gc  avgt   30    9260.572 ±  138.511  us/op
+MergeCutoffBenchmarkV2.sort        30     same  524288      mixed       gc  avgt   30  102911.559 ± 3244.516  us/op
+MergeCutoffBenchmarkV2.sort        30    fresh    4096      mixed       gc  avgt   30     410.640 ±    4.268  us/op
+MergeCutoffBenchmarkV2.sort        30    fresh   65536      mixed       gc  avgt   30    9933.902 ±   93.632  us/op
+MergeCutoffBenchmarkV2.sort        30    fresh  524288      mixed       gc  avgt   30  116844.253 ± 2258.952  us/op
+
+Benchmark result is saved to results_jmh_v2\jmh_v2_gc.json
