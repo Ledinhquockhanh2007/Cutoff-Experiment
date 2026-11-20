@@ -63,14 +63,12 @@
 \vspace{1.4cm}
 {\LARGE\bfseries CUTOFF TỐI ƯU CHO MERGESORT\\[0.2cm] TRÊN MÁY CÁ NHÂN\par}
 \vspace{0.6cm}
-{\large\itshape Nghiên cứu thực nghiệm về ngưỡng chuyển sang insertion sort\par}
 \vfill
 {\large
 \begin{tabular}{@{}l@{\hspace{1.2em}}l@{}}
 Sinh viên thực hiện: & Lê Đình Quốc Khánh \\[3pt]
 Mã sinh viên: & 25021824 \\[3pt]
-Lớp: & \bv{Lớp} \\[3pt]
-Giảng viên: & \bv{Tên giảng viên} \\
+Lớp: & K70I-CS2 \\[3pt]
 \end{tabular}\par}
 \vspace{2.2cm}
 {\large Hà Nội, tháng 12 năm 2026\par}
@@ -124,7 +122,7 @@ Với CUTOFF $c$, đoạn nào có độ dài không quá $c$ trở thành lá v
   \label{eq:tradeoff}
 \end{equation}
 
-Từ mô hình trên có thể đưa ra 4 dự đoán, được đối chiếu với số liệu ở \cref{sec:5.2}:
+Từ mô hình trên có thể đưa ra 4 dự đoán, được đối chiếu với số liệu ở \cref{sec:5}:
 \begin{description}
   \item[Độ dài lá tối ưu.] Tồn tại một độ dài lá tối ưu $L^*$, và ở bậc thứ nhất $L^*$ không phụ thuộc $N$.
   \item[Độ nhạy thấp quanh mức tối ưu.] Từ \eqref{eq:tradeoff}, $\Delta(2L^*) - \Delta(L^*) = m(1/\ln 2 - 1) \approx 0.44\,m$, chỉ bằng khoảng $0.44/\lg N$ tổng chi phí $m \lg N$ của mỗi phần tử (dưới 3\% khi $\lg N \approx 16$). Một khoảng rộng các CUTOFF vì vậy cho thời gian gần như nhau.
@@ -202,7 +200,7 @@ Tính đúng đắn được kiểm bằng chương trình \texttt{CorrectnessTe
 
 
 \section{Thiết kế thí nghiệm và phương pháp}\label{sec:4}
-Thí nghiệm chính đo thời gian chạy theo CUTOFF trên dữ liệu \texttt{random} ở năm thang. Các thí nghiệm tiếp theo mở rộng sang các phân bố khác, doubling test, kiểu khóa, so sánh với JMH và đo bộ nhớ (\cref{tab:design} liệt kê các phiên đo). Thiết kế và mô hình chi phí được chọn từ các phép đo sơ bộ (\cref{sec:app_explore}); các phép đo chính dùng dữ liệu mới, với tiêu chí bằng số ghi trước khi đo (\cref{sec:A}).
+Thí nghiệm chính đo thời gian chạy theo CUTOFF trên dữ liệu \texttt{random} ở năm thang. Các thí nghiệm tiếp theo mở rộng sang các phân bố khác, doubling test, kiểu khóa, so sánh với JMH và đo bộ nhớ (\cref{tab:design} liệt kê các phiên đo). Thiết kế và mô hình chi phí được chọn từ các phép đo sơ bộ (\cref{sec:app_explore}); các phép đo chính dùng dữ liệu mới, với tiêu chí bằng số ghi trước khi đo (\cref{sec:A,sec:B}).
 
 \subsection{Dữ liệu và môi trường}\label{sec:4.2}\label{sec:4.11}
 Mỗi bộ dữ liệu là một mảng số nguyên sinh bởi \texttt{DataGenerator} với seed cố định, lưu ở dạng nhị phân kèm mã băm SHA-256 trong một tệp manifest; bộ đo kiểm mã băm mỗi khi nạp và dừng nếu sai. Mọi giá trị đều $\ge \num{1000000}$, nằm ngoài vùng đệm sẵn của \texttt{Integer.valueOf}, nên mỗi phần tử là một đối tượng \texttt{Integer} riêng (đã kiểm bằng phép so sánh danh tính, \cref{sec:I}). Năm phân bố được dùng:
@@ -225,14 +223,14 @@ Mỗi bộ dữ liệu là một mảng số nguyên sinh bởi \texttt{DataGene
 \end{table}
 
 \subsection{Đo lường và phân tích thống kê}\label{sec:4.3}\label{sec:4.4}\label{sec:4.5}
-Bộ đo chạy mỗi \emph{fork} trong một JVM riêng, ghim toàn bộ tiến trình vào nhân vật lý 5 (bộ xử lý logic 10 và 11) ngay từ lúc khởi động (\cref{tab:env}). Trong mỗi fork:
+Bộ đo chạy mỗi \emph{fork} trong một JVM riêng, ghim toàn bộ tiến trình vào nhân vật lý 5 (hai bộ xử lý logic, viết tắt LP, số 10 và 11) ngay từ lúc khởi động (\cref{tab:env}). Trong mỗi fork:
 \begin{enumerate}
 \item \emph{Làm nóng JVM}: sắp lặp lại một mảng ngẫu nhiên $N = \num{65536}$ với cả 35 CUTOFF theo thứ tự xáo trộn, cho tới khi tổng thời gian mỗi vòng ổn định (7 đến 11 vòng).
 \item Thứ tự các bộ dữ liệu được xáo bằng một seed riêng của fork.
 \item Với mỗi bộ dữ liệu: nạp và kiểm mã băm, làm nóng 3 vòng qua mọi CUTOFF, rồi đo $R$ \emph{lượt} (trial). Trong mỗi lượt, mọi CUTOFF của lưới được đo một lần, theo một thứ tự xáo trộn mới.
 \item Một phép đo: gọi \texttt{System.gc()}; tạo bản sao của mảng gốc; ghi số lần GC; đọc \texttt{System.nanoTime()}; sắp \emph{một lần}; đọc lại đồng hồ và số lần GC; kiểm mảng đã sắp (nếu sai, chương trình dừng). Phép đo nào có GC xảy ra trong lúc sắp bị loại. Trừ các phép đo sơ bộ, không phép đo nào phải loại.
 \end{enumerate}
-$R = 10$ lượt cho \texttt{random} ở thang $S \le 2^{16}$, 5 lượt ở $S \ge 2^{18}$ và cho các phân bố khác. Mọi CUTOFF trong một lượt dùng cùng mảng gốc và cùng JVM, nên tỉ số $r$ được tính \emph{ghép cặp} trong từng (fork, bộ dữ liệu, lượt). Ở các phép đo sơ bộ, độ lệch chuẩn của $\ln T$ giữa các JVM đo được khoảng 5\%, còn trong cùng một JVM chỉ khoảng 1.1\%; nhờ ghép cặp, độ lệch chuẩn giữa các JVM của $\ln r$ giảm xuống khoảng 0.8\%. Các cờ JVM cố định heap và chạm trước toàn bộ (\texttt{-Xms2g -Xmx2g -XX:+AlwaysPreTouch}) để không có phân bổ trang trong lúc đo, và dùng GC tuần tự (\texttt{-XX:+UseSerialGC}) để thời điểm GC xác định~\citep{jdk25}; doubling test dùng heap 4 GB vì mảng $2^{24}$. Trước mỗi phiên, máy được đặt vào trạng thái hiệu năng cao nhất, tạm dừng các ứng dụng nền.
+$R = 10$ lượt cho \texttt{random} ở thang $S \le 2^{16}$, 5 lượt ở $S \ge 2^{18}$ và cho các phân bố khác. Mọi CUTOFF trong một lượt dùng cùng mảng gốc và cùng JVM, nên tỉ số $r$ được tính \emph{ghép cặp} trong từng (fork, bộ dữ liệu, lượt). Ở các phép đo sơ bộ, độ lệch chuẩn của $\ln T$ giữa các JVM đo được khoảng 5\%, còn trong cùng một JVM chỉ khoảng 1.1\%; nhờ ghép cặp, độ lệch chuẩn giữa các JVM của $\ln r$ giảm xuống khoảng 0.8\%. Các cờ JVM cố định heap và chạm trước toàn bộ (\texttt{-Xms2g -Xmx2g -XX:+AlwaysPreTouch}) để không có phân bổ trang trong lúc đo, và dùng GC tuần tự (\texttt{-XX:+UseSerialGC})~\citep{jdk25}, chỉ có một luồng thu gom và không có luồng GC nào chạy song song với luồng đo; doubling test dùng heap 4 GB vì mảng $2^{24}$. Trước mỗi phiên, máy được đặt ở chế độ best performance, tạm dừng các ứng dụng nền.
 
 \emph{Kiểm soát chất lượng phiên.} Trong suốt mỗi phiên, \texttt{typeperf}~\citep{typeperf} ghi mỗi giây phần trăm xung nhịp (\% Processor Performance, so với xung cơ bản) và độ bận (\% Processor Utility) của cả 16 bộ xử lý logic. Từ đó suy ra luồng đo có chạy trên nhân vật lý 5 không và nhân đó chạy ở xung nào. Quy tắc chất lượng phiên: phiên nào có hơn 5\% số mẫu mà luồng đo nằm ngoài nhân 5 hoặc xung dưới 110\% thì bị \emph{đánh dấu}; hơn 20\% thì bị \emph{loại} và phải đo lại toàn bộ phiên. Kết quả áp dụng (\cref{tab:session_quality,fig:session_clock}):
 \begin{itemize}
@@ -247,7 +245,7 @@ $R = 10$ lượt cho \texttt{random} ở thang $S \le 2^{16}$, 5 lượt ở $S 
 \end{equation}
 trung bình nhân của $r$ trên $F$ fork và 24 giá trị $N$ của thang, với trọng số bằng nhau. Trung bình nhân phù hợp vì $r$ là tỉ số và thời gian chạy có phân phối lệch phải.
 
-\emph{Khoảng tin cậy hai tầng.} Độ bất định đến từ hai nguồn: các JVM khác nhau (fork) và các $N$ khác nhau trong thang. Khoảng tin cậy chính là bootstrap hai tầng~\citep{efron1993,davison1997}: mỗi lần lặp rút $F$ fork có hoàn lại, độc lập rút 24 giá trị $N$ có hoàn lại, rồi tính trung bình của $A$ trên mọi cặp (fork, $N$) được rút; $B = \num{10000}$ lần lặp, seed cố định, khoảng phân vị 2.5--97.5\%. Các phép đo sơ bộ chỉ rút lại $N$ (bootstrap một tầng), nên bỏ qua dao động giữa các JVM, vốn là nguồn nhiễu chính của đo hiệu năng Java~\citep{georges2007,kalibera2013}. Ở các phép đo chính, khoảng hai tầng rộng gấp 1.65 đến 2.85 lần khoảng một tầng tại $c^*$ trên dữ liệu \texttt{random} (\cref{fig:ci_width}), nên với dữ liệu này các khoảng tin cậy của các phép đo sơ bộ hẹp hơn thực tế khoảng hai lần.
+\emph{Khoảng tin cậy hai tầng.} Độ bất định đến từ hai nguồn: các JVM khác nhau (fork) và các $N$ khác nhau trong thang. Khoảng tin cậy (CI) chính là bootstrap hai tầng~\citep{efron1993,davison1997}: mỗi lần lặp rút $F$ fork có hoàn lại, độc lập rút 24 giá trị $N$ có hoàn lại, rồi tính trung bình của $A$ trên mọi cặp (fork, $N$) được rút; $B = \num{10000}$ lần lặp, seed cố định, khoảng phân vị 2.5--97.5\%. Các phép đo sơ bộ chỉ rút lại $N$ (bootstrap một tầng), nên bỏ qua dao động giữa các JVM, vốn là nguồn nhiễu chính của đo hiệu năng Java~\citep{georges2007,kalibera2013}. Ở các phép đo chính, khoảng hai tầng rộng gấp 1.65 đến 2.85 lần khoảng một tầng tại $c^*$ trên dữ liệu \texttt{random} (\cref{fig:ci_width}), nên với dữ liệu này các khoảng tin cậy của các phép đo sơ bộ hẹp hơn thực tế khoảng hai lần.
 
 \emph{Điểm tối ưu và kiểm định.} $c^*$ là argmin của ước lượng điểm; khoảng tin cậy của $r(c^*)$ tính tại $c^*$ cố định (hệ quả xem \cref{sec:7.2}). Khi so sánh $c = 7$ với $c = 10$, $p$ một phía lấy từ phân phối bootstrap, hiệu chỉnh Holm trên 5 thang~\citep{holm1979}. Với JMH, mỗi cấu hình có 3 fork $\times$ 10 vòng đo; khoảng tin cậy rút lại fork độc lập cho từng cấu hình.
 
@@ -358,7 +356,7 @@ Tổng cộng có 72 cấu hình: 6 tổ hợp yếu tố (2 mức \emph{input} 
 
 Với CUTOFF 30, $r(2^k, 30)$ (\cref{fig:r30_doubling_v2}) tăng từ 0.821 ở $N = 1024$ lên 0.955 ở $N = 2^{24}$ (ở $N = 2^k$, $c = 30$ cho lá dài 16). Chỉ ở $N = 1024$ thì $r$ xuống dưới 0.833; không điểm nào xuống tới 0.80.
 
-\Cref{fig:t_over_nlgn_v2} biểu diễn mức tăng này dưới dạng chi phí chuẩn hóa. Với $c = 1$, $T/(N \lg N)$ gần như không đổi, khoảng 9.7 ns, ở $k = 10$--13, rồi tăng dần: 10.0 ns ở $k = 16$, 11.3 ns ở $k = 19$, 13.1 ns ở $k = 21$ và 17.4 ns ở $k = 24$, gấp 1.8 lần mức ban đầu, và không có dấu hiệu chững lại trong dải đã đo. Mức tăng còn nhỏ khi dữ liệu đang sắp ($24N + 32$ byte) vừa trong bộ đệm L2 (1 MiB, tới $k \approx 15.4$), rõ dần sau đó, và nhanh hơn nữa sau khi dữ liệu vượt bộ đệm L3 (16 MiB, $k \approx 19.4$). Điều này nhất quán với ảnh hưởng của phân cấp bộ nhớ, nhưng thí nghiệm không có phép đo nào tách riêng bộ đệm, TLB hay bộ nhớ chính, nên cơ chế chưa được xác định.
+\Cref{fig:t_over_nlgn_v2} biểu diễn mức tăng này dưới dạng chi phí chuẩn hóa. Với $c = 1$, $T/(N \lg N)$ gần như không đổi, khoảng 9.7 ns, ở $k = 10$--13, rồi tăng dần: 10.0 ns ở $k = 16$, 11.3 ns ở $k = 19$, 13.1 ns ở $k = 21$ và 17.4 ns ở $k = 24$, gấp 1.8 lần mức ban đầu, và không có dấu hiệu chững lại trong dải đã đo. Mức tăng còn nhỏ khi dữ liệu đang sắp ($24N + 32$ byte) vừa trong bộ đệm L2 (1 MiB, tới $k \approx 15.4$), rõ dần sau đó, và nhanh hơn nữa sau khi dữ liệu vượt bộ đệm L3 (16 MiB, $k \approx 19.4$). Điều này nhất quán với ảnh hưởng của phân cấp bộ nhớ, nhưng thí nghiệm không có phép đo nào tách riêng bộ đệm, TLB (bộ đệm dịch địa chỉ) hay bộ nhớ chính, nên cơ chế chưa được xác định.
 
 Đối chứng cùng cây chỉ đạt một phần: 38 trên 45 ô (3 cặp $\times$ 15 giá trị $k$) có chênh lệch trung bình không quá 1\%, 7 ô vượt, lớn nhất là 3.3\% ở cặp $(4, 7)$, $k = 11$. Tuy vậy, mọi ô đều có $|\bar\Delta|/\mathrm{se}_k \le 2.05$, các ô vượt có cả dấu dương lẫn dấu âm, và trung bình gộp mọi $k$ của mỗi cặp không quá 0.1\% (\cref{fig:same_tree_h13}). Kết quả nhất quán với nhiễu đo hơn là với một hiệu ứng thứ tự có hệ thống; ngưỡng 1\% cho từng ô với 5 fork là quá chặt (\cref{sec:7.4}).
 
@@ -450,7 +448,6 @@ Bộ đo và JMH ở cấu hình mặc định đo hai đại lượng khác nha
 \end{figure}
 
 \section{Thảo luận}\label{sec:6}
-Mục này diễn giải các kết quả ở \cref{sec:5}.
 \subsection{Đáy phẳng và ảnh hưởng của kích thước}\label{sec:6.1}\label{sec:6.2}
 Mô hình thô \eqref{eq:tradeoff} dự đoán đáy phẳng, và cả số đo (\cref{fig:r_cutoff_run5}) lẫn phân rã của M2 (\cref{fig:cost_decomposition}) đều cho thấy điều đó: quanh $c^*$, phần tiết kiệm nhờ bỏ thêm một tầng trộn gần bằng phần chi phí thêm của insertion sort, nên $r$ gần như không đổi trên khoảng $c$ từ 17 tới 48. Điều này có hai hệ quả thực tiễn. Thứ nhất, câu hỏi ``CUTOFF tối ưu là bao nhiêu'' không có một đáp số duy nhất có ý nghĩa: các phép đo sơ bộ và thí nghiệm chính cho $c^*$ khác nhau ($40$ so với $32$ ở thang $2^{12}$) nhưng cùng một vùng, và chênh lệch $r$ giữa các $c$ trong vùng nhỏ hơn độ bất định đo. Thứ hai, vì đáy phẳng, chọn một giá trị ở giữa vùng (24--32) gần như không mất gì so với giá trị tốt nhất ở từng thang, và khoảng 24--32 nằm trong vùng gần tối ưu ở mọi thang đã đo.
 
@@ -505,13 +502,13 @@ Một số lựa chọn thiết kế (ghim nhân, đo một lần sắp mỗi ph
 
 \section*{Tuyên bố sử dụng AI}\label{sec:K}
 \addcontentsline{toc}{section}{Tuyên bố sử dụng AI}
-Báo cáo được thực hiện với sự hỗ trợ của AI, trong phạm vi giảng viên cho phép. Phân công cụ thể:
+Báo cáo được thực hiện với sự hỗ trợ của AI, trong phạm vi cho phép. Cụ thể:
 \begin{itemize}
-\item \emph{Sinh viên} tự viết \texttt{MergeCutoff.java} và \texttt{MergeCutoffInt.java} (AI không viết hay sửa hai tệp này), tự chạy mọi phiên đo trên máy của mình, đưa ra các quyết định cuối cùng, và đã đọc, đối chiếu toàn bộ văn bản với các bảng và hình trước khi nộp.
+\item \emph{Sinh viên} tự viết \texttt{MergeCutoff.java} và \texttt{MergeCutoffInt.java} theo bài giảng (một bản do Claude dựng lại từ slide chỉ được dùng để đối chiếu), tự chạy mọi phiên đo trên máy cá nhân, đưa ra các quyết định cuối cùng, và đã đọc, đối chiếu toàn bộ văn bản với các bảng và hình trước khi nộp.
 \item \emph{Claude} (Anthropic), trong vai trò điều phối và phản biện: thiết kế thí nghiệm, viết kế hoạch thí nghiệm và bản giao việc cho từng nhiệm vụ, kiểm lại độc lập từ dữ liệu thô mọi kết quả do các tác tử khác báo cáo, và soạn thảo lời văn của báo cáo này.
-\item \emph{Các tác tử lập trình} (Google Antigravity với các mô hình Gemini và Claude Sonnet; các phiên Claude khác) viết bộ đo, chương trình sinh dữ liệu, script phân tích, bảng và hình theo bản giao việc, kèm báo cáo cho từng nhiệm vụ.
+\item \emph{Google Antigravity} viết bộ đo, chương trình sinh dữ liệu, script phân tích, bảng và hình theo bản giao việc, kèm báo cáo cho từng nhiệm vụ.
 \end{itemize}
-Toàn bộ hội thoại được lưu trong \texttt{ai\_log/}. Quy trình kiểm duyệt đã phát hiện nhiều lỗi do AI gây ra trước khi chúng đi vào kết quả: một bảng bố cục bộ nhớ được gõ tay thay vì đọc từ dữ liệu; một hình đọc nhầm dữ liệu cũ có sai lệch; nhãn ``đã kiểm chứng theo kế hoạch'' bị gán nhầm cho phân tích khám phá; mã commit bị ghi sai trong báo cáo nhiệm vụ; bốn lỗi trong các tệp \texttt{.bat} có thể làm hỏng cả phiên đo qua đêm (thiếu tham số đo một lần sắp, mất ký tự \verb|^| trong tham số, dấu ngoặc làm vỡ vòng lặp, \texttt{typeperf} không ghi được tệp); các thư mục dữ liệu thô bị đưa vào \texttt{.gitignore}; và lỗi thiết kế bể đầu vào của JMH yếu tố đầy đủ trong kế hoạch do chính Claude viết, được sửa bằng một bản bổ sung kế hoạch trước khi đo.
+Lời trao đổi với Claude được lưu trong \texttt{ai\_log/claude/} (trích từ bản xuất dữ liệu tài khoản); với Antigravity, \texttt{ai\_log/antigravity.md} là bản copy lại từ đoạn chat trong antigravity vì không có nút export.
 
 \clearpage
 \phantomsection\addcontentsline{toc}{section}{Tài liệu tham khảo}
@@ -585,7 +582,7 @@ Các kế hoạch ghi trước khi đo nằm trong \texttt{preregistration/}: \t
 Các kết luận chính rút từ những phép đo này đã được kiểm lại trên dữ liệu mới (\cref{sec:5}); phần còn lại chỉ mang tính khảo sát.
 
 \subsection{Các lượt đo và chuỗi chẩn đoán}\label[subappendix]{sec:D}
-Các phép đo sơ bộ gồm các lượt sau (\cref{tab:p1_run_conditions}). Run 1 và Run 2 không ghim tiến trình; phân tích cho thấy thời gian phân thành hai mức tách biệt, và \texttt{typeperf} cho thấy mức chậm ứng với lúc luồng đo nằm trên nhân 0, chạy ở khoảng 79\% xung, còn mức nhanh ứng với nhân 5 ở khoảng 128\% (\cref{tab:p1_diag_c1}). Tỉ số $r$ gần như không đổi giữa hai mức, nhưng từ Run 3 mọi phép đo đều ghim vào nhân 5. Run 3 đo mỗi điểm bằng một lô $K$ lần sắp liên tiếp trên các bản sao của \emph{cùng} một mảng rồi chia cho $K$, với $K$ chọn để lô dài ít nhất 2 ms; ở thang $2^{12}$ điều này cho $K = 3$--8. Một thí nghiệm chẩn đoán cho thấy thời gian mỗi lần sắp giảm khi $K$ tăng (ở $N = 4096$, $K = 8$ nhanh hơn $K = 1$ tới 18\%), và mức lệch không đều giữa các CUTOFF. Run 4 đo lại toàn bộ thang $2^{12}$ với $K = 1$: $r$ tốt nhất đổi từ 0.820 (Run 3) thành 0.848. Hiện tượng ``sắp lặp lại cùng một mảng thì nhanh dần'' này cùng loại với hiệu ứng mà JMH yếu tố đầy đủ đo được ở yếu tố \emph{input} (\cref{sec:5.7}). Từ đó, mọi phép đo sau Run 4 dùng $K = 1$. Các bảng dưới đây là kết quả của các phép đo sơ bộ (thang $2^{12}$ từ Run 4, các thang khác từ Run 3).
+Các phép đo sơ bộ gồm các lượt sau (\cref{tab:p1_run_conditions}). Run 1 và Run 2 không ghim tiến trình; phân tích cho thấy thời gian phân thành hai mức tách biệt, và \texttt{typeperf} cho thấy mức chậm ứng với lúc luồng đo nằm trên nhân 0, chạy ở khoảng 79\% xung, còn mức nhanh ứng với nhân 5 ở khoảng 128\% (\cref{tab:p1_diag_c1}). Tỉ số $r$ gần như không đổi giữa hai mức, nhưng từ Run 3 mọi phép đo đều ghim vào nhân 5. Run 3 đo mỗi điểm bằng một lô $K$ lần sắp liên tiếp trên các bản sao của \emph{cùng} một mảng rồi chia cho $K$, với $K$ chọn để lô dài ít nhất 2 ms; ở thang $2^{12}$ điều này cho $K = 3$--8. Một thí nghiệm chẩn đoán cho thấy thời gian mỗi lần sắp giảm khi $K$ tăng (ở $N = 4096$, $K = 8$ nhanh hơn $K = 1$ tới 18\%), và mức lệch không đều giữa các CUTOFF. Run 4 đo lại toàn bộ thang $2^{12}$ với $K = 1$: $r$ tốt nhất đổi từ 0.820 (Run 3) thành 0.848. Hiện tượng ``sắp lặp lại cùng một mảng thì nhanh dần'' này cùng loại với hiệu ứng mà JMH yếu tố đầy đủ đo được ở yếu tố \emph{input} (\cref{sec:5.7}). Từ đó, mọi phép đo sau Run 4 dùng $K = 1$. \Cref{tab:p1_rq1,tab:p1_rq3,tab:p1_paired,tab:p1_runs} là kết quả của các phép đo sơ bộ (thang $2^{12}$ từ Run 4, các thang khác từ Run 3).
 \begin{table}[htbp]
 \centering\small
 \caption{Phép đo sơ bộ: CUTOFF tốt nhất $c^*$ cho dữ liệu ngẫu nhiên theo thang: $r$ kèm CI 95\% một tầng, vùng gần tối ưu và tần suất argmin bootstrap.}\label{tab:p1_rq1}
@@ -695,7 +692,7 @@ Doubling test sơ bộ ($k = 10..22$, 3 fork) kiểm năm dự đoán ghi trư�
 \end{figure}
 
 \subsection{Kiểu khóa và \texttt{int[]}}\label[subappendix]{sec:G}
-Các bảng dưới đây cho $r(c)$ đầy đủ của ba kiểu khóa ở thí nghiệm kiểu khóa và của \texttt{int[]} ở thí nghiệm mở rộng. \Cref{fig:int_fork_curves} vẽ đường của từng fork. So với thí nghiệm kiểu khóa (3 fork), thí nghiệm mở rộng (6 fork) có độ lệch chuẩn giữa các fork nhỏ hơn ở thang $2^{16}$ (trung vị 0.015 xuống 0.012) và $2^{19}$ (0.018 xuống 0.010) nhưng lớn hơn ở $2^{12}$ (0.007 lên 0.016), chủ yếu do các CUTOFF lớn: ở $c = 256$, $r$ của các fork của thí nghiệm mở rộng trải từ 0.90 đến 1.41 ở $2^{12}$, so với 0.86--0.89 ở $2^{19}$. Độ rộng khoảng tin cậy hai tầng tại $c^*$ hẹp lại ở cả ba thang (0.079 xuống 0.047 ở $2^{12}$). Hai thí nghiệm cho đường $r(c)$ rất gần nhau: trung vị chênh lệch $r$ giữa hai thí nghiệm trên các CUTOFF chung là 0.006, 0.002 và 0.002 ở ba thang.
+\Cref{tab:d3_full_integer,tab:d3_full_double,tab:d3_full_int,tab:int_full} cho $r(c)$ đầy đủ của ba kiểu khóa ở thí nghiệm kiểu khóa và của \texttt{int[]} ở thí nghiệm mở rộng. \Cref{fig:int_fork_curves} vẽ đường của từng fork. So với thí nghiệm kiểu khóa (3 fork), thí nghiệm mở rộng (6 fork) có độ lệch chuẩn giữa các fork nhỏ hơn ở thang $2^{16}$ (trung vị 0.015 xuống 0.012) và $2^{19}$ (0.018 xuống 0.010) nhưng lớn hơn ở $2^{12}$ (0.007 lên 0.016), chủ yếu do các CUTOFF lớn: ở $c = 256$, $r$ của các fork của thí nghiệm mở rộng trải từ 0.90 đến 1.41 ở $2^{12}$, so với 0.86--0.89 ở $2^{19}$. Độ rộng khoảng tin cậy hai tầng tại $c^*$ hẹp lại ở cả ba thang (0.079 xuống 0.047 ở $2^{12}$). Hai thí nghiệm cho đường $r(c)$ rất gần nhau: trung vị chênh lệch $r$ giữa hai thí nghiệm trên các CUTOFF chung là 0.006, 0.002 và 0.002 ở ba thang.
 {\input{tables/ta_d3_full}}
 
 {\input{tables/ta_int_full}}

@@ -69,7 +69,7 @@ Các tệp trong `preregistration/` được commit trước dữ liệu mà ch�
 
 ## Sử dụng AI
 
-Báo cáo được thực hiện với sự hỗ trợ của AI trong phạm vi giảng viên cho phép; phân công cụ thể nằm ở mục "Tuyên bố sử dụng AI" của báo cáo. Nhật ký hội thoại nằm trong `ai_log/`.
+Báo cáo được thực hiện với sự hỗ trợ của AI trong phạm vi cho phép; phân công cụ thể nằm ở mục "Tuyên bố sử dụng AI" của báo cáo. Nhật ký hội thoại với Claude và bản ghi làm việc với Antigravity nằm trong [`ai_log/`](ai_log/README.md).
 
 ## Tác giả
 

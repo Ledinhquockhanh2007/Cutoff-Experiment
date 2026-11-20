@@ -1,0 +1,58 @@
+=== session start (fresh) ===
+start_time=2026-10-27T22:19:30.038781+07:00[Asia/Saigon]
+mode=pilot
+fork=1
+java.version=25.0.4.1
+java.vm.name=OpenJDK 64-Bit Server VM
+java.vm.version=25.0.4.1+1-LTS
+java.vendor=Microsoft
+os.name=Windows 11
+os.version=10.0
+os.arch=amd64
+availableProcessors=16
+maxMemory=2075918336
+physical_memory_total=16438054912
+physical_memory_free_at_start=4839153664
+jvm_input_arguments=[-Xms2g, -Xmx2g, -XX:+UseSerialGC, -XX:+AlwaysPreTouch]
+gc_collectors=[Copy, MarkSweepCompact]
+assertions=disabled
+target_batch_ns=2000000, k_max=1000, dataset_warmup_rounds=3
+dataset_order_seed=1001 (java.util.Random, Knuth shuffle)
+cutoff_order_seed=mix64((fork*1e8 + dataset_seed)*1e4 + t); t=trial | 1000+warmup_round | jvm: seed 0, 5000+round
+dataset_order (index distribution N seed):
+  1 reversed 127341 30127341
+  2 few_distinct 65536 50065536
+  3 random 741455 10741455
+  4 sorted 65536 20065536
+  5 random 524288 10524288
+  6 nearly_sorted 65536 40065536
+  7 sorted 127341 20127341
+  8 random 1018725 11018725
+  9 random 4096 10004096
+  10 random 5793 10005793
+  11 reversed 65536 30065536
+  12 random 65536 10065536
+  13 random 127341 10127341
+  14 few_distinct 127341 50127341
+  15 random 7959 10007959
+  16 random 92682 10092682
+  17 nearly_sorted 127341 40127341
+jvm_warmup: N=65536 seed=777 rounds=7 converged=true time=3.3s round_totals_ms=[425.9 337.6 335.4 335.4 335.5 337.1 333.7]
+dataset reversed N=127341 seed=30127341 R=2 grid=13 K_warmup=1 K=1 load=0.02s warmup=0.6s measure=0.4s gc_flagged=0
+dataset few_distinct N=65536 seed=50065536 R=2 grid=13 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.3s gc_flagged=0
+dataset random N=741455 seed=10741455 R=2 grid=35 K_warmup=1 K=1 load=0.01s warmup=18.1s measure=11.7s gc_flagged=0
+dataset sorted N=65536 seed=20065536 R=2 grid=13 K_warmup=1 K=1 load=0.00s warmup=0.3s measure=0.2s gc_flagged=0
+dataset random N=524288 seed=10524288 R=2 grid=35 K_warmup=1 K=1 load=0.00s warmup=12.2s measure=7.9s gc_flagged=0
+dataset nearly_sorted N=65536 seed=40065536 R=2 grid=13 K_warmup=1 K=1 load=0.00s warmup=0.3s measure=0.2s gc_flagged=0
+dataset sorted N=127341 seed=20127341 R=2 grid=13 K_warmup=1 K=1 load=0.00s warmup=0.5s measure=0.3s gc_flagged=0
+dataset random N=1018725 seed=11018725 R=2 grid=35 K_warmup=1 K=1 load=0.01s warmup=26.5s measure=17.2s gc_flagged=0
+dataset random N=4096 seed=10004096 R=2 grid=35 K_warmup=4 K=6 load=0.00s warmup=0.5s measure=0.3s gc_flagged=0
+dataset random N=5793 seed=10005793 R=2 grid=35 K_warmup=3 K=4 load=0.00s warmup=0.5s measure=0.4s gc_flagged=0
+dataset reversed N=65536 seed=30065536 R=2 grid=13 K_warmup=1 K=1 load=0.00s warmup=0.4s measure=0.2s gc_flagged=0
+dataset random N=65536 seed=10065536 R=2 grid=35 K_warmup=1 K=1 load=0.00s warmup=1.5s measure=1.0s gc_flagged=0
+dataset random N=127341 seed=10127341 R=2 grid=35 K_warmup=1 K=1 load=0.00s warmup=2.7s measure=1.8s gc_flagged=0
+dataset few_distinct N=127341 seed=50127341 R=2 grid=13 K_warmup=1 K=1 load=0.00s warmup=0.7s measure=0.5s gc_flagged=0
+dataset random N=7959 seed=10007959 R=2 grid=35 K_warmup=3 K=3 load=0.00s warmup=0.6s measure=0.4s gc_flagged=0
+dataset random N=92682 seed=10092682 R=2 grid=35 K_warmup=1 K=1 load=0.00s warmup=2.0s measure=1.3s gc_flagged=0
+dataset nearly_sorted N=127341 seed=40127341 R=2 grid=13 K_warmup=1 K=1 load=0.02s warmup=0.6s measure=0.3s gc_flagged=0
+end_time=2026-10-27T22:21:26.470682300+07:00[Asia/Saigon] elapsed=0:01:56 gc_during_run_flagged=0 sink=2879373973005

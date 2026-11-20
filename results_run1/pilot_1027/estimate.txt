@@ -1,0 +1,13 @@
+=== Estimate for the FULL run (from this pilot) ===
+distribution@scale     datasets  measurements   warm-up [min]   measure [min]
+random@2^12                  24          8400             0.2             0.7
+random@2^16                  24          8400             0.8             2.7
+random@2^19                  24          4200             7.3            12.2
+sorted@2^16                  24          1560             0.2             0.3
+reversed@2^16                24          1560             0.2             0.3
+nearly_sorted@2^16           24          1560             0.2             0.3
+few_distinct@2^16            24          1560             0.2             0.4
+JVM warm-up per fork   : 0.1 min
+per fork               : 0:25:56  (dataset warm-up 35%, measurement 65%)
+3 forks (Benchmark)    : 1:17:48
+(excludes compile, CorrectnessTest, DataGenerator --verify, CountRunner)
