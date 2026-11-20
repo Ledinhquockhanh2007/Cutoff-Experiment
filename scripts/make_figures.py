@@ -513,7 +513,7 @@ def make_fig07(out_dir: Path):
     configs = [
         ("default", "Mặc định (nén oops + nén con trỏ lớp)", COLORS["blue"], "o", "-"),
         ("no_coops", "-UseCompressedOops", COLORS["orange"], "s", "--"),
-        ("lecture", "-UseCompressedOops\n-UseCompressedClassPointers\n(giống bài giảng)", COLORS["vermilion"], "^", "-."),
+        ("lecture", "-UseCompressedOops\n-UseCompressedClassPointers\n(mô hình chuẩn)", COLORS["vermilion"], "^", "-."),
     ]
     out_rows = []
 
@@ -575,7 +575,7 @@ Mô tả chuỗi:
 - Panel (a): Số byte thực đo trên mỗi phần tử N theo 3 cấu hình JVM:
   * Mặc định (nén oops + nén con trỏ lớp): 24 byte/phần tử (mô hình 24N + 32 byte).
   * Trung gian (-XX:-UseCompressedOops): 32 byte/phần tử (mô hình 32N + 32 byte).
-  * Giống bài giảng (-XX:-UseCompressedOops -XX:-UseCompressedClassPointers): 40 byte/phần tử (mô hình 40N + 48 byte).
+  * Mô hình chuẩn (-XX:-UseCompressedOops -XX:-UseCompressedClassPointers): 40 byte/phần tử (mô hình 40N + 48 byte).
 - Panel (b): Tổng dung lượng bộ nhớ hoạt động (a + aux + N đối tượng Integer) theo N so với các mốc phần cứng L2 (1 MiB/nhân) và L3 (16 MiB). Trục y biểu thị theo thang log với các mốc thập phân MiB (0.01, 0.1, 1, 10, 100).
 - Cả hai phương pháp đo độc lập (JOL GraphLayout và ThreadMXBean allocated bytes sau warmup) đều cho kết quả hoàn toàn trùng khớp với mô hình lý thuyết (sai số 0.000%).
 """
@@ -811,7 +811,7 @@ def make_figA04(out_dir: Path):
 
     ax.axhline(0, color=COLORS["black"], linewidth=0.8)
     # Dải ngưỡng hợp đồng đã đăng ký trước ±1.5% làm mốc tham chiếu (T06c §5)
-    ax.axhspan(-1.5, 1.5, color=COLORS["light_grey"], alpha=0.3, label="Ngưỡng hợp đồng $\\pm 1.5\\%$ (tham chiếu)")
+    ax.axhspan(-1.5, 1.5, color=COLORS["light_grey"], alpha=0.3, label="Ngưỡng $\\pm 1.5\\%$ (tham chiếu)")
 
     ax.set_xlabel("Bước doubling $k = \\lg N$")
     ax.set_ylabel("Chênh lệch so với trung bình (%)")
@@ -1038,7 +1038,7 @@ def parse_args():
     parser.add_argument("--seed", type=int, default=42, help="Seed ngẫu nhiên")
     parser.add_argument("--grayscale", action="store_true", help="Xuất bản thử nghiệm thang độ xám")
     parser.add_argument("--only", type=str, default="",
-                        help="Chỉ sinh các hình này (phân cách bằng dấu phẩy, ví dụ fig03,figA06,md); mặc định: tất cả")
+                        help="Chỉ sinh các hình này (phân cách bằng dấu phẩy, ví dụ fig03,figA06); mặc định (T14): fig03, fig07, figA01-figA06; KHÔNG ghi FIGURES.md")
     return parser.parse_args()
 
 
@@ -1053,9 +1053,23 @@ def main():
     set_style(grayscale=args.grayscale)
 
     only = {t.strip() for t in args.only.split(",") if t.strip()}
+    # T14: hình GĐ1 còn dùng trong báo cáo bản 2 (các hình khác đã thay bằng scripts/make_figures_p2.py)
+    KEEP = {"fig03", "fig07", "figA01", "figA02", "figA03", "figA04", "figA05", "figA06"}
+    LEGACY = {"fig01", "fig02", "fig04", "fig05", "fig06", "fig08"}
+    if "md" in only:
+        print("BỎ QUA 'md': FIGURES.md nay do scripts/make_figures_p2.py sinh (T14).")
+        only.discard("md")
+        if not only:
+            return
+    legacy_req = only & LEGACY
+    if legacy_req and out_dir.resolve() == (Path(__file__).resolve().parent.parent / "report" / "figures").resolve():
+        raise SystemExit(f"Từ chối: {sorted(legacy_req)} là hình GĐ1 đã thay (bản lưu ở report/figures/legacy_phase1/); "
+                         "sinh vào report/figures sẽ ghi đè hình mới cùng tên (fig08). Dùng --out tới thư mục khác.")
 
     def want(tag):
-        return not only or tag in only
+        if tag == "md":
+            return False
+        return (tag in KEEP) if not only else (tag in only)
 
     print("\n=== Tạo 8 hình thân bài (Main Figures) ===")
     for tag, fn in [("fig01", make_fig01), ("fig02", make_fig02), ("fig03", make_fig03), ("fig04", make_fig04),

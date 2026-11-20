@@ -1,0 +1,18 @@
+Hình: fig04_doubling_v2
+Nhãn: [ĐK H11, H12]
+Nguồn:
+- results_phase2/analysis/tables/p2_doubling_R.csv (cutoff 1 và 30, k_from 10..23; cột R_fork1..5, ln_R_bar, SE_k)
+- handoff/preregistration/T09_predictions_doubling_v2.csv (lnR_v1, lnR_P_baohoa, lnR_P_tiep; commit trước khi đo)
+- results_phase2/analysis/tables/p2_H11.csv, p2_H12.csv (chỉ để đối chiếu Quy tắc A)
+Thanh/dải sai số: ±3·SE_k, SE_k = SD giữa 5 fork của ln R_k / √5 (cột SE_k) = ngưỡng của H12 theo hợp đồng §3. Điểm v1 không có thanh (SE_v1 có trong PR, không vẽ để khỏi rối).
+Mô tả:
+- R_k = T(2^{k+1})/T(2^k), T là thời gian một lần sắp (doubling v2, results_doubling_v2, 5 fork, Integer[]).
+- ln_R_bar = trung bình ln R trên 5 fork; điểm xám là ln R của từng fork (lệch ngang nhẹ để thấy rõ).
+- P-bão hòa vẽ trên toàn dải (đường đứt); P-tiếp chỉ vẽ ở k = 22, 23 (đoạn ngắn) vì hợp đồng chỉ đăng ký ở đó;
+  b = 1.202 (c = 1), 1.213 (c = 30). H11 so v2 với v1 ở k = 19, 20, 21.
+
+Quy tắc A (số đọc lại từ .data.csv | số trong bảng | chênh):
+- ln R̄ v2, c = 1, k = 22: hình = 0.8333100328 | bảng (p2_H12.ln_R_v2) = 0.8333100328 | chênh = 0
+- SE_k v2, c = 1, k = 22: hình = 0.007330271021 | bảng (p2_H12.SE_v2) = 0.007330271021 | chênh = 0
+- ln R̄ v1, c = 30, k = 19: hình = 0.855092 | bảng (p2_H11.ln_R_v1) = 0.855092 | chênh = 0
+- ln R̄ v2, c = 30, k = 19: hình = 0.8032567774 | bảng (p2_H11.ln_R_v2) = 0.8032567774 | chênh = 0

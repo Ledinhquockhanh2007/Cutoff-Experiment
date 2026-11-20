@@ -1,0 +1,51 @@
+% Nguồn: P2/h_verdicts.csv, P2B/h2b_verdicts.csv (hàng OVERALL: verdict_overall; đếm condition_met theo điều kiện con); số chính từ P2/p2_best, p2_t7_t10, p2_m2_summary, p2_H11-H16, p2_jmh; P2B/p2b_J1-J4, J6, I1, I3, I4, p2b_int_best; mô tả và ngưỡng: dict DESC, THRESH trong make_tables_p2.py, chép theo T09_contract.md, T11_contract.md, T11_addendum.md
+% Lệnh sinh: python report/make_tables_p2.py
+% Sinh tự động, KHÔNG sửa tay (sửa make_tables_p2.py rồi chạy lại).
+% Số dòng: 32; ĐẠT 21, KHÔNG ĐẠT 8, tách đôi 1, không thực hiện 2. Hàng J2xJ6 OUTCOME (kết cục, không phải giả thuyết) không đưa vào.
+\footnotesize\setlength{\tabcolsep}{4pt}
+\begin{longtable}{l>{\raggedright\arraybackslash}p{3.2cm}>{\raggedright\arraybackslash}p{4.2cm}>{\raggedright\arraybackslash}p{4.3cm}>{\raggedright\arraybackslash}p{1.8cm}}
+\caption{Tổng hợp phán quyết của 32 giả thuyết (H: kế hoạch của các phép đo chính; J, I, B: kế hoạch của các phép đo bổ sung và phụ lục).}\label{tab:verdicts}\\
+\toprule
+Id & Giả thuyết & Số chính & Tiêu chí đạt & Phán quyết \\
+\midrule
+\endfirsthead
+\multicolumn{5}{l}{\textit{(tiếp theo)}}\\
+\toprule
+Id & Giả thuyết & Số chính & Tiêu chí đạt & Phán quyết \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+\textbf{H1} & Vùng tối ưu, random, 5 thang & $c^*$ = 32/32/31/31/30; đạt 5/5 thang & $c^*\in[17,48]$ và $\{24,\dots,32\}\subseteq$ vùng gần tối ưu (5 thang) & ĐẠT \\
+\textbf{H2} & 10 nhanh hơn 7, random, 5 thang & $T_7/T_{10}$ = 1.019…1.010; cận dưới CI nhỏ nhất 1.0033; Holm $p\le0.0032$ & cận dưới CI hai tầng 95\% của $T_7/T_{10}>1$, Holm mức 0.05 (5 thang) & ĐẠT \\
+\textbf{H3} & Lặp lại độ lớn của các phép đo sơ bộ & $|\Delta|$ = 0.0041/0.0007/0.0016 & $|r(c^*)-r_{\mathrm{kp}}(c^*)|\le0.015$ ở $2^{12}$, $2^{16}$, $2^{19}$ ($r_{\mathrm{kp}}$ = 0.848/0.888/0.918) & ĐẠT \\
+\textbf{H4} & Lợi ích giảm theo $N$ & CI rời nhau ở 2/2 cặp thang; bước giảm lớn nhất 0.000 & $r(c^*)$ tăng nghiêm ngặt $2^{12}<2^{16}<2^{19}$, CI hai tầng các thang liền kề không chồng nhau; ở 5 thang mọi bước giảm $\le0.005$ & ĐẠT \\
+\textbf{H5} & Không đạt ``khoảng 20\%'' & $r(c^*)$ nhỏ nhất 0.844; cận dưới CI nhỏ nhất 0.836 & $r(c^*)>0.833$ (5 thang) & ĐẠT \\
+\textbf{H6} & Reversed: $c^*$ nhỏ & $c^*$ = 8/10/8 & $c^*\in[6,16]$ (3 thang) & ĐẠT \\
+\textbf{H7} & Few distinct: $c^*$ như random & $c^*$ = 32/32/32 & $c^*\in[17,48]$ (3 thang) & ĐẠT \\
+\textbf{H8} & Sorted: $c^*$ ở biên trên lưới & $c^*$ = 4096/4096/4096; đạt 3/3 thang & $r(c)$ không tăng theo $c$ (cho phép một bước tăng $\le0.01$) và $c^*=4096$ (3 thang) & ĐẠT \\
+\textbf{H9} & Nearly sorted: cực tiểu bên trong & $c^*$ = 384/384/512 & $c^*\in\{128,\allowbreak 192,\allowbreak 256,\allowbreak 384,\allowbreak 512,\allowbreak 768,\allowbreak 1024\}$ (3 thang) & ĐẠT \\
+\textbf{H10} & Mô hình M2 dự đoán đúng ở thang mới & RMSE = 0.0042/0.0040; $c^*_{\mathrm{M2}}$ = 40 trong vùng ở 2/2 thang & RMSE $\le0.012$ trên 35 CUTOFF và $c^*_{\mathrm{M2}}$ thuộc vùng gần tối ưu đo được ($2^{14}$, $2^{18}$) & ĐẠT \\
+\textbf{H10b} & M2 với $\alpha$ hiệu chỉnh từ hàng $c=1$ & RMSE = 0.0048/0.0048 & RMSE $\le0.012$ ($2^{14}$, $2^{18}$) & ĐẠT \\
+\textbf{H11} & Doubling v2 lặp lại v1 & đạt 6/6 ô; $|\Delta|$ = 0.010–0.052 & $|\Delta|\le 3\sqrt{\mathrm{SE}_{v1}^2+\mathrm{SE}_{v2}^2}$ (6 ô: $k=19..21$, $c\in\{1,30\}$) & ĐẠT \\
+\textbf{H12} & Ngoại suy doubling tới $2^{24}$: P-tiếp và P-bão hòa & P-tiếp 4/4 ô; P-bão hòa 0/4 ô & mỗi dự đoán: $|\ln\bar R_k-\ln\hat R_k|\le 3\,\mathrm{SE}_k$ ở cả 4 ô ($k=22,23$; $c\in\{1,30\}$) & tách đôi: P-tiếp ĐẠT, P-bão hòa KHÔNG ĐẠT \\
+\textbf{H13} & Kiểm soát cùng cây (doubling test chính) & đạt 38/45 ô; $|\bar\Delta|$ lớn nhất 3.3\% & $|\bar\Delta|\le1\%$ ở mọi $k$, 3 cặp cùng cây & KHÔNG ĐẠT \\
+\textbf{H14} & int[] có lợi thế hơn Integer[] & $r_{\mathrm{int}}-r_{\mathrm{Integer}}$ = $-$0.145/$-$0.127/$-$0.130; $c^*$ 128/128/64 so với 48/48/29 & cận trên CI của $r_{\mathrm{int}}-r_{\mathrm{Integer}}<0$ và $c^*_{\mathrm{int}}\ge c^*_{\mathrm{Integer}}$ (3 thang) & ĐẠT \\
+\textbf{H15} & Cơ chế bộ nhớ của việc lợi ích giảm theo $N$ & $\Delta r_{\mathrm{int}}$ = 0.073; $0.5\,\Delta r_{\mathrm{Integer}}$ = 0.029 & $\Delta r_{\mathrm{int}}<0.5\,\Delta r_{\mathrm{Integer}}$ ($2^{12}\to2^{19}$, cùng phiên) & KHÔNG ĐẠT \\
+\textbf{H16} & Double[] tương đương Integer[] & $|r_{\mathrm{Double}}-r_{\mathrm{Integer}}|$ = 0.018/0.012/0.008 & $|r_{\mathrm{Double}}-r_{\mathrm{Integer}}|\le0.02$ (3 thang) & ĐẠT \\
+\textbf{H17} & JMH (T08) khớp bộ đo tự viết & $|\Delta r|\le0.02$: 2/9 ô; thứ tự đúng 1/3 $N$ & $|r_{\mathrm{JMH}}-r_{\mathrm{S1}}|\le0.02$ ở 9 ô ($N\times c$, $c\in\{7,10,30\}$) và $T(30)<T(10)<T(7)<T(1)$ ở cả 3 $N$ & KHÔNG ĐẠT \\
+\textbf{J1} & JMH yếu tố đầy đủ tự lặp lại T08 (same + pure) & $|\Delta r|\le0.03$: 3/9 ô; lớn nhất 0.071 & $|r-r_{\mathrm{T08}}|\le0.03$ ở cả 9 ô & KHÔNG ĐẠT \\
+\textbf{J2} & Học nhánh khi lặp cùng đầu vào, $N=4096$ (pure) & hiệu $r$ = 0.34/0.39/0.37; tỉ số Score 1.99 & $r$(fresh) $-$ $r$(same) $\ge0.10$ với $c\in\{7,10,30\}$ và Score(fresh) $\ge1.30\times$ Score(same) ở $c=30$ & ĐẠT \\
+\textbf{J3} & Không học được ở $N=524\,288$ (pure) & $|\ln$ tỉ số$|$ = 0.08–0.19; đạt 0/4 $c$ & $|\ln$ Score(fresh) $-\ln$ Score(same)$|\le0.03$ với cả 4 $c$ & KHÔNG ĐẠT \\
+\textbf{J4} & Hồ sơ JIT (fresh + mixed) & thứ tự đúng 0/2 $N$ & Score(30) $<$ Score(10) $<$ Score(7) $<$ Score(1) ở $N=65\,536$ và $524\,288$ & KHÔNG ĐẠT \\
+\textbf{J5} & JMH fresh + mixed khớp S1 & $|\Delta r|\le0.02$: 4/9 ô; thứ tự đúng 0/3 $N$ & tiêu chí H17: 9 ô $|\Delta r|\le0.02$ và thứ tự đúng ở 3 $N$ & KHÔNG ĐẠT \\
+\textbf{J6} & Trạng thái nguội (reset = gc) làm chậm đáng kể ở $N=4096$ & tỉ số = 1.79 [1.66, 1.92] & Score(gc) $\ge1.5\times$ Score(none) ở $N=4096$, $c=30$ (same + mixed) & ĐẠT \\
+\textbf{J7} & JMH same + mixed + gc khớp S1 & $|\Delta r|\le0.02$: 5/9 ô; thứ tự đúng 3/3 $N$ & tiêu chí H17: 9 ô $|\Delta r|\le0.02$ và thứ tự đúng ở 3 $N$ & KHÔNG ĐẠT \\
+\textbf{I1} & ``Khoảng 20\%'' với int[] (6 fork) & cận trên CI = 0.725/0.786/0.794 & cận trên CI hai tầng của $r_{\mathrm{int}}(c^*)<0.833$ (3 thang) & ĐẠT \\
+\textbf{I1b} & int[] đạt $r<0.80$ & $r_{\mathrm{int}}(c^*)$ = 0.697/0.766/0.783 & $r_{\mathrm{int}}(c^*)<0.80$, ước lượng điểm (3 thang) & ĐẠT \\
+\textbf{I2} & Cực tiểu của int[] nằm trong lưới mở rộng & $c^*$ = 128/112/64 & $c^*_{\mathrm{int}}\le192$ (3 thang) & ĐẠT \\
+\textbf{I3} & Dạng gồ của int[] lặp lại & $2^{12}$: 0.707, 0.770, 0.715; $2^{16}$: 0.775, 0.825, 0.781 ($c$ = 32, 64, 96) & $r(64)>r(32)$ và $r(96)<r(64)$ ở $2^{12}$ và $2^{16}$ & ĐẠT \\
+\textbf{I4} & Lợi ích của int[] cũng co lại theo $N$ & $\Delta r_{\mathrm{int}}$ = 0.086 [0.059, 0.107]; $0.5\,\Delta r_{\mathrm{Integer}}$ = 0.036 & $\Delta r_{\mathrm{int}}\ge0.5\,\Delta r_{\mathrm{Integer}}$ (Integer[] ở S1), $2^{12}\to2^{19}$ & ĐẠT \\
+\textbf{B1} & Dự đoán sai nhánh giảm khi lặp đầu vào ($N=4096$) & hủy (AMD uProf chưa cài) & M(same) $\le0.5\times$ M(fresh) ở $N=4096$, $c\in\{1,30\}$ (M: số dự đoán sai nhánh) & không thực hiện \\
+\textbf{B2} & Dự đoán sai nhánh không đổi ở $N=524\,288$ & hủy (AMD uProf chưa cài) & M(same) $\ge0.8\times$ M(fresh) ở $N=524\,288$, $c\in\{1,30\}$ & không thực hiện \\
+\end{longtable}

@@ -1,14 +1,15 @@
 % Nguồn: results_final/mutation_test.csv (sinh bởi scripts/mutation_test.py, nhật ký thô results_final/mutation_test_output.txt)
-% Lệnh sinh: python report/make_tables.py
+% Lệnh sinh: python report/make_tables_p2.py (gọi make_tables.t1b_mutation)
 % Sinh tự động, KHÔNG sửa tay (sửa make_tables.py rồi chạy lại).
 % Chạy trên Microsoft OpenJDK 25.0.4.1 (Windows 11 x64, cờ -ea). Đối chứng không đột biến: 970.425/970.425 kiểm tra PASS. Cả 4 đột biến đều bị phát hiện (nhóm FAIL trùng khớp hoàn toàn với kết quả kiểm thử trên JDK 21).
 \begin{tabularx}{\linewidth}{Xl}
 \toprule
-Bản cài lỗi cố ý & Nhóm kiểm thử báo FAIL \\
+Lỗi được cài & Nhóm kiểm thử phát hiện lỗi \\
 \midrule
-merge lấy nửa phải khi hai khóa bằng nhau & 04, 05, 14 \\
-dòng cutoff lệch 1: \texttt{hi <= lo + cutoff} & 14 \\
-insertion sort: \texttt{j > lo + 1} & 02, 03, 04, 05, 13, 14 \\
-\texttt{mid = lo + (hi - lo + 1)/2} & 13 (StackOverflow), 14 \\
+Merge lấy nửa phải khi hai khóa bằng nhau (đúng: lấy nửa trái) & 04, 05, 14 \\
+Điều kiện lá \texttt{hi <= lo + cutoff} (đúng: \texttt{hi <= lo + cutoff - 1}) & 14 \\
+Vòng lặp insertion sort \texttt{j > lo + 1} (đúng: \texttt{j > lo}) & 02, 03, 04, 05, 13, 14 \\
+Điểm giữa \texttt{mid = lo + (hi - lo + 1)/2} (đúng: \texttt{mid = lo + (hi - lo)/2}) & 13 (tràn ngăn xếp), 14 \\
 \bottomrule
 \end{tabularx}
+% results_final/mutation_test_output.txt KHÔNG ghi phiên bản JDK; JDK 25.0.4.1 (Windows) theo R07b / CONTEXT mục T07b.

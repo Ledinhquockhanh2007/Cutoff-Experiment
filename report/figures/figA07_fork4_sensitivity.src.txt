@@ -1,0 +1,14 @@
+Hình: figA07_fork4_sensitivity
+Nhãn: [KP]
+Nguồn:
+- results_phase2/analysis/tables/p2_fork_level.csv (random, is_c_star = True; cột scale, fork, cutoff, r)
+- results_phase2/analysis/tables/p2_sensitivity_drop_f4_scales.csv (c_star_5forks, r_star_5forks, ci2_5f_lo/hi, c_star_4forks, r_star_4forks, ci2_4f_lo/hi)
+Thanh/dải sai số: Ước lượng 5 fork và 4 fork: CI hai tầng 95% từ bảng; điểm từng fork không có thanh.
+Mô tả:
+- S1 (random, Integer[]): fork 4 có 52.87% mẫu typeperf xung < 110% (p2_session_quality). Phân tích độ nhạy bỏ fork 4 là khám phá.
+- Điểm từng fork lấy tại c* của 5 fork; ước lượng 4 fork tại c* của 4 fork (khác ở 2^19: 30 so với 32).
+
+Quy tắc A (số đọc lại từ .data.csv | số trong bảng | chênh):
+- r fork 4 tại c* 5 fork, 2^12: hình = 0.845666526 | bảng (p2_sensitivity_drop_f4_scales.r_fork4_at_cstar5) = 0.845666526 | chênh = 0
+- r fork 4 tại c* 5 fork, 2^19: hình = 0.9238709719 | bảng (p2_sensitivity_drop_f4_scales.r_fork4_at_cstar5) = 0.9238709719 | chênh = 0
+- r 4 fork, 2^19: hình = 0.9145080658 | bảng (p2_sensitivity_drop_f4_scales.r_star_4forks) = 0.9145080658 | chênh = 0

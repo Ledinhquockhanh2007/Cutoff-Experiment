@@ -1,0 +1,16 @@
+Hình: fig01_r_vs_cutoff_run5
+Nhãn: [ĐK H1]
+Nguồn:
+- results_phase2/analysis/tables/p2_r_by_cutoff.csv (distribution = random; cột scale, cutoff, r, ci2_lo, ci2_hi)
+- results_phase2/analysis/tables/p2_best.csv (random; cột c_star, r_star, near_optimal_2pct)
+Thanh/dải sai số: CI hai tầng 95% (bootstrap rút fork có hoàn lại rồi rút N trong thang, B = 10 000, seed 20261117 cho P2 / 20261118 cho P2B), cột ci2_lo, ci2_hi
+Mô tả:
+- Run 5 phiên S1 (results_run5_s1), Integer[], 5 fork, 5 thang, 24 N mỗi thang; r là trung bình nhân trên 24 N.
+- Ngôi sao: c* (argmin r theo thang, p2_best). Đường dọc mảnh: c = 7 và c = 10.
+- Dải nền xám: GIAO của 5 tập gần tối ưu đo được (r <= 1.02 r(c*), cột near_optimal_2pct) = {17..32, 40, 48}.
+  Trên lưới, giữa 32 và 40, giữa 40 và 48 không có CUTOFF nào được đo; dải tô liền từ 17 đến 48.
+
+Quy tắc A (số đọc lại từ .data.csv | số trong bảng | chênh):
+- r(c*) thang 2^12: hình = 0.844255637 | bảng (p2_best.r_star) = 0.844255637 | chênh = 0
+- r(c*) thang 2^19: hình = 0.9164870935 | bảng (p2_best.r_star) = 0.9164870935 | chênh = 0
+- ci2_lo tại c* thang 2^16: hình = 0.8808373023 | bảng (p2_best.ci2_lo) = 0.8808373023 | chênh = 0

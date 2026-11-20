@@ -8,7 +8,7 @@ Cấu hình JVM & Công thức & \makecell{Hệ số góc \\ (JOL / alloc)} & \m
 \midrule
 mặc định (con trỏ nén) & $24N + 32$ & 24.00 / 24.00 & 32.0 / 32.0 & \num{25165856} & 1.00 \\
 \texttt{-UseCompressedOops} & $32N + 32$ & 32.00 / 32.00 & 32.0 / 32.0 & \num{33554464} & 1.33 \\
-\texttt{-UseCompressedOops -UseCompressedClassPointers} (mô hình bài giảng) & $40N + 48$ & 40.00 / 40.00 & 48.0 / 48.0 & \num{41943088} & 1.67 \\
+\texttt{-UseCompressedOops -UseCompressedClassPointers} (mô hình chuẩn) & $40N + 48$ & 40.00 / 40.00 & 48.0 / 48.0 & \num{41943088} & 1.67 \\
 \texttt{+UseCompactObjectHeaders} & $24N + 32$ & 24.00 / 24.00 & 32.0 / 32.0 & \num{25165856} & 1.00 \\
 \bottomrule
 \end{tabularx}

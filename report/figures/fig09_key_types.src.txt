@@ -1,0 +1,17 @@
+Hình: fig09_key_types
+Nhãn: [ĐK H14, H15, H16, I1, I2, I3]
+Nguồn:
+- results_phase2/analysis/tables/p2_d3_r_by_cutoff.csv (key integer/double/int; r, ci2_lo, ci2_hi; lưới 37 CUTOFF tới 128)
+- results_phase2/analysis/tables/p2_d3_best.csv (c_star, r_star theo key)
+- results_phase2b/analysis/tables/p2b_int_r_by_cutoff.csv (S7 int_ext, 6 fork, lưới 43 CUTOFF tới 256)
+- results_phase2b/analysis/tables/p2b_int_best.csv (c_star, r_star của S7)
+Thanh/dải sai số: CI hai tầng 95% (bootstrap rút fork có hoàn lại rồi rút N trong thang, B = 10 000, seed 20261117 cho P2 / 20261118 cho P2B), cột ci2_lo, ci2_hi
+Mô tả:
+- D3 (results_d3): cùng dữ liệu Run 5 cho 3 kiểu khóa, 3 fork mỗi kiểu, cùng phiên. S7 (results_int_ext): int[], 6 fork, phiên riêng.
+- Hai đường ngang xám: r = 0.833 và r = 0.80 (hai cách đọc "khoảng 20%").
+- Ngôi sao: c* của từng đường (p2_d3_best, p2b_int_best). Hình chỉ trình bày số; không gán cơ chế.
+
+Quy tắc A (số đọc lại từ .data.csv | số trong bảng | chênh):
+- r(c*) int[] S7, 2^12: hình = 0.6971734192 | bảng (p2b_int_best.r_star) = 0.6971734192 | chênh = 0
+- r(c*) Integer[] D3, 2^19: hình = 0.9154732893 | bảng (p2_d3_best.r_star) = 0.9154732893 | chênh = 0
+- ci2_hi int[] S7 tại c*, 2^16: hình = 0.7861058156 | bảng (p2b_int_best.ci2_hi) = 0.7861058156 | chênh = 0

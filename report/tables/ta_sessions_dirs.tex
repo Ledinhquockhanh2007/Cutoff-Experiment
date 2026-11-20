@@ -1,0 +1,22 @@
+% Nguồn: danh sách phiên của t03_design; thư mục phân tích: results_final/analysis(_v2) (sơ bộ), results_doubling/analysis, results_phase2/analysis (T10), results_phase2b/analysis (T12); script kiểm mọi thư mục có thật
+% Lệnh sinh: python report/make_tables_p2.py
+% Sinh tự động, KHÔNG sửa tay (sửa make_tables_p2.py rồi chạy lại).
+\setlength{\tabcolsep}{3pt}
+\begin{tabularx}{\linewidth}{llXX}
+\toprule
+Nhóm & Phiên & Thư mục dữ liệu thô & Thư mục phân tích (bảng CSV) \\
+\midrule
+Sơ bộ & Run 3 & \texttt{results\_\allowbreak{}run3} & \texttt{results\_\allowbreak{}final/analysis, results\_\allowbreak{}final/analysis\_\allowbreak{}v2} \\
+Sơ bộ & Run 4 & \texttt{results\_\allowbreak{}run4} & \texttt{results\_\allowbreak{}final/analysis} \\
+Sơ bộ & Doubling test sơ bộ & \texttt{results\_\allowbreak{}doubling} & \texttt{results\_\allowbreak{}doubling/analysis} \\
+Chính & Thí nghiệm chính & \texttt{results\_\allowbreak{}run5\_\allowbreak{}s1} & \texttt{results\_\allowbreak{}phase2/analysis} \\
+Chính & Các phân bố khác & \texttt{results\_\allowbreak{}run5\_\allowbreak{}s2} & \texttt{results\_\allowbreak{}phase2/analysis} \\
+Chính & Doubling test chính & \texttt{results\_\allowbreak{}doubling\_\allowbreak{}v2} & \texttt{results\_\allowbreak{}phase2/analysis} \\
+Chính & Kiểu khóa & \texttt{results\_\allowbreak{}d3/integer, results\_\allowbreak{}d3/double, results\_\allowbreak{}d3/int} & \texttt{results\_\allowbreak{}phase2/analysis} \\
+Chính & JMH ban đầu & \texttt{results\_\allowbreak{}jmh} & \texttt{results\_\allowbreak{}phase2/analysis} \\
+Bổ sung & JMH yếu tố đầy đủ lần 1 & \texttt{results\_\allowbreak{}jmh\_\allowbreak{}v2\_\allowbreak{}rejected\_\allowbreak{}lowclock} & không (bị loại) \\
+Bổ sung & JMH yếu tố đầy đủ lần 2 & \texttt{results\_\allowbreak{}jmh\_\allowbreak{}v2\_\allowbreak{}rejected\_\allowbreak{}lowclock\_\allowbreak{}2} & không (bị loại) \\
+Bổ sung & JMH yếu tố đầy đủ lần 3 & \texttt{results\_\allowbreak{}jmh\_\allowbreak{}v2} & \texttt{results\_\allowbreak{}phase2b/analysis} \\
+Bổ sung & int[] mở rộng & \texttt{results\_\allowbreak{}int\_\allowbreak{}ext} & \texttt{results\_\allowbreak{}phase2b/analysis} \\
+\bottomrule
+\end{tabularx}

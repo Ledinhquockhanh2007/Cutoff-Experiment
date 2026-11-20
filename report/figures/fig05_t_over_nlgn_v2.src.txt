@@ -1,0 +1,15 @@
+Hình: fig05_t_over_nlgn_v2
+Nhãn: [MT]
+Nguồn:
+- results_phase2/analysis/tables/p2_doubling_T_over_NlgN.csv (cột k, N, cutoff, T_ns, T_over_NlgN_ns; T là trung bình nhân qua 5 fork)
+Thanh/dải sai số: Không có (bảng nguồn không có CI; hình mô tả).
+Mô tả:
+- Doubling v2 (results_doubling_v2), Integer[], k = 10..24, c = 1 và c = 30.
+- Đường dọc: N tại đó dữ liệu hoạt động 24N + 32 byte (a + aux + N đối tượng Integer, JVM mặc định; mô hình T05,
+  khớp từng byte với JOL) bằng 1 MiB (L2 mỗi nhân) và 16 MiB (L3), CPU theo results_doubling/cpu_info.txt.
+  Tính bằng công thức: k = lg((2^20 - 32)/24) = 15.4150; k = lg((2^24 - 32)/24) = 19.4150.
+- Hình chỉ mô tả; không gán nguyên nhân cho các bước tăng.
+
+Quy tắc A (số đọc lại từ .data.csv | số trong bảng | chênh):
+- T/(N lg N), c = 1, k = 24: hình = 17.44483596 | bảng (p2_doubling_T_over_NlgN) = 17.44483596 | chênh = 0
+- T/(N lg N), c = 30, k = 10: hình = 7.993765169 | bảng (p2_doubling_T_over_NlgN) = 7.993765169 | chênh = 0

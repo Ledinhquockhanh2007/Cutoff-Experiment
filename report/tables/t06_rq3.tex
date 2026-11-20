@@ -1,0 +1,16 @@
+% Nguồn: P2/p2_r_by_cutoff.csv (random: r, ci2_lo, ci2_hi tại c = 7, 10, c*); P2/p2_best.csv (c_star); P2/p2_t7_t10.csv (ratio_T7_T10, ci2_lo, ci2_hi, p_holm)
+% Lệnh sinh: python report/make_tables_p2.py
+% Sinh tự động, KHÔNG sửa tay (sửa make_tables_p2.py rồi chạy lại).
+% Giảm % = 100(1 - r); khoảng = 100(1 - ci2_hi), 100(1 - ci2_lo).
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lcccccc}
+\toprule
+Thang & \makecell{{Giảm \% tại} \\ {$c=7$}} & \makecell{{Giảm \% tại} \\ {$c=10$}} & \makecell{{Giảm \% tại} \\ {$c^*$}} & \makecell{{Tăng tốc} \\ {$1/r(c^*)$}} & \makecell{{$T_7/T_{10}$} \\ {[CI hai tầng 95\%]}} & \makecell{{$p$} \\ {(Holm)}} \\
+\midrule
+$2^{12}$ & 9.6 [8.8, 10.3] & 11.3 [10.6, 12.0] & 15.6 [14.8, 16.4] & 1.184 & 1.0193 [1.0119, 1.0267] & $5.0\cdot10^{-4}$ \\
+$2^{14}$ & 7.8 [6.7, 8.7] & 9.4 [8.5, 10.2] & 13.0 [12.4, 13.6] & 1.149 & 1.0174 [1.0102, 1.0252] & $5.0\cdot10^{-4}$ \\
+$2^{16}$ & 7.0 [6.4, 7.6] & 8.2 [7.4, 8.9] & 11.3 [10.7, 11.9] & 1.127 & 1.0129 [1.0063, 1.0194] & $6.0\cdot10^{-4}$ \\
+$2^{18}$ & 5.7 [4.9, 6.4] & 6.6 [5.9, 7.4] & 9.1 [8.5, 9.9] & 1.100 & 1.0105 [1.0040, 1.0172] & 0.003 \\
+$2^{19}$ & 5.1 [4.2, 5.8] & 6.0 [5.4, 6.6] & 8.4 [7.6, 9.1] & 1.091 & 1.0099 [1.0033, 1.0172] & 0.003 \\
+\bottomrule
+\end{tabular}

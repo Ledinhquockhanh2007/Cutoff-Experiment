@@ -1,0 +1,16 @@
+Hình: figA11_int_fork_curves
+Nhãn: [MT]
+Nguồn:
+- results_d3/int/raw_fork1..3.csv và results_int_ext/raw_fork1..6.csv (dữ liệu thô)
+- qua scripts/analyze_t10.py: load_raw_dir (kiểm số hàng, K = 1, không GC) và compute_paired_A (A(f, N, c))
+- results_phase2b/analysis/tables/p2b_int_fork_sd.csv (đối chiếu Quy tắc A: SD giữa fork)
+Thanh/dải sai số: Không có (mỗi đường là một fork).
+Mô tả:
+- r_f(c) = exp(trung bình trên 24 N của A(f, N, c)), A = trung bình qua trial của ln T(c) - ln T(1) ghép cặp
+  (đúng định nghĩa dùng cho p2b_int_fork_sd ở analyze_t12.py).
+- Các hàng session = SD_S7 / SD_D3 trong .data.csv: SD (ddof = 1) giữa các fork của r_f(c), tính từ chính các đường vẽ.
+
+Quy tắc A (số đọc lại từ .data.csv | số trong bảng | chênh):
+- SD 6 fork S7, 2^12, c = 64: hình = 0.07228422763 | bảng (p2b_int_fork_sd.sd_6forks_S7) = 0.07228422763 | chênh = 0
+- SD 3 fork D3, 2^19, c = 30: hình = 0.02674046227 | bảng (p2b_int_fork_sd.sd_3forks_D3) = 0.02674046227 | chênh = 0
+- SD 6 fork S7, 2^16, c = 128: hình = 0.006325552401 | bảng (p2b_int_fork_sd.sd_6forks_S7) = 0.006325552401 | chênh = 0

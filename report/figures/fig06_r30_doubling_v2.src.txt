@@ -1,0 +1,14 @@
+Hình: fig06_r30_doubling_v2
+Nhãn: [MT]
+Nguồn:
+- results_phase2/analysis/tables/p2_doubling_r30.csv (cột k, N, r30, ci_fork_lo, ci_fork_hi)
+Thanh/dải sai số: CI 95% bootstrap chỉ rút fork (5 fork, cột ci_fork_lo/ci_fork_hi; seed ghi trong run_log của T10).
+Mô tả:
+- r(2^k, 30) = trung bình nhân qua 5 fork của T(30)/T(1), doubling v2 (results_doubling_v2), Integer[].
+- Ở N = 2^k, c = 30 cho lá dài 16 (cùng cây đệ quy với mọi c trong [16, 31]).
+- Hai đường ngang: hai cách đọc "khoảng 20%" (r = 0.80 và r = 1/1.2 = 0.833).
+
+Quy tắc A (số đọc lại từ .data.csv | số trong bảng | chênh):
+- r30 tại k = 10: hình = 0.8206909143 | bảng (p2_doubling_r30.r30) = 0.8206909143 | chênh = 0
+- r30 tại k = 24: hình = 0.9552253248 | bảng (p2_doubling_r30.r30) = 0.9552253248 | chênh = 0
+- ci_fork_hi tại k = 24: hình = 0.9602612166 | bảng (p2_doubling_r30.ci_fork_hi) = 0.9602612166 | chênh = 0

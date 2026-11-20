@@ -1,0 +1,26 @@
+% Nguồn: P2/p2_best.csv (c_star, r_star, ci2_lo, ci2_hi, near_optimal_2pct); P2/h_verdicts.csv (H6-H9 theo thang: condition_met); PR/T09_hypotheses.csv (khoảng)
+% Lệnh sinh: python report/make_tables_p2.py
+% Sinh tự động, KHÔNG sửa tay (sửa make_tables_p2.py rồi chạy lại).
+% H8 (sorted): điều kiện gồm c* = 4096 và r không tăng theo c (cho phép 1 bước tăng <= 0.01).
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{llccclc}
+\toprule
+Phân bố & \makecell{{Dự đoán} \\ {ghi trước}} & Thang & $c^*$ & $r(c^*)$ [CI hai tầng] & \makecell{{Gần tối ưu} \\ {($\le2\%$)}} & Điều kiện \\
+\midrule
+đã sắp & H8: 4096, không tăng & $2^{12}$ & 4096 & 0.113 [0.101, 0.120] & 4096 & đạt \\
+ &  & $2^{16}$ & 4096 & 0.311 [0.305, 0.317] & 4096 & đạt \\
+ &  & $2^{19}$ & 4096 & 0.415 [0.407, 0.422] & 4096 & đạt \\
+\addlinespace
+gần sắp & H9: \{128..1024\} & $2^{12}$ & 384 & 0.495 [0.477, 0.512] & 256, 384, 512 & đạt \\
+ &  & $2^{16}$ & 384 & 0.619 [0.604, 0.634] & 256, 384, 512 & đạt \\
+ &  & $2^{19}$ & 512 & 0.680 [0.670, 0.695] & 256, 384, 512 & đạt \\
+\addlinespace
+đảo ngược & H6: [6, 16] & $2^{12}$ & 8 & 0.875 [0.859, 0.891] & 4, 6, 8, 10, 12 & đạt \\
+ &  & $2^{16}$ & 10 & 0.902 [0.886, 0.918] & 4, 6, 8, 10, 12 & đạt \\
+ &  & $2^{19}$ & 8 & 0.912 [0.903, 0.921] & 4, 6, 8, 10, 12 & đạt \\
+\addlinespace
+ít giá trị & H7: [17, 48] & $2^{12}$ & 32 & 0.799 [0.781, 0.822] & 20, 24, 32, 48 & đạt \\
+ &  & $2^{16}$ & 32 & 0.839 [0.822, 0.857] & 20, 24, 32, 48 & đạt \\
+ &  & $2^{19}$ & 32 & 0.872 [0.858, 0.888] & 20, 24, 32, 48 & đạt \\
+\bottomrule
+\end{tabular}

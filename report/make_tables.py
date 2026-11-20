@@ -28,7 +28,7 @@ RF = ROOT / "results_final" / "analysis" / "tables"
 V2 = ROOT / "results_final" / "analysis_v2" / "tables"
 DB = ROOT / "results_doubling" / "analysis" / "tables"
 R3 = ROOT / "results_run3" / "analysis" / "tables"
-OUT = ROOT / "report" / "tables"
+OUT = ROOT / "report" / "tables" / "p1"     # T14: bảng phép đo sơ bộ dời sang tables/p1 (phụ lục D–F, I)
 CHK = ROOT / "report" / "_check"
 CMD = "python report/make_tables.py"
 
@@ -156,6 +156,14 @@ def t1_correctness():
     return int(tot[1]), int(tot[2])
 
 
+VI_MUT = {
+    "m1": "Merge lấy nửa phải khi hai khóa bằng nhau (đúng: lấy nửa trái)",
+    "m2": "Điều kiện lá \\texttt{hi <= lo + cutoff} (đúng: \\texttt{hi <= lo + cutoff - 1})",
+    "m3": "Vòng lặp insertion sort \\texttt{j > lo + 1} (đúng: \\texttt{j > lo})",
+    "m4": "Điểm giữa \\texttt{mid = lo + (hi - lo + 1)/2} (đúng: \\texttt{mid = lo + (hi - lo)/2})",
+}
+
+
 def t1b_mutation():
     csv_path = ROOT / "results_final" / "mutation_test.csv"
     if csv_path.exists():
@@ -170,7 +178,8 @@ def t1b_mutation():
                 desc = desc.replace("j > lo + 1", "\\texttt{j > lo + 1}")
             elif "mid = lo + (hi - lo + 1)/2" in desc:
                 desc = f"\\texttt{{{desc}}}"
-            fg = str(r["failed_groups"])
+            fg = str(r["failed_groups"]).replace("StackOverflow", "tràn ngăn xếp")
+            desc = VI_MUT.get(str(r["mutation_id"]), desc)
             rows.append([desc, fg])
         note_text = ("Chạy trên Microsoft OpenJDK 25.0.4.1 (Windows 11 x64, cờ -ea). "
                      "Đối chứng không đột biến: 970.425/970.425 kiểm tra PASS. "
@@ -183,7 +192,7 @@ def t1b_mutation():
                 ["\\texttt{mid = lo + (hi - lo + 1)/2}", "13 (StackOverflow), 14"]]
         source_text = "CHÉP TỪ report/legacy/make_tables_v3.py"
         note_text = ""
-    write("t01b_mutation", tabular("Xl", ["Bản cài lỗi cố ý", "Nhóm kiểm thử báo FAIL"], rows, env="tabularx", width="\\linewidth"),
+    write("t01b_mutation", tabular("Xl", ["Lỗi được cài", "Nhóm kiểm thử phát hiện lỗi"], rows, env="tabularx", width="\\linewidth"),
           source_text, note=note_text)
 
 
@@ -374,15 +383,15 @@ def t6_doubling():
         f"(SE trung bình $\\approx {se1:.2f}\\%$ với $c=1$, ${se30:.2f}\\%$ với $c=30$), "
         "nên một mốc đạt không phải bằng chứng ủng hộ. "
         f"(b) Kiểm soát cùng cây ($c = 4/7, 8/10, 16/30$): $|\\bar\\Delta| \\le {max_delta:.2f}\\%$, "
-        "đạt ngưỡng 1\\% đã đăng ký. "
+        "đạt ngưỡng 1\\% ghi trước khi đo. "
         f"(c) Phép thử $S$ ($P2$ so với $P3c$): tại $c=1$, sai lệch so với đo là {s1.diff_P2*100:.2f}\\% ($P2$) "
         f"và {s1.diff_P3c*100:.2f}\\% ($P3c$); tại $c=30$ là {s30.diff_P2*100:.2f}\\% ($P2$) "
-        f"và {s30.diff_P3c*100:.2f}\\% ($P3c$); hai giả thuyết phân biệt rõ: $P3c$ (bão hòa) bị bác "
+        f"và {s30.diff_P3c*100:.2f}\\% ($P3c$); hai mô hình phân biệt rõ: $P3c$ (bão hòa) bị bác "
         f"(cách đo $\\approx 9\\% \\approx 6\\text{{ SE}}$); $P2$ gần hơn nhưng vẫn thấp hơn đo, cũng không đạt ngưỡng 1.5\\%."
     )
 
     body = (tabular("llrrrccX", ["Dự đoán", "$c$", "$e_{19}$", "$e_{20}$", "$e_{21}$", hc("Đạt", "$k{=}19..21$"), hc("Đạt", "$k{=}10..21$"),
-                                 "Kết luận theo hợp đồng"], rows, env="tabularx", width="\\linewidth") +
+                                 "Kết luận theo tiêu chí"], rows, env="tabularx", width="\\linewidth") +
             "\n\\medskip\\par\\raggedright\\footnotesize\n" +
             f"\\textit{{Ghi chú:}} {note_text}")
 
@@ -472,7 +481,7 @@ def t8_memory():
     reg = pd.read_csv(V2 / "memory_regression.csv").set_index("config")
     ms = pd.read_csv(V2 / "memory_measurements.csv")
     lab = {"default": "mặc định (con trỏ nén)", "no_coops": "\\texttt{-UseCompressedOops}",
-           "lecture": "\\texttt{-UseCompressedOops -UseCompressedClassPointers} (mô hình bài giảng)",
+           "lecture": "\\texttt{-UseCompressedOops -UseCompressedClassPointers} (mô hình chuẩn)",
            "compact_headers": "\\texttt{+UseCompactObjectHeaders}"}
     ref = {"default": 25165856, "no_coops": 33554464, "lecture": 41943088}
     base = ms[(ms.config == "default") & (ms.N == 2 ** 20)].iloc[0].bytes_jol
@@ -493,7 +502,7 @@ def t8_memory():
 
 def ta05_layouts():
     d = pd.read_csv(V2 / "memory_class_layouts.csv")
-    lab = {"default": "mặc định", "no_coops": "$-$Oops", "lecture": "bài giảng", "compact_headers": "compact"}
+    lab = {"default": "mặc định", "no_coops": "$-$Oops", "lecture": "chuẩn", "compact_headers": "compact"}
     rows = [[lab[r.config], str(int(r.ref_size_bytes)), str(int(r.integer_header_bytes)), str(int(r.integer_value_bytes)),
              str(int(r.integer_padding_bytes)), str(int(r.integer_total_bytes)), str(int(r.array_header_offset_bytes)),
              str(int(r.array_elem_size_bytes)), str(int(r.array_empty_instance_bytes))] for _, r in d.iterrows()]
@@ -605,10 +614,8 @@ def main():
     ap = argparse.ArgumentParser(description="Sinh bảng LaTeX cho báo cáo (T07). Chạy từ thư mục gốc dự án.")
     ap.parse_args()
     OUT.mkdir(parents=True, exist_ok=True)
-    tot, fail = t1_correctness()
-    check("T1 tổng số kiểm tra", tot, 970425, 0)
-    check("T1 số lỗi", fail, 0, 0)
-    t1b_mutation(); t2_env(); t3_rq1(); t4_rq3(); t5_paired(); t6_doubling(); t7_cost(); t8_memory(); t9_runs()
+    # T14: t01_correctness, t01b_mutation, t02_env nay do report/make_tables_p2.py sinh vào report/tables/
+    t3_rq1(); t4_rq3(); t5_paired(); t6_doubling(); t7_cost(); t8_memory(); t9_runs()
     ta01_other_dist(); ta02_m0m1(); ta03_sensitivity(); ta04_doubling_full(); ta05_layouts(); ta06_run_conditions(); ta07_diag_c1()
     bad = report_checks()
     sys.exit(1 if bad else 0)

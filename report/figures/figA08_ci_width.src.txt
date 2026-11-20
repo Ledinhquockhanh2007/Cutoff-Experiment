@@ -1,0 +1,15 @@
+Hình: figA08_ci_width
+Nhãn: [MT]
+Nguồn:
+- results_phase2/analysis/tables/p2_ci_width.csv (distribution, scale, cutoff, is_c_star, ratio_ci2_over_ci1)
+Thanh/dải sai số: Không có (mỗi điểm là một tỉ số độ rộng).
+Mô tả:
+- Tỉ số = (ci2_hi - ci2_lo)/(ci1_hi - ci1_lo): CI hai tầng (rút fork rồi N) so với CI một tầng (chỉ rút N, cách của giai đoạn khám phá).
+- (a) random 5 thang tại c*, 7, 10, 30 (ở 2^19, c* = 30 nên điểm c* và điểm c = 30 là cùng một hàng của bảng);
+  (b) 4 phân bố S2 × 3 thang tại c*.
+- Đường chấm: tỉ số = 1.
+
+Quy tắc A (số đọc lại từ .data.csv | số trong bảng | chênh):
+- random 2^12 tại c*: hình = 2.049328378 | bảng (p2_ci_width.ratio_ci2_over_ci1) = 2.049328378 | chênh = 0
+- random 2^19 tại c = 7: hình = 2.353520176 | bảng (p2_ci_width.ratio_ci2_over_ci1) = 2.353520176 | chênh = 0
+- few_distinct 2^12 tại c*: hình = 7.066711393 | bảng (p2_ci_width.ratio_ci2_over_ci1) = 7.066711393 | chênh = 0

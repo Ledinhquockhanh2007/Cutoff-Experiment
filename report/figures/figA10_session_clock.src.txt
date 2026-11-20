@@ -1,0 +1,21 @@
+Hình: figA10_session_clock
+Nhãn: [MT]
+Nguồn:
+- results_run5_s1/typeperf_*.csv và env_fork1..5.txt (cửa sổ fork)
+- results_jmh_v2_rejected_lowclock/typeperf_*.csv (S6 lần 1), results_jmh_v2_rejected_lowclock_2/typeperf_*.csv (S6 lần 2), results_jmh_v2/typeperf_*.csv (S6 lần 3) — chỉ đọc typeperf
+- đọc qua scripts/session_quality.py: load_session_typeperf (cột active_pin_perf, pin_util); cửa sổ fork qua scripts/diag_bench_align.parse_env
+- results_phase2/analysis/tables/p2_session_quality.csv, results_phase2b/analysis/tables/p2b_session_quality.csv (đối chiếu Quy tắc A)
+Thanh/dải sai số: Không có (chuỗi thời gian 1 Hz).
+Mô tả:
+- Xung = % Processor Performance của LP bận hơn trong cặp SMT LP 10/11 (nhân vật lý 5, nơi luồng đo được ghim).
+- Cửa sổ phân tích giống session_quality.py: S1 là hợp các cửa sổ [start_time, end_time] của 5 fork;
+  S6 (JMH, không có env) là từ mẫu đầu đến mẫu cuối có LP 10 + LP 11 bận ≥ 50%.
+- Quy tắc loại đăng ký trước (hợp đồng T09 §0): đánh dấu khi > 5% mẫu xung < 110%; loại và đo lại cả phiên khi > 20%.
+- Các hàng cuối của .data.csv (session = pct_low_*) là tỉ lệ % mẫu xung < 110% tính từ chính các điểm vẽ.
+
+Quy tắc A (số đọc lại từ .data.csv | số trong bảng | chênh):
+- % xung < 110%, S1 fork 4: hình = 52.84872299 | bảng (p2_session_quality.pct_low_clock_lt110) = 52.84872299 | chênh = 0
+- % xung < 110%, S1 ALL: hình = 13.01403 | bảng (p2_session_quality.pct_low_clock_lt110) = 13.01403 | chênh = 0
+- % xung < 110%, S6 lần 1: hình = 54.26949654 | bảng (p2b_session_quality.pct_low_clock_lt110) = 54.26949654 | chênh = 0
+- % xung < 110%, S6 lần 2: hình = 77.26503986 | bảng (p2b_session_quality.pct_low_clock_lt110) = 77.26503986 | chênh = 0
+- % xung < 110%, S6 lần 3: hình = 0.0252016129 | bảng (p2b_session_quality.pct_low_clock_lt110) = 0.0252016129 | chênh = 0

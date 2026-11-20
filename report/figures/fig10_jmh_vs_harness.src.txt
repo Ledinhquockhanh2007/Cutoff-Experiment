@@ -1,0 +1,19 @@
+Hình: fig10_jmh_vs_harness
+Nhãn: [ĐK J1–J7] (và H17 cho cột T08)
+Nguồn:
+- results_phase2b/analysis/tables/p2b_jmh_scores.csv (input, profile, reset, N, cutoff, score_us, ci_lo, ci_hi)
+- results_phase2b/analysis/tables/p2b_jmh_r.csv (r, ci_lo, ci_hi; panel c, cutoff = 30)
+- results_phase2b/analysis/tables/p2b_jmh_abs_vs_run5.csv (run5_geom_time_us)
+- results_phase2/analysis/tables/p2_jmh.csv (T08: jmh_score_us, jmh_score_err_999_us, r_jmh, r_run5)
+Thanh/dải sai số: JMH yếu tố đầy đủ (6 cấu hình): CI 95% bootstrap theo fork (3 fork) từ bảng P2B. T08: KHÔNG có CI bootstrap; thanh chấm rỗng là Score Error (99.9%) do JMH báo, vẽ khác kiểu. Run 5: không có thanh.
+Mô tả:
+- Cấu hình JMH yếu tố đầy đủ ghi theo thứ tự input + profile + reset (same/fresh × pure/mixed × none/gc).
+- Run 5 là bộ đo tự viết (trung bình nhân trên các lần đo của đúng N đó, phiên S1), KHÁC phiên với JMH:
+  chỉ để mô tả mức tuyệt đối; JMH là trung bình cộng.
+- Panel (c): đường ngang đứt = r_Run5(N, 30) của đúng N đó (p2_jmh.r_run5).
+
+Quy tắc A (số đọc lại từ .data.csv | số trong bảng | chênh):
+- Score same+pure+none, N = 4096, c = 30: hình = 213.3109843 | bảng (p2b_jmh_scores.score_us) = 213.3109843 | chênh = 0
+- Score T08, N = 4096, c = 7: hình = 231.671947 | bảng (p2_jmh.jmh_score_us) = 231.671947 | chênh = 0
+- r fresh+mixed+gc, N = 4096, c = 30: hình = 0.8283621984 | bảng (p2b_jmh_r.r) = 0.8283621984 | chênh = 0
+- Run 5, N = 524288, c = 1: hình = 120987.493 | bảng (p2b_jmh_abs_vs_run5.run5_geom_time_us) = 120987.493 | chênh = 0

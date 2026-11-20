@@ -1,0 +1,32 @@
+% Nguồn: P2/p2_sensitivity_drop_f4.csv (hypothesis, verdict_5forks, verdict_4forks, verdict_changed, metrics_4forks); P2/p2_sensitivity_drop_f4_scales.csv
+% Lệnh sinh: python report/make_tables_p2.py
+% Sinh tự động, KHÔNG sửa tay (sửa make_tables_p2.py rồi chạy lại).
+\textbf{(a)}\par\smallskip
+\begin{tabularx}{\linewidth}{lcccX}
+\toprule
+Giả thuyết & 5 fork & 4 fork & Đổi? & Số chính (4 fork) \\
+\midrule
+H1 & ĐẠT & ĐẠT & không & $2^{12}$:c*=32; $2^{14}$:c*=32; $2^{16}$:c*=31; $2^{18}$:c*=31; $2^{19}$:c*=32 \\
+H2 & ĐẠT & ĐẠT & không & min\_ci2\_lo=1.0019, max\_p\_holm=0.0152 \\
+H3 & ĐẠT & ĐẠT & không & $2^{12}$:|d|=0.0045; $2^{16}$:|d|=0.0011; $2^{19}$:|d|=0.0036 \\
+H4 & ĐẠT & ĐẠT & không & ci\_12$<$16:True, ci\_16$<$19:True, max\_dec=0.0000 \\
+H5 & ĐẠT & ĐẠT & không & min r(c*)=0.8439 \\
+H10 & ĐẠT & ĐẠT & không & RMSE $2^{14}$=0.0037, $2^{18}$=0.0033 \\
+H10b & ĐẠT & ĐẠT & không & RMSE $2^{14}$=0.0036, $2^{18}$=0.0031 \\
+H17 & KHÔNG ĐẠT & KHÔNG ĐẠT & không & max|d|=0.2905, order\_all=False \\
+\bottomrule
+\end{tabularx}
+\bigskip
+
+\textbf{(b)}\par\smallskip
+\begin{tabular}{lccccc}
+\toprule
+Thang & $c^*$ (5) & $r$ [CI] (5 fork) & $c^*$ (4) & $r$ [CI] (4 fork) & \makecell{{$r$ fork 4} \\ {tại $c^*$ (5)}} \\
+\midrule
+$2^{12}$ & 32 & 0.844 [0.836, 0.852] & 32 & 0.844 [0.834, 0.853] & 0.846 \\
+$2^{14}$ & 32 & 0.870 [0.864, 0.876] & 32 & 0.870 [0.862, 0.876] & 0.873 \\
+$2^{16}$ & 31 & 0.887 [0.881, 0.893] & 31 & 0.887 [0.879, 0.894] & 0.889 \\
+$2^{18}$ & 31 & 0.909 [0.901, 0.915] & 31 & 0.908 [0.900, 0.915] & 0.913 \\
+$2^{19}$ & 30 & 0.916 [0.909, 0.924] & 32 & 0.915 [0.907, 0.922] & 0.924 \\
+\bottomrule
+\end{tabular}

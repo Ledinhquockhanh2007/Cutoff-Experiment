@@ -1,10 +1,18 @@
 Hình: fig08_other_distributions
-Loại: Khám phá / Kiểm chứng phạm vi hợp lệ của mô hình (Scope Limitation Analysis)
-Nguồn dữ liệu: results_final/analysis_v2/tables/validate_other_distributions.csv
-Mô tả chuỗi:
-- Khảo sát tỉ số thời gian r(N, c) trên 4 phân bố dữ liệu không ngẫu nhiên tại thang S = 2^16 (trung bình nhân trên 24 kích thước N hình học từ 65 536 đến 131 072).
-- Thanh sai số là khoảng tin cậy CI 95% bootstrap cụm theo N.
-- Đường đứt nét đỏ biểu thị dự báo của mô hình M2 (vốn chỉ được xây dựng cho dữ liệu ngẫu nhiên đồng đều).
-- Kết quả cho thấy (Quy tắc C):
-  * Mô hình M2 KHÔNG ÁP DỤNG ĐƯỢC cho các phân bố có thứ tự sẵn (sai khác lên tới +8.8% trên sorted và -13.2% trên reversed).
-  * CUTOFF tối ưu khác nhau nhiều theo cấu trúc dữ liệu: c* = 64 cho sorted/nearly sorted (đây là BIÊN TRÊN của lưới CUTOFF đo đạc; cực tiểu thực tế có thể > 64, xem chẩn đoán D4), c* = 8 cho reversed (insertion sort suy biến thành O(N^2)), và c* = 32 cho few_distinct.
+Nhãn: [ĐK H6, H7, H8, H9]
+Nguồn:
+- results_phase2/analysis/tables/p2_r_by_cutoff.csv (sorted, nearly_sorted, reversed, few_distinct; r, ci2_lo, ci2_hi)
+- results_phase2/analysis/tables/p2_best.csv (c_star, r_star)
+- handoff/preregistration/T09_hypotheses.csv (khoảng dự đoán H6–H9, cột decision_rule/threshold)
+Thanh/dải sai số: CI hai tầng 95% (bootstrap rút fork có hoàn lại rồi rút N trong thang, B = 10 000, seed 20261117 cho P2 / 20261118 cho P2B), cột ci2_lo, ci2_hi
+Mô tả:
+- Run 5 phiên S2 (results_run5_s2), Integer[], 5 fork, 3 thang, 24 N mỗi thang; lưới: sorted và nearly_sorted tới 4096,
+  reversed và few_distinct tới 128.
+- Nền vàng: khoảng (hoặc điểm, với sorted) dự đoán ĐĂNG KÝ TRƯỚC cho c*; ngôi sao: c* đo (p2_best).
+- Trục y khác nhau giữa các panel (mức r khác nhau nhiều giữa các phân bố).
+- Panel (c) có ô phóng to vùng c <= 32 (cùng dữ liệu với panel, không thêm điểm) vì r(128) > 2 làm nén vùng đáy.
+
+Quy tắc A (số đọc lại từ .data.csv | số trong bảng | chênh):
+- r(c*) reversed 2^16: hình = 0.9023125512 | bảng (p2_best.r_star) = 0.9023125512 | chênh = 0
+- r(c*) nearly_sorted 2^19: hình = 0.6804099875 | bảng (p2_best.r_star) = 0.6804099875 | chênh = 0
+- r(c*) sorted 2^12: hình = 0.1125253849 | bảng (p2_best.r_star) = 0.1125253849 | chênh = 0

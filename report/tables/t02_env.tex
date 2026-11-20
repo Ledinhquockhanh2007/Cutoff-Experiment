@@ -1,21 +1,22 @@
-% Nguồn: RF/env_summary.csv (os, cpus, phys_total, jvm_args, java.version, java.vendor); results_doubling/cpu_info.txt (CPU, L2, L3, con trỏ nén); results_final/env/{systeminfo,ram,power_scheme}.txt (máy, RAM, bản Windows, gói nguồn); scripts/run_run4.bat, scripts/run_doubling.bat
-% Lệnh sinh: python report/make_tables.py
-% Sinh tự động, KHÔNG sửa tay (sửa make_tables.py rồi chạy lại).
-% Nguồn cấu hình máy, RAM, bản Windows và gói nguồn: kết xuất hệ thống trong results_final/env/. Đã bỏ đánh dấu dagger vì đã có tệp nguồn kiểm chứng.
+% Nguồn: results_run5_s1/env_fork1.txt (java.*, os.*, availableProcessors, physical_memory_total, jvm_input_arguments); results_doubling_v2/env_fork1.txt (cờ JVM doubling test chính); results_doubling/cpu_info.txt (CPU, L2, L3, con trỏ nén); results_final/env/{systeminfo,ram,power_scheme}.txt; lib/jmh-core-*.jar; scripts/requirements.txt; Power Throttling: handoff/CONTEXT.md mục T11-run (khai báo người dùng, không có tệp đo)
+% Lệnh sinh: python report/make_tables_p2.py
+% Sinh tự động, KHÔNG sửa tay (sửa make_tables_p2.py rồi chạy lại).
 \begin{tabularx}{\linewidth}{lX}
 \toprule
 Thành phần & Cấu hình \\
 \midrule
 CPU & AMD Ryzen 7 H 255 w/ Radeon 780M Graphics, 8 nhân, 16 luồng \\
 Bộ nhớ đệm & L2 8192 KB (8 MB tổng, 1 MB / core); L3 16384 KB (16 MB) \\
-RAM vật lý & \num{16438054912} B (15.3 GiB) \\
-Hệ điều hành & Windows 11 10.0 amd64 \\
-JDK & Microsoft OpenJDK 25.0.4.1 \\
-Cờ JVM & \texttt{-Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch} \\
-Con trỏ nén (mặc định) & UseCompressedOops = true; UseCompressedClassPointers = true \\
 Máy & Lenovo Legion 5 15AHP10 (model 83M0) \\
-RAM & 16 GB DDR5-5600, 1 thanh RAM \\
-Hệ điều hành (chi tiết) & Windows 11 Home, build 26300; gói nguồn Balanced \\
-Khởi chạy & \texttt{start "bench" /affinity C00 /wait java ...} (ghim nhân vật lý 5); run 1, run 2: không ghim \\
+RAM & \num{16438054912} B (15.3 GiB), 1 thanh DDR5-5600 \\
+Hệ điều hành & Windows 11 (os.version 10.0), build 26300; gói nguồn Balanced \\
+JDK & Microsoft OpenJDK 25.0.4.1 (VM 25.0.4.1+1-LTS) \\
+Cờ JVM (mọi phiên) & \texttt{-Xms2g -Xmx2g -XX:+UseSerialGC -XX:+AlwaysPreTouch} \\
+Cờ JVM (doubling test chính) & \texttt{-Xms4g -Xmx4g -XX:+UseSerialGC -XX:+AlwaysPreTouch} \\
+Con trỏ nén (mặc định) & UseCompressedOops = true; UseCompressedClassPointers = true \\
+Khởi chạy & \texttt{start "bench" /affinity C00 /wait java ...} (ghim nhân vật lý 5, LP 10/11); typeperf 1 Hz suốt mỗi phiên \\
+JMH & jmh-core 1.37 \\
+Power Throttling & \texttt{powercfg /powerthrottling disable} cho \texttt{java.exe}: chỉ từ lần 3 của JMH yếu tố đầy đủ \\
+Phân tích & Python; numpy 2.5.3, pandas 3.0.6, scipy 1.18.1, statsmodels 0.15.0, matplotlib 3.11.2 \\
 \bottomrule
 \end{tabularx}

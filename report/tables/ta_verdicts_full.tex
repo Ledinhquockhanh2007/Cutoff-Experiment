@@ -1,0 +1,185 @@
+% Nguồn: P2/h_verdicts.csv, P2B/h2b_verdicts.csv (id, subcase, value, threshold, condition_met, verdict_overall)
+% Lệnh sinh: python report/make_tables_p2.py
+% Sinh tự động, KHÔNG sửa tay (sửa make_tables_p2.py rồi chạy lại).
+\scriptsize
+\begin{longtable}{p{0.8cm}p{2.2cm}p{3.9cm}p{3.2cm}p{1.1cm}p{2.4cm}}
+\caption{Mọi điều kiện con của 32 giả thuyết.}\label{tab:verdicts_full}\\
+\toprule
+Id & Điều kiện con & Giá trị & Ngưỡng & Ô & Phán quyết \\
+\midrule
+\endfirsthead
+\multicolumn{6}{l}{\textit{(tiếp theo)}}\\
+\toprule
+Id & Điều kiện con & Giá trị & Ngưỡng & Ô & Phán quyết \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+H1 & $2^{12}$ & c*=\allowbreak{}32; near=\allowbreak{}17..32, 40, 48 & c* in [17,\allowbreak{}48] \& \{24..32\} subset near & đạt &  \\
+H1 & $2^{14}$ & c*=\allowbreak{}32; near=\allowbreak{}16..32, 40, 48 & c* in [17,\allowbreak{}48] \& \{24..32\} subset near & đạt &  \\
+H1 & $2^{16}$ & c*=\allowbreak{}31; near=\allowbreak{}15..32, 40, 48 & c* in [17,\allowbreak{}48] \& \{24..32\} subset near & đạt &  \\
+H1 & $2^{18}$ & c*=\allowbreak{}31; near=\allowbreak{}13..32, 40, 48 & c* in [17,\allowbreak{}48] \& \{24..32\} subset near & đạt &  \\
+H1 & $2^{19}$ & c*=\allowbreak{}30; near=\allowbreak{}12..32, 40, 48, 64 & c* in [17,\allowbreak{}48] \& \{24..32\} subset near & đạt &  \\
+H1 & OVERALL & 5/5 & 5/5 & đạt & ĐẠT \\
+H2 & $2^{12}$ & 1.0193 [1.0119, 1.0267], p\_\allowbreak{}holm=\allowbreak{}0.0005 & ci2\_\allowbreak{}lo $>$\allowbreak{} 1.0 \& p\_\allowbreak{}holm $<$\allowbreak{} 0.05 & đạt &  \\
+H2 & $2^{14}$ & 1.0174 [1.0102, 1.0252], p\_\allowbreak{}holm=\allowbreak{}0.0005 & ci2\_\allowbreak{}lo $>$\allowbreak{} 1.0 \& p\_\allowbreak{}holm $<$\allowbreak{} 0.05 & đạt &  \\
+H2 & $2^{16}$ & 1.0129 [1.0063, 1.0194], p\_\allowbreak{}holm=\allowbreak{}0.0005999 & ci2\_\allowbreak{}lo $>$\allowbreak{} 1.0 \& p\_\allowbreak{}holm $<$\allowbreak{} 0.05 & đạt &  \\
+H2 & $2^{18}$ & 1.0105 [1.0040, 1.0172], p\_\allowbreak{}holm=\allowbreak{}0.0032 & ci2\_\allowbreak{}lo $>$\allowbreak{} 1.0 \& p\_\allowbreak{}holm $<$\allowbreak{} 0.05 & đạt &  \\
+H2 & $2^{19}$ & 1.0099 [1.0033, 1.0172], p\_\allowbreak{}holm=\allowbreak{}0.0032 & ci2\_\allowbreak{}lo $>$\allowbreak{} 1.0 \& p\_\allowbreak{}holm $<$\allowbreak{} 0.05 & đạt &  \\
+H2 & OVERALL & 5/5 & 5/5 & đạt & ĐẠT \\
+H3 & $2^{12}$ & |0.8443 - 0.8484| =\allowbreak{} 0.0041 & $\le$\allowbreak{} 0.015 & đạt &  \\
+H3 & $2^{16}$ & |0.8873 - 0.8879| =\allowbreak{} 0.0007 & $\le$\allowbreak{} 0.015 & đạt &  \\
+H3 & $2^{19}$ & |0.9165 - 0.9181| =\allowbreak{} 0.0016 & $\le$\allowbreak{} 0.015 & đạt &  \\
+H3 & OVERALL & 3/3 & 3/3 & đạt & ĐẠT \\
+H4 & CI\_\allowbreak{}$2^{12}$\_\allowbreak{}vs\_\allowbreak{}$2^{16}$ & 0.8521 vs 0.8808 & ci2\_\allowbreak{}hi $<$\allowbreak{} ci2\_\allowbreak{}lo & đạt &  \\
+H4 & CI\_\allowbreak{}$2^{16}$\_\allowbreak{}vs\_\allowbreak{}$2^{19}$ & 0.8932 vs 0.9091 & ci2\_\allowbreak{}hi $<$\allowbreak{} ci2\_\allowbreak{}lo & đạt &  \\
+H4 & step\_\allowbreak{}$2^{12}${}$\to${}$2^{14}$ & +0.0260 (dec=\allowbreak{}0.0000) & decrease $\le$\allowbreak{} 0.005 & đạt &  \\
+H4 & step\_\allowbreak{}$2^{14}${}$\to${}$2^{16}$ & +0.0170 (dec=\allowbreak{}0.0000) & decrease $\le$\allowbreak{} 0.005 & đạt &  \\
+H4 & step\_\allowbreak{}$2^{16}${}$\to${}$2^{18}$ & +0.0215 (dec=\allowbreak{}0.0000) & decrease $\le$\allowbreak{} 0.005 & đạt &  \\
+H4 & step\_\allowbreak{}$2^{18}${}$\to${}$2^{19}$ & +0.0077 (dec=\allowbreak{}0.0000) & decrease $\le$\allowbreak{} 0.005 & đạt &  \\
+H4 & OVERALL & ci\_\allowbreak{}ok=\allowbreak{}True, max\_\allowbreak{}dec=\allowbreak{}0.0000 & both true & đạt & ĐẠT \\
+H5 & $2^{12}$ & 0.8443 [ci2\_\allowbreak{}lo=\allowbreak{}0.8362] & $>$\allowbreak{} 0.833 & đạt &  \\
+H5 & $2^{14}$ & 0.8703 [ci2\_\allowbreak{}lo=\allowbreak{}0.8641] & $>$\allowbreak{} 0.833 & đạt &  \\
+H5 & $2^{16}$ & 0.8873 [ci2\_\allowbreak{}lo=\allowbreak{}0.8808] & $>$\allowbreak{} 0.833 & đạt &  \\
+H5 & $2^{18}$ & 0.9088 [ci2\_\allowbreak{}lo=\allowbreak{}0.9015] & $>$\allowbreak{} 0.833 & đạt &  \\
+H5 & $2^{19}$ & 0.9165 [ci2\_\allowbreak{}lo=\allowbreak{}0.9091] & $>$\allowbreak{} 0.833 & đạt &  \\
+H5 & OVERALL & min=\allowbreak{}0.8443 & $>$\allowbreak{} 0.833 & đạt & ĐẠT \\
+H6 & $2^{12}$ & 8 & in [6, 16] & đạt &  \\
+H6 & $2^{16}$ & 10 & in [6, 16] & đạt &  \\
+H6 & $2^{19}$ & 8 & in [6, 16] & đạt &  \\
+H6 & OVERALL & 3/3 & 3/3 & đạt & ĐẠT \\
+H7 & $2^{12}$ & 32 & in [17, 48] & đạt &  \\
+H7 & $2^{16}$ & 32 & in [17, 48] & đạt &  \\
+H7 & $2^{19}$ & 32 & in [17, 48] & đạt &  \\
+H7 & OVERALL & 3/3 & 3/3 & đạt & ĐẠT \\
+H8 & $2^{12}$ & c*=\allowbreak{}4096, n\_\allowbreak{}inc=\allowbreak{}0, max\_\allowbreak{}inc=\allowbreak{}0.0000 & c*=4096 \& (n\_\allowbreak{}inc==0 or (n\_\allowbreak{}inc==1 \& max\_\allowbreak{}inc$\le$\allowbreak{}0.01)) & đạt &  \\
+H8 & $2^{16}$ & c*=\allowbreak{}4096, n\_\allowbreak{}inc=\allowbreak{}0, max\_\allowbreak{}inc=\allowbreak{}0.0000 & c*=4096 \& (n\_\allowbreak{}inc==0 or (n\_\allowbreak{}inc==1 \& max\_\allowbreak{}inc$\le$\allowbreak{}0.01)) & đạt &  \\
+H8 & $2^{19}$ & c*=\allowbreak{}4096, n\_\allowbreak{}inc=\allowbreak{}0, max\_\allowbreak{}inc=\allowbreak{}0.0000 & c*=4096 \& (n\_\allowbreak{}inc==0 or (n\_\allowbreak{}inc==1 \& max\_\allowbreak{}inc$\le$\allowbreak{}0.01)) & đạt &  \\
+H8 & OVERALL & 3/3 & 3/3 & đạt & ĐẠT \\
+H9 & $2^{12}$ & 384 & in \{128..1024\} & đạt &  \\
+H9 & $2^{16}$ & 384 & in \{128..1024\} & đạt &  \\
+H9 & $2^{19}$ & 512 & in \{128..1024\} & đạt &  \\
+H9 & OVERALL & 3/3 & 3/3 & đạt & ĐẠT \\
+H10 & $2^{14}$ & RMSE=\allowbreak{}0.0042, c*\_\allowbreak{}M2=\allowbreak{}40 in [16..32, 40, 48]=\allowbreak{}True & RMSE $\le$\allowbreak{} 0.012 \& in near\_\allowbreak{}opt & đạt &  \\
+H10 & $2^{18}$ & RMSE=\allowbreak{}0.0040, c*\_\allowbreak{}M2=\allowbreak{}40 in [13..32, 40, 48]=\allowbreak{}True & RMSE $\le$\allowbreak{} 0.012 \& in near\_\allowbreak{}opt & đạt &  \\
+H10 & OVERALL & 2/2 & 2/2 & đạt & ĐẠT \\
+H10b & $2^{14}$ & RMSE=\allowbreak{}0.0048 (alpha=\allowbreak{}9.9999) & RMSE $\le$\allowbreak{} 0.012 & đạt &  \\
+H10b & $2^{18}$ & RMSE=\allowbreak{}0.0048 (alpha=\allowbreak{}12.2953) & RMSE $\le$\allowbreak{} 0.012 & đạt &  \\
+H10b & OVERALL & 2/2 & 2/2 & đạt & ĐẠT \\
+H11 & k=\allowbreak{}19\_\allowbreak{}c=\allowbreak{}1 & 0.0418 (3SE=\allowbreak{}0.0539) & $\le$\allowbreak{} 3*sqrt(SE1\^{}2+SE2\^{}2) & đạt &  \\
+H11 & k=\allowbreak{}19\_\allowbreak{}c=\allowbreak{}30 & 0.0518 (3SE=\allowbreak{}0.0915) & $\le$\allowbreak{} 3*sqrt(SE1\^{}2+SE2\^{}2) & đạt &  \\
+H11 & k=\allowbreak{}20\_\allowbreak{}c=\allowbreak{}1 & 0.0101 (3SE=\allowbreak{}0.0545) & $\le$\allowbreak{} 3*sqrt(SE1\^{}2+SE2\^{}2) & đạt &  \\
+H11 & k=\allowbreak{}20\_\allowbreak{}c=\allowbreak{}30 & 0.0123 (3SE=\allowbreak{}0.0444) & $\le$\allowbreak{} 3*sqrt(SE1\^{}2+SE2\^{}2) & đạt &  \\
+H11 & k=\allowbreak{}21\_\allowbreak{}c=\allowbreak{}1 & 0.0130 (3SE=\allowbreak{}0.0570) & $\le$\allowbreak{} 3*sqrt(SE1\^{}2+SE2\^{}2) & đạt &  \\
+H11 & k=\allowbreak{}21\_\allowbreak{}c=\allowbreak{}30 & 0.0229 (3SE=\allowbreak{}0.0472) & $\le$\allowbreak{} 3*sqrt(SE1\^{}2+SE2\^{}2) & đạt &  \\
+H11 & OVERALL & 6/6 & 6/6 & đạt & ĐẠT \\
+H12 & P\_\allowbreak{}tiep\_\allowbreak{}k=\allowbreak{}22\_\allowbreak{}c=\allowbreak{}1 & 0.0001 (3SE=\allowbreak{}0.0220) & $\le$\allowbreak{} 3*SE\_\allowbreak{}k & đạt &  \\
+H12 & P\_\allowbreak{}tiep\_\allowbreak{}k=\allowbreak{}22\_\allowbreak{}c=\allowbreak{}30 & 0.0104 (3SE=\allowbreak{}0.0451) & $\le$\allowbreak{} 3*SE\_\allowbreak{}k & đạt &  \\
+H12 & P\_\allowbreak{}tiep\_\allowbreak{}k=\allowbreak{}23\_\allowbreak{}c=\allowbreak{}1 & 0.0103 (3SE=\allowbreak{}0.0140) & $\le$\allowbreak{} 3*SE\_\allowbreak{}k & đạt &  \\
+H12 & P\_\allowbreak{}tiep\_\allowbreak{}k=\allowbreak{}23\_\allowbreak{}c=\allowbreak{}30 & 0.0122 (3SE=\allowbreak{}0.0176) & $\le$\allowbreak{} 3*SE\_\allowbreak{}k & đạt &  \\
+H12 & P\_\allowbreak{}baohoa\_\allowbreak{}k=\allowbreak{}22\_\allowbreak{}c=\allowbreak{}1 & 0.0957 (3SE=\allowbreak{}0.0220) & $\le$\allowbreak{} 3*SE\_\allowbreak{}k & không đạt &  \\
+H12 & P\_\allowbreak{}baohoa\_\allowbreak{}k=\allowbreak{}22\_\allowbreak{}c=\allowbreak{}30 & 0.0928 (3SE=\allowbreak{}0.0451) & $\le$\allowbreak{} 3*SE\_\allowbreak{}k & không đạt &  \\
+H12 & P\_\allowbreak{}baohoa\_\allowbreak{}k=\allowbreak{}23\_\allowbreak{}c=\allowbreak{}1 & 0.0871 (3SE=\allowbreak{}0.0140) & $\le$\allowbreak{} 3*SE\_\allowbreak{}k & không đạt &  \\
+H12 & P\_\allowbreak{}baohoa\_\allowbreak{}k=\allowbreak{}23\_\allowbreak{}c=\allowbreak{}30 & 0.0929 (3SE=\allowbreak{}0.0176) & $\le$\allowbreak{} 3*SE\_\allowbreak{}k & không đạt &  \\
+H12 & P\_\allowbreak{}tiep\_\allowbreak{}summary & 4/4 & 4/4 & đạt &  \\
+H12 & P\_\allowbreak{}baohoa\_\allowbreak{}summary & 0/4 & 4/4 & không đạt &  \\
+H12 & OVERALL & P\_\allowbreak{}tiep=\allowbreak{}4/4, P\_\allowbreak{}baohoa=\allowbreak{}0/4 & 4/4 cells $\le$\allowbreak{} 3*SE\_\allowbreak{}k & đạt & XEM TỪNG DỰ ĐOÁN (P-tiếp ĐẠT; P-bão hòa KHÔNG ĐẠT) \\
+H13 & pair\_\allowbreak{}(16, 30) & 12/15 pass, max=\allowbreak{}0.01408 & $\le$\allowbreak{} 0.01 ở mọi k & không đạt &  \\
+H13 & pair\_\allowbreak{}(4, 7) & 12/15 pass, max=\allowbreak{}0.03339 & $\le$\allowbreak{} 0.01 ở mọi k & không đạt &  \\
+H13 & pair\_\allowbreak{}(8, 10) & 14/15 pass, max=\allowbreak{}0.01141 & $\le$\allowbreak{} 0.01 ở mọi k & không đạt &  \\
+H13 & OVERALL & 38/45 (max=\allowbreak{}0.03339) & 45/45 $\le$\allowbreak{} 0.01 & không đạt & KHÔNG ĐẠT \\
+H14 & $2^{12}$ & diff=\allowbreak{}-0.1455 (ci\_\allowbreak{}hi=\allowbreak{}-0.1000); c*=\allowbreak{}128 vs 48 & ci\_\allowbreak{}hi $<$\allowbreak{} 0 \& c*\_\allowbreak{}int $\ge$\allowbreak{} c*\_\allowbreak{}Integer & đạt &  \\
+H14 & $2^{16}$ & diff=\allowbreak{}-0.1271 (ci\_\allowbreak{}hi=\allowbreak{}-0.0980); c*=\allowbreak{}128 vs 48 & ci\_\allowbreak{}hi $<$\allowbreak{} 0 \& c*\_\allowbreak{}int $\ge$\allowbreak{} c*\_\allowbreak{}Integer & đạt &  \\
+H14 & $2^{19}$ & diff=\allowbreak{}-0.1303 (ci\_\allowbreak{}hi=\allowbreak{}-0.1117); c*=\allowbreak{}64 vs 29 & ci\_\allowbreak{}hi $<$\allowbreak{} 0 \& c*\_\allowbreak{}int $\ge$\allowbreak{} c*\_\allowbreak{}Integer & đạt &  \\
+H14 & OVERALL & 3/3 & 3/3 & đạt & ĐẠT \\
+H15 & $2^{12}$\_\allowbreak{}to\_\allowbreak{}$2^{19}$ & 0.0730 vs 0.0289 (ratio=\allowbreak{}1.263) & $<$\allowbreak{} 0.5 * Delta\_\allowbreak{}r\_\allowbreak{}Integer & không đạt &  \\
+H15 & OVERALL & 0.0730 vs 0.0289 & $<$\allowbreak{} 0.5 * Delta\_\allowbreak{}r\_\allowbreak{}Integer & không đạt & KHÔNG ĐẠT \\
+H16 & $2^{12}$ & 0.0177 (CI=\allowbreak{}[-0.0436,\allowbreak{}+0.0102]) & $\le$\allowbreak{} 0.02 & đạt &  \\
+H16 & $2^{16}$ & 0.0124 (CI=\allowbreak{}[-0.0301,\allowbreak{}+0.0055]) & $\le$\allowbreak{} 0.02 & đạt &  \\
+H16 & $2^{19}$ & 0.0081 (CI=\allowbreak{}[-0.0119,\allowbreak{}+0.0281]) & $\le$\allowbreak{} 0.02 & đạt &  \\
+H16 & OVERALL & 3/3 & 3/3 & đạt & ĐẠT \\
+H17 & N=\allowbreak{}4096\_\allowbreak{}c=\allowbreak{}7 & |0.6144 - 0.9081| =\allowbreak{} 0.2937 & $\le$\allowbreak{} 0.02 & không đạt &  \\
+H17 & N=\allowbreak{}4096\_\allowbreak{}c=\allowbreak{}10 & |0.5885 - 0.8737| =\allowbreak{} 0.2853 & $\le$\allowbreak{} 0.02 & không đạt &  \\
+H17 & N=\allowbreak{}4096\_\allowbreak{}c=\allowbreak{}30 & |0.5660 - 0.8421| =\allowbreak{} 0.2761 & $\le$\allowbreak{} 0.02 & không đạt &  \\
+H17 & N=\allowbreak{}65536\_\allowbreak{}c=\allowbreak{}7 & |0.9868 - 0.9344| =\allowbreak{} 0.0524 & $\le$\allowbreak{} 0.02 & không đạt &  \\
+H17 & N=\allowbreak{}65536\_\allowbreak{}c=\allowbreak{}10 & |0.9496 - 0.9112| =\allowbreak{} 0.0384 & $\le$\allowbreak{} 0.02 & không đạt &  \\
+H17 & N=\allowbreak{}65536\_\allowbreak{}c=\allowbreak{}30 & |0.9727 - 0.8868| =\allowbreak{} 0.0859 & $\le$\allowbreak{} 0.02 & không đạt &  \\
+H17 & N=\allowbreak{}524288\_\allowbreak{}c=\allowbreak{}7 & |0.9782 - 0.9585| =\allowbreak{} 0.0197 & $\le$\allowbreak{} 0.02 & đạt &  \\
+H17 & N=\allowbreak{}524288\_\allowbreak{}c=\allowbreak{}10 & |0.9364 - 0.9406| =\allowbreak{} 0.0042 & $\le$\allowbreak{} 0.02 & đạt &  \\
+H17 & N=\allowbreak{}524288\_\allowbreak{}c=\allowbreak{}30 & |0.9904 - 0.9212| =\allowbreak{} 0.0692 & $\le$\allowbreak{} 0.02 & không đạt &  \\
+H17 & order\_\allowbreak{}N=\allowbreak{}4096 & True & True & đạt &  \\
+H17 & order\_\allowbreak{}N=\allowbreak{}65536 & False & True & không đạt &  \\
+H17 & order\_\allowbreak{}N=\allowbreak{}524288 & False & True & không đạt &  \\
+H17 & OVERALL & diff=\allowbreak{}2/9, order=\allowbreak{}1/3 & 9/9 \& 3/3 & không đạt & KHÔNG ĐẠT \\
+J1 & N=\allowbreak{}4096\_\allowbreak{}c=\allowbreak{}7 & |0.5437 - 0.6144| =\allowbreak{} 0.0708 & $\le$\allowbreak{} 0.03 & không đạt &  \\
+J1 & N=\allowbreak{}4096\_\allowbreak{}c=\allowbreak{}10 & |0.5239 - 0.5885| =\allowbreak{} 0.0646 & $\le$\allowbreak{} 0.03 & không đạt &  \\
+J1 & N=\allowbreak{}4096\_\allowbreak{}c=\allowbreak{}30 & |0.5229 - 0.5660| =\allowbreak{} 0.0431 & $\le$\allowbreak{} 0.03 & không đạt &  \\
+J1 & N=\allowbreak{}65536\_\allowbreak{}c=\allowbreak{}7 & |0.9554 - 0.9868| =\allowbreak{} 0.0314 & $\le$\allowbreak{} 0.03 & không đạt &  \\
+J1 & N=\allowbreak{}65536\_\allowbreak{}c=\allowbreak{}10 & |0.9427 - 0.9496| =\allowbreak{} 0.0069 & $\le$\allowbreak{} 0.03 & đạt &  \\
+J1 & N=\allowbreak{}65536\_\allowbreak{}c=\allowbreak{}30 & |1.0107 - 0.9727| =\allowbreak{} 0.0380 & $\le$\allowbreak{} 0.03 & không đạt &  \\
+J1 & N=\allowbreak{}524288\_\allowbreak{}c=\allowbreak{}7 & |0.9323 - 0.9782| =\allowbreak{} 0.0459 & $\le$\allowbreak{} 0.03 & không đạt &  \\
+J1 & N=\allowbreak{}524288\_\allowbreak{}c=\allowbreak{}10 & |0.9329 - 0.9364| =\allowbreak{} 0.0035 & $\le$\allowbreak{} 0.03 & đạt &  \\
+J1 & N=\allowbreak{}524288\_\allowbreak{}c=\allowbreak{}30 & |0.9905 - 0.9904| =\allowbreak{} 0.0001 & $\le$\allowbreak{} 0.03 & đạt &  \\
+J1 & OVERALL & 3/9 (max=\allowbreak{}0.0708) & 9/9 & không đạt & KHÔNG ĐẠT \\
+J2 & diff\_\allowbreak{}r\_\allowbreak{}c7 & 0.3405 (CI=\allowbreak{}[0.2604,\allowbreak{}0.4049]) & $\ge$\allowbreak{} 0.10 & đạt &  \\
+J2 & diff\_\allowbreak{}r\_\allowbreak{}c10 & 0.3943 (CI=\allowbreak{}[0.3268,\allowbreak{}0.4647]) & $\ge$\allowbreak{} 0.10 & đạt &  \\
+J2 & diff\_\allowbreak{}r\_\allowbreak{}c30 & 0.3694 (CI=\allowbreak{}[0.3288,\allowbreak{}0.4029]) & $\ge$\allowbreak{} 0.10 & đạt &  \\
+J2 & ratio\_\allowbreak{}Score\_\allowbreak{}c30 & 1.9898 (CI=\allowbreak{}[1.8860,\allowbreak{}2.0533]) & $\ge$\allowbreak{} 1.30 & đạt &  \\
+J2 & OVERALL & 4/4 (ratio\_\allowbreak{}c30=\allowbreak{}1.9898) & 4/4 & đạt & ĐẠT \\
+J3 & c=\allowbreak{}1 & 0.0837 (signed=\allowbreak{}+0.0837) & $\le$\allowbreak{} 0.03 & không đạt &  \\
+J3 & c=\allowbreak{}7 & 0.1624 (signed=\allowbreak{}+0.1624) & $\le$\allowbreak{} 0.03 & không đạt &  \\
+J3 & c=\allowbreak{}10 & 0.1433 (signed=\allowbreak{}+0.1433) & $\le$\allowbreak{} 0.03 & không đạt &  \\
+J3 & c=\allowbreak{}30 & 0.1856 (signed=\allowbreak{}+0.1856) & $\le$\allowbreak{} 0.03 & không đạt &  \\
+J3 & OVERALL & 0/4 (max=\allowbreak{}0.1856) & 4/4 & không đạt & KHÔNG ĐẠT \\
+J4 & N=\allowbreak{}65536 & 9962.9 / 9863.9 / 10239.8 / 10820.4 & strictly increasing & không đạt &  \\
+J4 & N=\allowbreak{}524288 & 118543.4 / 119907.8 / 119357.4 / 125464.7 & strictly increasing & không đạt &  \\
+J4 & OVERALL & 0/2 & 2/2 & không đạt & KHÔNG ĐẠT \\
+J5 & diff\_\allowbreak{}N4096\_\allowbreak{}c7 & |0.9476-0.9081|=\allowbreak{}0.0395 & $\le$\allowbreak{} 0.02 & không đạt &  \\
+J5 & diff\_\allowbreak{}N4096\_\allowbreak{}c10 & |0.9644-0.8737|=\allowbreak{}0.0907 & $\le$\allowbreak{} 0.02 & không đạt &  \\
+J5 & diff\_\allowbreak{}N4096\_\allowbreak{}c30 & |0.8792-0.8421|=\allowbreak{}0.0371 & $\le$\allowbreak{} 0.02 & không đạt &  \\
+J5 & order\_\allowbreak{}N4096 & False & Score(30)$<$\allowbreak{}Score(10)$<$\allowbreak{}Score(7)$<$\allowbreak{}Score(1) & không đạt &  \\
+J5 & diff\_\allowbreak{}N65536\_\allowbreak{}c7 & |0.9463-0.9344|=\allowbreak{}0.0120 & $\le$\allowbreak{} 0.02 & đạt &  \\
+J5 & diff\_\allowbreak{}N65536\_\allowbreak{}c10 & |0.9116-0.9112|=\allowbreak{}0.0004 & $\le$\allowbreak{} 0.02 & đạt &  \\
+J5 & diff\_\allowbreak{}N65536\_\allowbreak{}c30 & |0.9208-0.8868|=\allowbreak{}0.0339 & $\le$\allowbreak{} 0.02 & không đạt &  \\
+J5 & order\_\allowbreak{}N65536 & False & Score(30)$<$\allowbreak{}Score(10)$<$\allowbreak{}Score(7)$<$\allowbreak{}Score(1) & không đạt &  \\
+J5 & diff\_\allowbreak{}N524288\_\allowbreak{}c7 & |0.9513-0.9585|=\allowbreak{}0.0072 & $\le$\allowbreak{} 0.02 & đạt &  \\
+J5 & diff\_\allowbreak{}N524288\_\allowbreak{}c10 & |0.9557-0.9406|=\allowbreak{}0.0151 & $\le$\allowbreak{} 0.02 & đạt &  \\
+J5 & diff\_\allowbreak{}N524288\_\allowbreak{}c30 & |0.9448-0.9212|=\allowbreak{}0.0236 & $\le$\allowbreak{} 0.02 & không đạt &  \\
+J5 & order\_\allowbreak{}N524288 & False & Score(30)$<$\allowbreak{}Score(10)$<$\allowbreak{}Score(7)$<$\allowbreak{}Score(1) & không đạt &  \\
+J5 & OVERALL & diff=\allowbreak{}4/9, order=\allowbreak{}0/3 & 9/9 \& 3/3 & không đạt & KHÔNG ĐẠT \\
+J6 & N=\allowbreak{}4096\_\allowbreak{}c=\allowbreak{}30 & 1.7861 (CI=\allowbreak{}[1.6645,\allowbreak{}1.9152]) & $\ge$\allowbreak{} 1.50 & đạt &  \\
+J6 & OVERALL & 1.7861 & $\ge$\allowbreak{} 1.50 & đạt & ĐẠT \\
+J7 & diff\_\allowbreak{}N4096\_\allowbreak{}c7 & |0.9270-0.9081|=\allowbreak{}0.0189 & $\le$\allowbreak{} 0.02 & đạt &  \\
+J7 & diff\_\allowbreak{}N4096\_\allowbreak{}c10 & |0.8913-0.8737|=\allowbreak{}0.0176 & $\le$\allowbreak{} 0.02 & đạt &  \\
+J7 & diff\_\allowbreak{}N4096\_\allowbreak{}c30 & |0.8649-0.8421|=\allowbreak{}0.0228 & $\le$\allowbreak{} 0.02 & không đạt &  \\
+J7 & order\_\allowbreak{}N4096 & True & Score(30)$<$\allowbreak{}Score(10)$<$\allowbreak{}Score(7)$<$\allowbreak{}Score(1) & đạt &  \\
+J7 & diff\_\allowbreak{}N65536\_\allowbreak{}c7 & |0.8941-0.9344|=\allowbreak{}0.0403 & $\le$\allowbreak{} 0.02 & không đạt &  \\
+J7 & diff\_\allowbreak{}N65536\_\allowbreak{}c10 & |0.8920-0.9112|=\allowbreak{}0.0192 & $\le$\allowbreak{} 0.02 & đạt &  \\
+J7 & diff\_\allowbreak{}N65536\_\allowbreak{}c30 & |0.8710-0.8868|=\allowbreak{}0.0158 & $\le$\allowbreak{} 0.02 & đạt &  \\
+J7 & order\_\allowbreak{}N65536 & True & Score(30)$<$\allowbreak{}Score(10)$<$\allowbreak{}Score(7)$<$\allowbreak{}Score(1) & đạt &  \\
+J7 & diff\_\allowbreak{}N524288\_\allowbreak{}c7 & |0.9386-0.9585|=\allowbreak{}0.0200 & $\le$\allowbreak{} 0.02 & đạt &  \\
+J7 & diff\_\allowbreak{}N524288\_\allowbreak{}c10 & |0.9088-0.9406|=\allowbreak{}0.0318 & $\le$\allowbreak{} 0.02 & không đạt &  \\
+J7 & diff\_\allowbreak{}N524288\_\allowbreak{}c30 & |0.8922-0.9212|=\allowbreak{}0.0290 & $\le$\allowbreak{} 0.02 & không đạt &  \\
+J7 & order\_\allowbreak{}N524288 & True & Score(30)$<$\allowbreak{}Score(10)$<$\allowbreak{}Score(7)$<$\allowbreak{}Score(1) & đạt &  \\
+J7 & OVERALL & diff=\allowbreak{}5/9, order=\allowbreak{}3/3 & 9/9 \& 3/3 & không đạt & KHÔNG ĐẠT \\
+J2xJ6 & OUTCOME & J2=\allowbreak{}ĐẠT, J6=\allowbreak{}ĐẠT & T11\_\allowbreak{}addendum.md A2 &  & cả hai đạt $\to$ cả hai cùng góp phần (không tách được tỉ trọng ngoài bảng mô tả) \\
+I1 & $2^{12}$ & 0.7247 (r*=\allowbreak{}0.6972) & $<$\allowbreak{} 0.833 & đạt &  \\
+I1 & $2^{16}$ & 0.7861 (r*=\allowbreak{}0.7661) & $<$\allowbreak{} 0.833 & đạt &  \\
+I1 & $2^{19}$ & 0.7940 (r*=\allowbreak{}0.7832) & $<$\allowbreak{} 0.833 & đạt &  \\
+I1 & OVERALL & 3/3 (max\_\allowbreak{}hi=\allowbreak{}0.7940) & 3/3 & đạt & ĐẠT \\
+I1b & $2^{12}$ & 0.6972 & $<$\allowbreak{} 0.80 & đạt &  \\
+I1b & $2^{16}$ & 0.7661 & $<$\allowbreak{} 0.80 & đạt &  \\
+I1b & $2^{19}$ & 0.7832 & $<$\allowbreak{} 0.80 & đạt &  \\
+I1b & OVERALL & 3/3 (max\_\allowbreak{}r*=\allowbreak{}0.7832) & 3/3 & đạt & ĐẠT \\
+I2 & $2^{12}$ & 128 & $\le$\allowbreak{} 192 & đạt &  \\
+I2 & $2^{16}$ & 112 & $\le$\allowbreak{} 192 & đạt &  \\
+I2 & $2^{19}$ & 64 & $\le$\allowbreak{} 192 & đạt &  \\
+I2 & OVERALL & 3/3 & 3/3 & đạt & ĐẠT \\
+I3 & $2^{12}$ & 0.7074, 0.7705, 0.7154 & r(64)$>$\allowbreak{}r(32) \& r(96)$<$\allowbreak{}r(64) & đạt &  \\
+I3 & $2^{16}$ & 0.7746, 0.8250, 0.7814 & r(64)$>$\allowbreak{}r(32) \& r(96)$<$\allowbreak{}r(64) & đạt &  \\
+I3 & OVERALL & 2/2 & 2/2 & đạt & ĐẠT \\
+I4 & $2^{12}$\_\allowbreak{}to\_\allowbreak{}$2^{19}$ & 0.0860 vs 0.0361 (ratio=\allowbreak{}1.191) & $\ge$\allowbreak{} 0.5 * delta\_\allowbreak{}r\_\allowbreak{}Integer\_\allowbreak{}S1 & đạt &  \\
+I4 & OVERALL & 0.0860 vs 0.0361 & $\ge$\allowbreak{} 0.5 * delta\_\allowbreak{}r\_\allowbreak{}Integer\_\allowbreak{}S1 & đạt & ĐẠT \\
+B1 & OVERALL & D1 hủy theo §3 (AMD uProf chưa cài) & $\le$\allowbreak{} 0.5 * M(fresh) &  & KHÔNG THỰC HIỆN \\
+B2 & OVERALL & D1 hủy theo §3 (AMD uProf chưa cài) & $\ge$\allowbreak{} 0.8 * M(fresh) &  & KHÔNG THỰC HIỆN \\
+\end{longtable}

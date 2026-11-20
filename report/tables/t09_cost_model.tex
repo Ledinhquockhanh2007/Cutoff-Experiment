@@ -1,0 +1,34 @@
+% Nguồn: V2/cost_model_M2_coef.csv (coef, std_err); V2/cost_model_loso.csv (model, holdout_scale, rmse_r); P2/p2_m2_summary.csv (rmse_interp, rmse_calib, c_star_M2, c_star_meas)
+% Lệnh sinh: python report/make_tables_p2.py
+% Sinh tự động, KHÔNG sửa tay (sửa make_tables_p2.py rồi chạy lại).
+% (a) và các hàng LOSO: khám phá. Các hàng xác nhận: kiểm định H10, H10b (ngưỡng RMSE <= 0.012).
+\textbf{(a)}\par\smallskip
+\begin{tabular}{lcl}
+\toprule
+Tham số M2 (phép đo sơ bộ) & Hệ số $\pm$ SE & Đơn vị \\
+\midrule
+$w_1$ (merge $\le 8$) & 5.86 $\pm$ 0.07 & ns/phần tử \\
+$w_2$ (merge 9--32) & 10.62 $\pm$ 0.42 & ns/phần tử \\
+$w_3$ (merge 33--128) & 16.54 $\pm$ 0.97 & ns/phần tử \\
+$\beta$ (đổi chỗ trong lá) & 3.27 $\pm$ 0.19 & ns/nghịch thế \\
+$\alpha_{12}$ & 9.08 $\pm$ 0.48 & ns/phần tử \\
+$\alpha_{16}$ & 8.79 $\pm$ 0.29 & ns/phần tử \\
+$\alpha_{19}$ & 11.58 $\pm$ 0.24 & ns/phần tử \\
+\bottomrule
+\end{tabular}
+\bigskip
+
+\textbf{(b)}\par\smallskip
+\begin{tabular}{lccccc}
+\toprule
+RMSE$(\hat r - r)$ & $2^{12}$ & $2^{16}$ & $2^{19}$ & $2^{14}$ & $2^{18}$ \\
+\midrule
+M0, LOSO, khám phá & 0.0898 & 0.0657 & 0.0755 &  &  \\
+M1, LOSO, khám phá & 0.0854 & 0.0083 & 0.0164 &  &  \\
+M2, LOSO, khám phá & 0.0087 & 0.0068 & 0.0029 &  &  \\
+\midrule
+M2, $\alpha$ nội suy (xác nhận) &  &  &  & 0.0042 & 0.0040 \\
+M2, $\alpha$ hiệu chỉnh (xác nhận) &  &  &  & 0.0048 & 0.0048 \\
+$c^*_{M2}$ / $c^*$ đo (xác nhận) &  &  &  & 40 / 32 & 40 / 31 \\
+\bottomrule
+\end{tabular}

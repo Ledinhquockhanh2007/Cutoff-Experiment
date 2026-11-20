@@ -1,0 +1,21 @@
+% Nguồn: P2B/p2b_jmh_scores.csv (score_us, ci_lo, ci_hi; cutoff 30); P2B/p2b_jmh_r.csv (r, ci_lo, ci_hi; cutoff 30); P2B/p2b_jmh_abs_vs_run5.csv (run5_geom_time_us); P2/p2_jmh.csv (T08: jmh_score_us, jmh_score_err_999_us, r_jmh, r_run5)
+% Lệnh sinh: python report/make_tables_p2.py
+% Sinh tự động, KHÔNG sửa tay (sửa make_tables_p2.py rồi chạy lại).
+% Cấu hình ghi theo input+profile+reset.
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{lccccc}
+\toprule
+Cấu hình & \makecell{{Score $N{=}4096$} \\ {$c{=}30$ (µs)}} & \makecell{{Score $N{=}524288$} \\ {$c{=}30$ (µs)}} & \makecell{{$r(4096, 30)$} \\ {[CI]}} & \makecell{{$r(65536, 30)$} \\ {[CI]}} & \makecell{{$r(524288, 30)$} \\ {[CI]}} \\
+\midrule
+JMH ban đầu & 213 $\pm$ 5$^{a}$ & 106867 $\pm$ 4101$^{a}$ & 0.566 & 0.973 & 0.990 \\
+same+pure+none & \makecell{213 \\ {[207, 225]}} & \makecell{107500 \\ {[100906, 112865]}} & \makecell{0.523 \\ {[0.491, 0.561]}} & \makecell{1.011 \\ {[0.912, 1.073]}} & \makecell{0.990 \\ {[0.929, 1.055]}} \\
+fresh+pure+none & \makecell{424 \\ {[423, 426]}} & \makecell{129418 \\ {[121951, 135493]}} & \makecell{0.892 \\ {[0.885, 0.899]}} & \makecell{0.948 \\ {[0.912, 0.999]}} & \makecell{1.097 \\ {[1.035, 1.146]}} \\
+same+mixed+none & \makecell{224 \\ {[215, 235]}} & \makecell{98241 \\ {[96110, 100973]}} & \makecell{0.748 \\ {[0.663, 0.832]}} & \makecell{0.851 \\ {[0.827, 0.872]}} & \makecell{0.891 \\ {[0.859, 0.928]}} \\
+fresh+mixed+none & \makecell{397 \\ {[384, 406]}} & \makecell{118543 \\ {[116921, 120237]}} & \makecell{0.879 \\ {[0.837, 0.935]}} & \makecell{0.921 \\ {[0.905, 0.937]}} & \makecell{0.945 \\ {[0.923, 0.967]}} \\
+same+mixed+gc & \makecell{400 \\ {[378, 426]}} & \makecell{96538 \\ {[92552, 98701]}} & \makecell{0.865 \\ {[0.817, 0.916]}} & \makecell{0.871 \\ {[0.843, 0.900]}} & \makecell{0.892 \\ {[0.855, 0.931]}} \\
+fresh+mixed+gc & \makecell{413 \\ {[402, 421]}} & \makecell{120136 \\ {[117228, 124289]}} & \makecell{0.828 \\ {[0.805, 0.853]}} & \makecell{0.884 \\ {[0.836, 0.927]}} & \makecell{0.948 \\ {[0.922, 0.977]}} \\
+\midrule
+Thí nghiệm chính (bộ đo của nghiên cứu)$^{b}$ & 424 & 111454 & 0.842 & 0.887 & 0.921 \\
+\bottomrule
+\end{tabular}
+\par\smallskip\raggedright\footnotesize $^{a}$ Score Error 99.9\% do JMH báo (không phải CI bootstrap). $^{b}$ Trung bình nhân, thí nghiệm chính (khác phiên với JMH); r của đúng $N$ đó. CI: bootstrap 95\% theo fork (3 fork).

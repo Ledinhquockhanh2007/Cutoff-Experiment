@@ -1,0 +1,17 @@
+Hình: fig02_m2_confirmation
+Nhãn: [ĐK H10, H10b]
+Nguồn:
+- results_phase2/analysis/tables/p2_m2_validation.csv (cột scale, cutoff, r_meas, r_hat_interp, r_hat_calib)
+- results_phase2/analysis/tables/p2_m2_summary.csv (rmse_interp, rmse_calib, c_star_M2, c_star_meas)
+- results_phase2/analysis/tables/p2_r_by_cutoff.csv (random, 2^14 và 2^18; ci2_lo, ci2_hi cho điểm đo)
+- handoff/preregistration/T09_predictions_m2.csv (dự đoán đã commit trước khi đo; p2_m2_validation chép lại)
+Thanh/dải sai số: Thanh dọc của điểm đo: CI hai tầng 95% (bootstrap rút fork có hoàn lại rồi rút N trong thang, B = 10 000, seed 20261117 cho P2 / 20261118 cho P2B), cột ci2_lo, ci2_hi. Đường M2 không có dải (dự đoán điểm).
+Mô tả:
+- Hai thang MỚI của giai đoạn xác nhận (2^14, 2^18). Hệ số M2 đóng băng từ giai đoạn khám phá; α nội suy theo k = lg S
+  (α14 = 8.931288, α18 = 10.650196).
+- Đường dọc chấm: c*_M2 (argmin r̂ nội suy) và c* đo (p2_best).
+- RMSE tính trên 35 CUTOFF (kể cả c = 1, sai số 0); tính lại từ .data.csv: 2^14 = 0.004176808134, 2^18 = 0.003998665133.
+
+Quy tắc A (số đọc lại từ .data.csv | số trong bảng | chênh):
+- r̂ nội suy tại 2^14, c = 40: hình = 0.8696504626 | bảng (p2_m2_validation.r_hat_interp) = 0.8696504626 | chênh = 0
+- r đo tại 2^18, c = 31: hình = 0.9087981719 | bảng (p2_r_by_cutoff.r) = 0.9087981719 | chênh = 0

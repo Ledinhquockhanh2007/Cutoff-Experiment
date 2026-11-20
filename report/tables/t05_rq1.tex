@@ -1,0 +1,18 @@
+% Nguồn: P2/p2_best.csv (random: c_star, r_star, ci2_lo, ci2_hi, near_optimal_2pct, boot2_argmin_top3_kp); P2/p2_pooled.csv (cutoff 30, 31: r, ci2_lo, ci2_hi)
+% Lệnh sinh: python report/make_tables_p2.py
+% Sinh tự động, KHÔNG sửa tay (sửa make_tables_p2.py rồi chạy lại).
+% Hàng gộp: trung bình nhân trên 120 N của 5 thang (c = 31 là argmin của p2_pooled; c = 30 để so với các phép đo sơ bộ).
+\begin{tabularx}{\linewidth}{lcclX}
+\toprule
+Thang & $c^*$ & $r(c^*)$ [CI hai tầng 95\%] & \makecell{{Gần tối ưu} \\ {($r\le1.02\,r(c^*)$)}} & \makecell{{Argmin bootstrap} \\ {(top 3)}} \\
+\midrule
+$2^{12}$ & 32 & 0.844 [0.836, 0.852] & 17--32, 40, 48 & 32:52.7\%, 30:16.7\%, 40:12.9\% \\
+$2^{14}$ & 32 & 0.870 [0.864, 0.876] & 16--32, 40, 48 & 32:38.2\%, 31:25.9\%, 30:12.7\% \\
+$2^{16}$ & 31 & 0.887 [0.881, 0.893] & 15--32, 40, 48 & 31:30.5\%, 28:24.4\%, 32:22.6\% \\
+$2^{18}$ & 31 & 0.909 [0.901, 0.915] & 13--32, 40, 48 & 31:35.0\%, 25:23.6\%, 29:14.6\% \\
+$2^{19}$ & 30 & 0.916 [0.909, 0.924] & 12--32, 40, 48, 64 & 32:25.0\%, 30:24.4\%, 31:14.3\% \\
+\midrule
+gộp 5 thang & 31 & 0.886 [0.880, 0.889] &  &  \\
+gộp 5 thang & 30 & 0.886 [0.881, 0.891] &  &  \\
+\bottomrule
+\end{tabularx}

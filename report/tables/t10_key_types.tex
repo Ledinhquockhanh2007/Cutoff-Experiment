@@ -1,0 +1,40 @@
+% Nguồn: P2/p2_d3_best.csv (key, c_star, r_star, ci2_lo, ci2_hi); P2B/p2b_int_best.csv (S7); P2/p2_H14.csv (diff_r_int_minus_integer, ci2_diff_lo/hi); P2/p2_H16.csv (diff_r, abs_diff, ci2_diff_lo/hi); P2/p2_H15.csv; P2B/p2b_I4.csv
+% Lệnh sinh: python report/make_tables_p2.py
+% Sinh tự động, KHÔNG sửa tay (sửa make_tables_p2.py rồi chạy lại).
+% Delta r = r(c*, 2^19) - r(c*, 2^12). CI = CI hai tầng 95%.
+\setlength{\tabcolsep}{3pt}
+\textbf{(a)}\par\smallskip
+\begin{tabular}{lcccc}
+\toprule
+Thang & \makecell{{Integer[] (3 fork)} \\ {$c^*$: $r$ [CI]}} & \makecell{{Double[] (3 fork)} \\ {$c^*$: $r$ [CI]}} & \makecell{{int[] (3 fork)} \\ {$c^*$: $r$ [CI]}} & \makecell{{int[] mở rộng (6 fork)} \\ {$c^*$: $r$ [CI]}} \\
+\midrule
+$2^{12}$ & 48: 0.858 [0.841, 0.876] & 32: 0.840 [0.825, 0.865] & 128: 0.712 [0.677, 0.756] & 128: 0.697 [0.678, 0.725] \\
+$2^{16}$ & 48: 0.899 [0.884, 0.913] & 40: 0.887 [0.877, 0.899] & 128: 0.772 [0.753, 0.797] & 112: 0.766 [0.752, 0.786] \\
+$2^{19}$ & 29: 0.915 [0.901, 0.931] & 48: 0.924 [0.911, 0.937] & 64: 0.785 [0.776, 0.797] & 64: 0.783 [0.776, 0.794] \\
+\bottomrule
+\end{tabular}
+\bigskip
+
+\textbf{(b)}\par\smallskip
+\begin{tabular}{lccc}
+\toprule
+Thang & \makecell{{$r_{\mathrm{int}}-r_{\mathrm{Integer}}$} \\ {[CI] (H14)}} & \makecell{{$|r_{\mathrm{Double}}-r_{\mathrm{Integer}}|$} \\ {(H16)}} & \makecell{{$r_{\mathrm{Double}}-r_{\mathrm{Integer}}$} \\ {[CI]}} \\
+\midrule
+$2^{12}$ & $-$0.145 [$-$0.185, $-$0.100] & 0.018 & $-$0.018 [$-$0.044, +0.010] \\
+$2^{16}$ & $-$0.127 [$-$0.151, $-$0.098] & 0.012 & $-$0.012 [$-$0.030, +0.005] \\
+$2^{19}$ & $-$0.130 [$-$0.148, $-$0.112] & 0.008 & +0.008 [$-$0.012, +0.028] \\
+\bottomrule
+\end{tabular}
+\bigskip
+
+\textbf{(c)}\par\smallskip
+\begin{tabular}{lccc}
+\toprule
+Kiểu (nguồn) & $r(c^*)$ ở $2^{12}$ & $r(c^*)$ ở $2^{19}$ & $\Delta r$ [CI] \\
+\midrule
+int[], thí nghiệm kiểu khóa & 0.712 & 0.785 & 0.073 \\
+Integer[], thí nghiệm kiểu khóa & 0.858 & 0.915 & 0.058 \\
+int[], thí nghiệm mở rộng & 0.697 & 0.783 & 0.086 [0.059, 0.107] \\
+Integer[], thí nghiệm chính &  &  & 0.072 \\
+\bottomrule
+\end{tabular}

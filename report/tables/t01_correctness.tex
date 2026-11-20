@@ -1,26 +1,32 @@
-% Nguồn: results/correctness_test_output.txt (CorrectnessTest, JDK 25, -ea)
-% Lệnh sinh: python report/make_tables.py
-% Sinh tự động, KHÔNG sửa tay (sửa make_tables.py rồi chạy lại).
+% Nguồn: report/_check/correctness_output.txt (output nguyên văn của CorrectnessTest, chạy lại ở T14)
+% Lệnh sinh: python report/make_tables_p2.py
+% Sinh tự động, KHÔNG sửa tay (sửa make_tables_p2.py rồi chạy lại).
+% JDK của lần chạy (dòng đầu tệp nguồn): openjdk version "25.0.4.1" 2026-08-18 LTS; máy đo (scripts/run_correctness.bat)
 \begin{tabularx}{\linewidth}{rXrrl}
 \toprule
-Nhóm & Nội dung kiểm tra & Số lần & Lỗi & KQ \\
+Nhóm & Nội dung kiểm tra & Số lần & Số lỗi & Kết quả \\
 \midrule
-00 & JVM runs with -ea & \num{1} & \num{0} & PASS \\
-01 & DataGenerator: values, encoding, determinism, plan & \num{266} & \num{0} & PASS \\
-02 & isSorted (N=0..300 $\times$ cutoff=1..70 $\times$ 5 distributions) & \num{105350} & \num{0} & PASS \\
-03 & output is a permutation of input (vs Arrays.sort) & \num{105350} & \num{0} & PASS \\
-04 & MergeCutoff $=$ MergeCutoffCounted (same objects, same order) & \num{105350} & \num{0} & PASS \\
-05 & stability (Item(key, idx)) & \num{126420} & \num{0} & PASS \\
-06 & cutoff $<$ 1 $\to$ IllegalArgumentException & \num{32} & \num{0} & PASS \\
-07 & 1/2 N lgN $\le$ C $\le$ N lgN (cutoff=1, N=2\^{}k) & \num{85} & \num{0} & PASS \\
-08 & S = N(lgN - m) (N=2\^{}k, cutoff=2\^{}m, m$<$k) & \num{403} & \num{0} & PASS \\
-09 & S = simulated recursion tree (independent) & \num{105350} & \num{0} & PASS \\
-10 & A = 4S + 2C + 4E & \num{105668} & \num{0} & PASS \\
-11 & E = inversions of original array on leaves (independent) & \num{105350} & \num{0} & PASS \\
-12 & insertion alone: sorted / reversed, k=1..50 & \num{100} & \num{0} & PASS \\
-13 & no unexpected exception & \num{105350} & \num{0} & PASS \\
-14 & MergeCutoff (timed version) has same tree: compares match & \num{105350} & \num{0} & PASS \\
+00 & JVM chạy với \texttt{-ea} & \num{1} & \num{0} & Đạt \\
+01 & \texttt{DataGenerator}: giá trị, mã hóa, tính xác định, kế hoạch sinh dữ liệu (168 bộ, seed không trùng) & \num{266} & \num{0} & Đạt \\
+02 & Mảng ra đã sắp ($0 \le N \le 300$, $1 \le c \le 70$, 5 phân bố) & \num{105350} & \num{0} & Đạt \\
+03 & Đầu ra là hoán vị của đầu vào (so với \texttt{Arrays.sort}) & \num{105350} & \num{0} & Đạt \\
+04 & \texttt{MergeCutoff} và \texttt{MergeCutoffCounted} cho cùng kết quả (cùng đối tượng, cùng thứ tự) & \num{105350} & \num{0} & Đạt \\
+05 & Tính ổn định (\texttt{Item(key, idx)}) & \num{126420} & \num{0} & Đạt \\
+06 & $c < 1$ ném \texttt{IllegalArgumentException} & \num{32} & \num{0} & Đạt \\
+07 & $\frac{1}{2} N \lg N \le C \le N \lg N$ ($c = 1$, $N = 2^k$) & \num{85} & \num{0} & Đạt \\
+08 & $D = N(\lg N - p)$ ($N = 2^k$, $c = 2^p$, $p < k$) & \num{403} & \num{0} & Đạt \\
+09 & $S$ khớp với mô phỏng cây đệ quy (cài đặt độc lập) & \num{105350} & \num{0} & Đạt \\
+10 & $A = 4D + 2C + 4E$ & \num{105668} & \num{0} & Đạt \\
+11 & $E$ bằng số nghịch thế của mảng gốc trên các lá (cài đặt độc lập) & \num{105350} & \num{0} & Đạt \\
+12 & Chỉ insertion sort (cả mảng là một lá, $1 \le k \le 50$): mảng đã sắp và đảo ngược & \num{100} & \num{0} & Đạt \\
+13 & Không có ngoại lệ ngoài dự kiến & \num{111991} & \num{0} & Đạt \\
+14 & \texttt{MergeCutoff} (bản đo thời gian) đi qua cùng cây đệ quy: số phép so sánh khớp & \num{105350} & \num{0} & Đạt \\
+15 & CUTOFF mở rộng tới 4096 (\texttt{sorted}, \texttt{nearly\_sorted}, \texttt{reversed}), $N$ tới 8192 & \num{363} & \num{0} & Đạt \\
+16 & \texttt{MergeCutoffInt} cho cùng kết quả và cùng số phép so sánh với \texttt{MergeCutoff} & \num{6397} & \num{0} & Đạt \\
+17 & \texttt{MergeCutoffInt}, CUTOFF mới ($56 \le c \le 256$) trên các $N$ biên và $N$ của các thang & \num{378} & \num{0} & Đạt \\
 \midrule
- & Tổng & \num{970425} & \num{0} &  \\
+ & Tổng & \num{984204} & \num{0} &  \\
+\midrule
+\multicolumn{5}{p{0.95\linewidth}}{\footnotesize JDK: OpenJDK 25.0.4.1 (2026-08-18 LTS); chạy ngày 19/11/2026.} \\
 \bottomrule
 \end{tabularx}

@@ -1,0 +1,12 @@
+Hình: figA09_same_tree_h13
+Nhãn: [ĐK H13]
+Nguồn:
+- results_phase2/analysis/tables/p2_H13.csv (row_type = per_k; cột pair, k, delta_mean, se_k, pass)
+Thanh/dải sai số: ±2·se_k, se_k = SD giữa 5 fork của Δ / √5 (cột se_k, [KP] thêm ở T11). Dải xám là NGƯỠNG ±1% của H13, KHÔNG phải sai số.
+Mô tả:
+- Δ = ln T(c_b) - ln T(c_a) cho hai CUTOFF cho cùng cây đệ quy ở N = 2^k (doubling v2, 5 fork); trục y nhân 100 (%).
+- H13 đòi |Δ̄| ≤ 1% ở MỌI k; các điểm có |Δ̄| > 1% là những ô không đạt.
+
+Quy tắc A (số đọc lại từ .data.csv | số trong bảng | chênh):
+- Δ̄ (16, 30), k = 10: hình = -0.000663940163 | bảng (p2_H13.delta_mean) = -0.000663940163 | chênh = 0
+- se_k (4, 7), k = 24: hình = 0.005640646513 | bảng (p2_H13.se_k) = 0.005640646513 | chênh = 0
