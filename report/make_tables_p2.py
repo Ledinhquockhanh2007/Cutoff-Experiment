@@ -216,8 +216,7 @@ def t01_correctness():
     jtxt = f"OpenJDK {jm[1]} ({jm[2]}-{jm[3]}-{jm[4]} LTS)" if jm else "không ghi trong tệp"
     dm = re.match(r"(\d{4})-(\d\d)-(\d\d)", day[1].strip()) if day else None
     dtxt = f"{dm[3]}/{dm[2]}/{dm[1]}" if dm else "không ghi"
-    rows.append("\\midrule")
-    rows.append(f"\\multicolumn{{5}}{{p{{0.95\\linewidth}}}}{{\\footnotesize JDK: {jtxt}; chạy ngày {dtxt}.}} \\\\")
+    # Dòng JDK/ngày chạy đã bỏ khỏi bảng (thông tin JDK nằm ở bảng môi trường).
     write("t01_correctness",
           tabular("rXrrl", ["Nhóm", "Nội dung kiểm tra", "Số lần", "Số lỗi", "Kết quả"], rows, env="tabularx", width="\\linewidth"),
           "results_correctness/correctness_jdk25.txt (output nguyên văn của CorrectnessTest, chạy lại ở T14)",
@@ -657,14 +656,14 @@ def t08_doubling_v2():
     h12 = pd.read_csv(P2 / "p2_H12.csv")
     rows1 = [[f"{int(r.k_from)}$\\to${int(r.k_to)}", str(int(r.cutoff)), f4(r.ln_R_v1), f4(r.ln_R_v2), f4(r.abs_diff),
               f4(r.threshold_3se), "đạt" if r["pass"] else "không đạt"] for _, r in h11.iterrows()]
-    t1 = tabular("lcccccc", ["$k$", "$c$", "$\\ln\\bar R$ v1", "$\\ln\\bar R$ v2", "$|\\Delta|$",
-                             hc("$3\\sqrt{SE_{v1}^2+SE_{v2}^2}$"), "H11"], rows1)
+    t1 = tabular("lcccccc", ["$k$", "$c$", "$\\ln\\bar R$ sơ bộ", "$\\ln\\bar R$ chính", "$|\\Delta|$",
+                             hc("$3\\sqrt{SE_{\\mathrm{sb}}^2+SE_{\\mathrm{ch}}^2}$"), "Kết quả"], rows1)
     pn = {"P_tiep": "P-tiếp", "P_baohoa": "P-bão hòa"}
     rows2 = [[pn[r.predictor], f"{int(r.k_from)}$\\to${int(r.k_to)}", str(int(r.cutoff)), f4(r.ln_R_v2), f4(r.ln_R_hat),
               f4(r.abs_diff), f4(r.threshold_3se), "đạt" if r["pass"] else "không đạt"] for _, r in h12.iterrows()]
     t2 = tabular("llcccccc", ["Dự đoán", "$k$", "$c$", "$\\ln\\bar R$ đo", "$\\ln\\hat R$", "$|\\Delta|$", "$3\\,SE_k$", "Ô"], rows2)
     write("t08_doubling_v2", "\\textbf{(a) Lặp lại doubling test sơ bộ}\\par\\smallskip\n" + t1 +
-          "\n\\bigskip\n\n\\textbf{(b) H12: ngoại suy tới $2^{24}$}\\par\\smallskip\n" + t2,
+          "\n\\bigskip\n\n\\textbf{(b) Ngoại suy tới $2^{24}$}\\par\\smallskip\n" + t2,
           "P2/p2_H11.csv (k_from, k_to, cutoff, ln_R_v1, ln_R_v2, abs_diff, threshold_3se, pass); "
           "P2/p2_H12.csv (predictor, k_from, k_to, cutoff, ln_R_v2, ln_R_hat, abs_diff, threshold_3se, pass)")
     return len(rows1) + len(rows2)
@@ -729,8 +728,8 @@ def t10_key_types():
         sgci = lambda x, lo, hi: f"{mt.sg(x)} [{mt.sg(lo)}, {mt.sg(hi)}]"
         rows_b.append([sc(s), sgci(a.diff_r_int_minus_integer, a.ci2_diff_lo, a.ci2_diff_hi), f3(b.abs_diff),
                        sgci(b.diff_r, b.ci2_diff_lo, b.ci2_diff_hi)])
-    tb = tabular("lccc", ["Thang", hc("$r_{\\mathrm{int}}-r_{\\mathrm{Integer}}$", "[CI] (H14)"),
-                          hc("$|r_{\\mathrm{Double}}-r_{\\mathrm{Integer}}|$", "(H16)"),
+    tb = tabular("lccc", ["Thang", hc("$r_{\\mathrm{int}}-r_{\\mathrm{Integer}}$", "[CI]"),
+                          "$|r_{\\mathrm{Double}}-r_{\\mathrm{Integer}}|$",
                           hc("$r_{\\mathrm{Double}}-r_{\\mathrm{Integer}}$", "[CI]")], rows_b)
     rows_c = [["int[], thí nghiệm kiểu khóa", f3(h15.r_int_2e12), f3(h15.r_int_2e19), f3(h15.delta_r_int)],
               ["Integer[], thí nghiệm kiểu khóa", f3(h15.r_integer_2e12), f3(h15.r_integer_2e19), f3(h15.delta_r_integer)],
@@ -808,6 +807,21 @@ def t12_memory():
 
 
 # ───────────────────────────────────────────────────────── phụ lục
+SESS_VI = {"S1": "Chính", "S2": "Phân bố khác", "DV2": "Doubling chính", "D3": "Kiểu khóa", "JMH": "JMH ban đầu",
+           "S6_run1": "JMH đầy đủ, lần 1", "S6_run2": "JMH đầy đủ, lần 2", "S6_run3": "JMH đầy đủ, lần 3", "S7": "int[] mở rộng"}
+F4_VI = {"H1": "$c^*$ và vùng gần tối ưu", "H2": "CUTOFF 10 nhanh hơn 7", "H3": "Lặp lại phép đo sơ bộ",
+         "H4": "$r(c^*)$ tăng theo $N$", "H5": "$r(c^*) > 0.833$ (Integer[])", "H10": "M2 dự đoán thang mới",
+         "H10b": "M2, $\\alpha$ hiệu chỉnh", "H17": "JMH ban đầu khớp bộ đo"}
+
+
+def f4_metrics(m: str) -> str:
+    for a, b in [("min_ci2_lo", "cận dưới CI nhỏ nhất"), ("max_p_holm", "p Holm lớn nhất"), ("max_dec", "giảm lớn nhất"),
+                 ("order_all=False", "thứ tự đúng ở mọi N: không"), ("order_all=True", "thứ tự đúng ở mọi N: có"),
+                 ("min r(c*)", "r(c*) nhỏ nhất"), ("ci_12<16:True", "CI 2^12 < 2^16"), ("ci_16<19:True", "CI 2^16 < 2^19")]:
+        m = m.replace(a, b)
+    return m
+
+
 def ta_session_quality():
     q = pd.concat([pd.read_csv(P2 / "p2_session_quality.csv").assign(status=lambda d: d.flagged_gt5pct.map({True: "ĐÁNH DẤU", False: "HỢP LỆ"})),
                    pd.read_csv(P2B / "p2b_session_quality.csv")], ignore_index=True)
@@ -815,22 +829,22 @@ def ta_session_quality():
     for _, r in q.iterrows():
         b = "\\textbf" if r.fork == "ALL" else ""
         st = r.status if r.fork == "ALL" else ""
-        rows.append([esc(r.session), (b + "{ALL}") if b else esc(r.fork), num(r.n_samples), f"{r.pct_outside_lp10_11:.2f}",
+        rows.append([SESS_VI.get(r.session, esc(r.session)), (b + "{Cả phiên}") if b else esc(r.fork), num(r.n_samples), f"{r.pct_outside_lp10_11:.2f}",
                      f"{r.pct_low_clock_lt110:.2f}", f"{r.perf_median:.1f}", f"{r.perf_min:.1f}", f"{r.duration_min:.1f}", st])
     body = longtable("llrrrrrrl", ["Phiên", "Fork", "Mẫu", hc("\\% ngoài", "LP 10/11"), hc("\\% xung", "$<110\\%$"), hc("Xung", "trung vị"),
                                     hc("Xung", "min"), hc("Thời gian", "(phút)"), "Trạng thái"], rows,
-                     "Chất lượng các phiên đo (typeperf 1 Hz): mọi phiên đo, kể cả hai lần S6 bị loại.", "tab:session_quality")
+                     "Chất lượng các phiên đo (typeperf 1 Hz): mọi phiên đo, kể cả hai lần JMH yếu tố đầy đủ bị loại.", "tab:session_quality")
     write("ta_session_quality", body, "P2/p2_session_quality.csv, P2B/p2b_session_quality.csv (mọi cột số; status/flagged_gt5pct)",
-          note="Quy tắc ghi trước khi đo (T09 §0): đánh dấu khi > 5% mẫu; loại và đo lại cả phiên khi > 20%.")
+          note="Quy tắc ghi trước khi đo: đánh dấu khi > 5% mẫu; loại và đo lại cả phiên khi > 20%.")
     return len(rows)
 
 
 def ta_fork4():
     v = pd.read_csv(P2 / "p2_sensitivity_drop_f4.csv")
     s = pd.read_csv(P2 / "p2_sensitivity_drop_f4_scales.csv")
-    rows = [[esc(r.hypothesis), esc(r.verdict_5forks), esc(r.verdict_4forks), "có" if r.verdict_changed else "không",
-             sym(str(r.metrics_4forks))] for _, r in v.iterrows()]
-    t1 = tabular("lcccX", ["Giả thuyết", "5 fork", "4 fork", "Đổi?", "Số chính (4 fork)"], rows, env="tabularx", width="\\linewidth")
+    rows = [[F4_VI.get(r.hypothesis, esc(r.hypothesis)), esc(r.verdict_5forks), esc(r.verdict_4forks), "có" if r.verdict_changed else "không",
+             sym(f4_metrics(str(r.metrics_4forks)))] for _, r in v.iterrows()]
+    t1 = tabular("lcccX", ["Kết luận được kiểm", "5 fork", "4 fork", "Đổi?", "Số chính (4 fork)"], rows, env="tabularx", width="\\linewidth")
     rows2 = [[sc(r.scale), str(int(r.c_star_5forks)), ci(r.r_star_5forks, r.ci2_5f_lo, r.ci2_5f_hi), str(int(r.c_star_4forks)),
               ci(r.r_star_4forks, r.ci2_4f_lo, r.ci2_4f_hi), f3(r.r_fork4_at_cstar5)] for _, r in s.iterrows()]
     t2 = tabular("lccccc", ["Thang", "$c^*$ (5)", "$r$ [CI] (5 fork)", "$c^*$ (4)", "$r$ [CI] (4 fork)", hc("$r$ fork 4", "tại $c^*$ (5)")], rows2)
@@ -856,7 +870,7 @@ def ta_h13():
     rows = [[esc(r.pair), str(int(r.k)), f"{100 * r.delta_mean:+.2f}".replace("-", "$-$"), f"{100 * r.se_k:.2f}",
              f"{r.z_k:+.2f}".replace("-", "$-$"), "đạt" if r["pass"] else "\\textbf{không}"] for _, r in h.iterrows()]
     body = longtable("lrrrrc", ["Cặp", "$k$", "$\\bar\\Delta$ (\\%)", "$se_k$ (\\%)", "$z_k$", hc("$|\\bar\\Delta|$", "$\\le 1\\%$")], rows,
-                     "Kiểm soát cùng cây (H13): $\\bar\\Delta(k)$ theo từng $k$ và cặp CUTOFF cho cùng cây đệ quy.", "tab:h13")
+                     "Đối chứng cùng cây: $\\bar\\Delta(k)$ theo từng $k$ và cặp CUTOFF cho cùng cây đệ quy.", "tab:h13")
     write("ta_h13", body, "P2/p2_H13.csv (row_type = per_k: pair, k, delta_mean, se_k, z_k, pass)",
           note=f"{len(rows)} ô; không đạt: {int((~h['pass']).sum())}.")
     return len(rows)
@@ -869,8 +883,8 @@ def ta_verdicts_full():
         cm = "" if pd.isna(r.condition_met) else ("đạt" if str(r.condition_met) == "True" else "không đạt")
         v = "" if pd.isna(r.verdict_overall) else sym(str(r.verdict_overall))
         rows.append([esc(r.id), brk(sym(str(r.subcase))), brk(sym(str(r.value))), brk(sym(str(r.threshold))), cm, v])
-    body = longtable("p{0.8cm}p{2.2cm}p{3.9cm}p{3.2cm}p{1.1cm}p{2.4cm}", ["Id", "Điều kiện con", "Giá trị", "Ngưỡng", "Ô", "Phán quyết"], rows,
-                     "Mọi điều kiện con của 32 giả thuyết.", "tab:verdicts_full", size="\\scriptsize")
+    body = longtable("p{0.8cm}p{2.2cm}p{3.9cm}p{3.2cm}p{1.1cm}p{2.4cm}", ["Mã", "Điều kiện con", "Giá trị", "Ngưỡng", "Ô", "Kết quả"], rows,
+                     "Mọi điều kiện con của 32 tiêu chí ghi trước khi đo.", "tab:verdicts_full", size="\\scriptsize")
     write("ta_verdicts_full", body, "P2/h_verdicts.csv, P2B/h2b_verdicts.csv (id, subcase, value, threshold, condition_met, verdict_overall)")
     return len(rows)
 

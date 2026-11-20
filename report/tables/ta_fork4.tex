@@ -4,16 +4,16 @@
 \textbf{(a)}\par\smallskip
 \begin{tabularx}{\linewidth}{lcccX}
 \toprule
-Giả thuyết & 5 fork & 4 fork & Đổi? & Số chính (4 fork) \\
+Kết luận được kiểm & 5 fork & 4 fork & Đổi? & Số chính (4 fork) \\
 \midrule
-H1 & ĐẠT & ĐẠT & không & $2^{12}$:c*=32; $2^{14}$:c*=32; $2^{16}$:c*=31; $2^{18}$:c*=31; $2^{19}$:c*=32 \\
-H2 & ĐẠT & ĐẠT & không & min\_ci2\_lo=1.0019, max\_p\_holm=0.0152 \\
-H3 & ĐẠT & ĐẠT & không & $2^{12}$:|d|=0.0045; $2^{16}$:|d|=0.0011; $2^{19}$:|d|=0.0036 \\
-H4 & ĐẠT & ĐẠT & không & ci\_12$<$16:True, ci\_16$<$19:True, max\_dec=0.0000 \\
-H5 & ĐẠT & ĐẠT & không & min r(c*)=0.8439 \\
-H10 & ĐẠT & ĐẠT & không & RMSE $2^{14}$=0.0037, $2^{18}$=0.0033 \\
-H10b & ĐẠT & ĐẠT & không & RMSE $2^{14}$=0.0036, $2^{18}$=0.0031 \\
-H17 & KHÔNG ĐẠT & KHÔNG ĐẠT & không & max|d|=0.2905, order\_all=False \\
+$c^*$ và vùng gần tối ưu & ĐẠT & ĐẠT & không & $2^{12}$:c*=32; $2^{14}$:c*=32; $2^{16}$:c*=31; $2^{18}$:c*=31; $2^{19}$:c*=32 \\
+CUTOFF 10 nhanh hơn 7 & ĐẠT & ĐẠT & không & cận dưới CI nhỏ nhất=1.0019, p Holm lớn nhất=0.0152 \\
+Lặp lại phép đo sơ bộ & ĐẠT & ĐẠT & không & $2^{12}$:|d|=0.0045; $2^{16}$:|d|=0.0011; $2^{19}$:|d|=0.0036 \\
+$r(c^*)$ tăng theo $N$ & ĐẠT & ĐẠT & không & CI $2^{12}$ $<$ $2^{16}$, CI $2^{16}$ $<$ $2^{19}$, giảm lớn nhất=0.0000 \\
+$r(c^*) > 0.833$ (Integer[]) & ĐẠT & ĐẠT & không & r(c*) nhỏ nhất=0.8439 \\
+M2 dự đoán thang mới & ĐẠT & ĐẠT & không & RMSE $2^{14}$=0.0037, $2^{18}$=0.0033 \\
+M2, $\alpha$ hiệu chỉnh & ĐẠT & ĐẠT & không & RMSE $2^{14}$=0.0036, $2^{18}$=0.0031 \\
+JMH ban đầu khớp bộ đo & KHÔNG ĐẠT & KHÔNG ĐẠT & không & max|d|=0.2905, thứ tự đúng ở mọi N: không \\
 \bottomrule
 \end{tabularx}
 \bigskip

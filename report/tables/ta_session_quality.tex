@@ -1,10 +1,10 @@
 % Nguồn: P2/p2_session_quality.csv, P2B/p2b_session_quality.csv (mọi cột số; status/flagged_gt5pct)
 % Lệnh sinh: python report/make_tables_p2.py
 % Sinh tự động, KHÔNG sửa tay (sửa make_tables_p2.py rồi chạy lại).
-% Quy tắc ghi trước khi đo (T09 §0): đánh dấu khi > 5% mẫu; loại và đo lại cả phiên khi > 20%.
+% Quy tắc ghi trước khi đo: đánh dấu khi > 5% mẫu; loại và đo lại cả phiên khi > 20%.
 \footnotesize
 \begin{longtable}{llrrrrrrl}
-\caption{Chất lượng các phiên đo (typeperf 1 Hz): mọi phiên đo, kể cả hai lần S6 bị loại.}\label{tab:session_quality}\\
+\caption{Chất lượng các phiên đo (typeperf 1 Hz): mọi phiên đo, kể cả hai lần JMH yếu tố đầy đủ bị loại.}\label{tab:session_quality}\\
 \toprule
 Phiên & Fork & Mẫu & \makecell{{\% ngoài} \\ {LP 10/11}} & \makecell{{\% xung} \\ {$<110\%$}} & \makecell{{Xung} \\ {trung vị}} & \makecell{{Xung} \\ {min}} & \makecell{{Thời gian} \\ {(phút)}} & Trạng thái \\
 \midrule
@@ -16,43 +16,43 @@ Phiên & Fork & Mẫu & \makecell{{\% ngoài} \\ {LP 10/11}} & \makecell{{\% xun
 \endhead
 \bottomrule
 \endlastfoot
-S1 & fork1 & \num{1927} & 0.00 & 0.00 & 127.7 & 122.4 & 32.6 &  \\
-S1 & fork2 & \num{1736} & 0.00 & 0.00 & 127.5 & 123.0 & 29.3 &  \\
-S1 & fork3 & \num{1973} & 0.15 & 0.00 & 127.7 & 123.5 & 33.4 &  \\
-S1 & fork4 & \num{2545} & 0.20 & 52.85 & 104.5 & 74.0 & 43.3 &  \\
-S1 & fork5 & \num{2154} & 0.00 & 0.00 & 127.7 & 121.5 & 36.4 &  \\
-S1 & \textbf{ALL} & \num{10335} & 0.08 & 13.01 & 127.6 & 74.0 & 174.9 & ĐÁNH DẤU \\
-S2 & fork1 & \num{1341} & 0.22 & 0.00 & 126.8 & 124.3 & 22.7 &  \\
-S2 & fork2 & \num{1449} & 1.04 & 0.00 & 126.9 & 123.5 & 24.5 &  \\
-S2 & fork3 & \num{1564} & 0.00 & 0.00 & 127.4 & 124.5 & 26.4 &  \\
-S2 & fork4 & \num{1500} & 0.13 & 0.00 & 127.4 & 123.2 & 25.3 &  \\
-S2 & fork5 & \num{1458} & 0.00 & 0.00 & 127.1 & 119.5 & 24.6 &  \\
-S2 & \textbf{ALL} & \num{7312} & 0.27 & 0.00 & 127.1 & 119.5 & 123.5 & HỢP LỆ \\
-DV2 & fork1 & \num{695} & 0.14 & 0.00 & 127.8 & 122.9 & 11.8 &  \\
-DV2 & fork2 & \num{714} & 0.28 & 0.00 & 127.8 & 125.2 & 12.1 &  \\
-DV2 & fork3 & \num{665} & 0.00 & 0.00 & 127.6 & 123.4 & 11.2 &  \\
-DV2 & fork4 & \num{710} & 0.00 & 0.00 & 127.8 & 122.7 & 12.0 &  \\
-DV2 & fork5 & \num{705} & 0.14 & 0.00 & 127.9 & 123.4 & 11.9 &  \\
-DV2 & \textbf{ALL} & \num{3489} & 0.11 & 0.00 & 127.8 & 122.7 & 59.0 & HỢP LỆ \\
-D3 & integer\_fork1 & \num{1415} & 0.00 & 0.00 & 127.5 & 125.1 & 23.9 &  \\
-D3 & integer\_fork2 & \num{1461} & 0.00 & 0.00 & 127.6 & 122.8 & 24.7 &  \\
-D3 & integer\_fork3 & \num{1518} & 0.07 & 0.00 & 127.6 & 125.4 & 25.7 &  \\
-D3 & double\_fork1 & \num{1686} & 0.00 & 0.00 & 127.7 & 124.8 & 28.5 &  \\
-D3 & double\_fork2 & \num{1748} & 0.23 & 0.00 & 127.7 & 117.9 & 29.4 &  \\
-D3 & double\_fork3 & \num{1827} & 0.00 & 0.00 & 127.8 & 123.0 & 30.7 &  \\
-D3 & int\_fork1 & \num{498} & 0.00 & 0.00 & 127.9 & 122.5 & 8.4 &  \\
-D3 & int\_fork2 & \num{462} & 0.00 & 0.00 & 127.9 & 115.8 & 7.8 &  \\
-D3 & int\_fork3 & \num{494} & 0.00 & 0.00 & 128.0 & 124.6 & 8.3 &  \\
-D3 & \textbf{ALL} & \num{11109} & 0.05 & 0.00 & 127.7 & 115.8 & 187.3 & HỢP LỆ \\
-JMH & \textbf{ALL} & \num{565} & 0.18 & 0.00 & 127.2 & 124.4 & 9.5 & HỢP LỆ \\
-S6\_run1 & \textbf{ALL} & \num{4052} & 0.27 & 54.27 & 81.0 & 74.4 & 68.4 & LOẠI \\
-S6\_run2 & \textbf{ALL} & \num{4139} & 3.12 & 77.27 & 80.1 & 71.7 & 69.7 & LOẠI \\
-S6\_run3 & \textbf{ALL} & \num{3968} & 2.75 & 0.03 & 128.7 & 94.1 & 66.7 & HỢP LỆ \\
-S7 & fork1 & \num{572} & 0.00 & 0.00 & 127.8 & 124.9 & 9.7 &  \\
-S7 & fork2 & \num{543} & 0.00 & 0.00 & 127.7 & 121.6 & 9.2 &  \\
-S7 & fork3 & \num{519} & 0.00 & 0.00 & 127.8 & 123.6 & 8.8 &  \\
-S7 & fork4 & \num{523} & 0.00 & 0.00 & 127.7 & 122.4 & 8.8 &  \\
-S7 & fork5 & \num{515} & 0.00 & 0.00 & 127.7 & 122.8 & 8.7 &  \\
-S7 & fork6 & \num{524} & 0.00 & 0.00 & 127.7 & 122.2 & 8.8 &  \\
-S7 & \textbf{ALL} & \num{3196} & 0.00 & 0.00 & 127.7 & 121.6 & 54.0 & HỢP LỆ \\
+Chính & fork1 & \num{1927} & 0.00 & 0.00 & 127.7 & 122.4 & 32.6 &  \\
+Chính & fork2 & \num{1736} & 0.00 & 0.00 & 127.5 & 123.0 & 29.3 &  \\
+Chính & fork3 & \num{1973} & 0.15 & 0.00 & 127.7 & 123.5 & 33.4 &  \\
+Chính & fork4 & \num{2545} & 0.20 & 52.85 & 104.5 & 74.0 & 43.3 &  \\
+Chính & fork5 & \num{2154} & 0.00 & 0.00 & 127.7 & 121.5 & 36.4 &  \\
+Chính & \textbf{Cả phiên} & \num{10335} & 0.08 & 13.01 & 127.6 & 74.0 & 174.9 & ĐÁNH DẤU \\
+Phân bố khác & fork1 & \num{1341} & 0.22 & 0.00 & 126.8 & 124.3 & 22.7 &  \\
+Phân bố khác & fork2 & \num{1449} & 1.04 & 0.00 & 126.9 & 123.5 & 24.5 &  \\
+Phân bố khác & fork3 & \num{1564} & 0.00 & 0.00 & 127.4 & 124.5 & 26.4 &  \\
+Phân bố khác & fork4 & \num{1500} & 0.13 & 0.00 & 127.4 & 123.2 & 25.3 &  \\
+Phân bố khác & fork5 & \num{1458} & 0.00 & 0.00 & 127.1 & 119.5 & 24.6 &  \\
+Phân bố khác & \textbf{Cả phiên} & \num{7312} & 0.27 & 0.00 & 127.1 & 119.5 & 123.5 & HỢP LỆ \\
+Doubling chính & fork1 & \num{695} & 0.14 & 0.00 & 127.8 & 122.9 & 11.8 &  \\
+Doubling chính & fork2 & \num{714} & 0.28 & 0.00 & 127.8 & 125.2 & 12.1 &  \\
+Doubling chính & fork3 & \num{665} & 0.00 & 0.00 & 127.6 & 123.4 & 11.2 &  \\
+Doubling chính & fork4 & \num{710} & 0.00 & 0.00 & 127.8 & 122.7 & 12.0 &  \\
+Doubling chính & fork5 & \num{705} & 0.14 & 0.00 & 127.9 & 123.4 & 11.9 &  \\
+Doubling chính & \textbf{Cả phiên} & \num{3489} & 0.11 & 0.00 & 127.8 & 122.7 & 59.0 & HỢP LỆ \\
+Kiểu khóa & integer\_fork1 & \num{1415} & 0.00 & 0.00 & 127.5 & 125.1 & 23.9 &  \\
+Kiểu khóa & integer\_fork2 & \num{1461} & 0.00 & 0.00 & 127.6 & 122.8 & 24.7 &  \\
+Kiểu khóa & integer\_fork3 & \num{1518} & 0.07 & 0.00 & 127.6 & 125.4 & 25.7 &  \\
+Kiểu khóa & double\_fork1 & \num{1686} & 0.00 & 0.00 & 127.7 & 124.8 & 28.5 &  \\
+Kiểu khóa & double\_fork2 & \num{1748} & 0.23 & 0.00 & 127.7 & 117.9 & 29.4 &  \\
+Kiểu khóa & double\_fork3 & \num{1827} & 0.00 & 0.00 & 127.8 & 123.0 & 30.7 &  \\
+Kiểu khóa & int\_fork1 & \num{498} & 0.00 & 0.00 & 127.9 & 122.5 & 8.4 &  \\
+Kiểu khóa & int\_fork2 & \num{462} & 0.00 & 0.00 & 127.9 & 115.8 & 7.8 &  \\
+Kiểu khóa & int\_fork3 & \num{494} & 0.00 & 0.00 & 128.0 & 124.6 & 8.3 &  \\
+Kiểu khóa & \textbf{Cả phiên} & \num{11109} & 0.05 & 0.00 & 127.7 & 115.8 & 187.3 & HỢP LỆ \\
+JMH ban đầu & \textbf{Cả phiên} & \num{565} & 0.18 & 0.00 & 127.2 & 124.4 & 9.5 & HỢP LỆ \\
+JMH đầy đủ, lần 1 & \textbf{Cả phiên} & \num{4052} & 0.27 & 54.27 & 81.0 & 74.4 & 68.4 & LOẠI \\
+JMH đầy đủ, lần 2 & \textbf{Cả phiên} & \num{4139} & 3.12 & 77.27 & 80.1 & 71.7 & 69.7 & LOẠI \\
+JMH đầy đủ, lần 3 & \textbf{Cả phiên} & \num{3968} & 2.75 & 0.03 & 128.7 & 94.1 & 66.7 & HỢP LỆ \\
+int[] mở rộng & fork1 & \num{572} & 0.00 & 0.00 & 127.8 & 124.9 & 9.7 &  \\
+int[] mở rộng & fork2 & \num{543} & 0.00 & 0.00 & 127.7 & 121.6 & 9.2 &  \\
+int[] mở rộng & fork3 & \num{519} & 0.00 & 0.00 & 127.8 & 123.6 & 8.8 &  \\
+int[] mở rộng & fork4 & \num{523} & 0.00 & 0.00 & 127.7 & 122.4 & 8.8 &  \\
+int[] mở rộng & fork5 & \num{515} & 0.00 & 0.00 & 127.7 & 122.8 & 8.7 &  \\
+int[] mở rộng & fork6 & \num{524} & 0.00 & 0.00 & 127.7 & 122.2 & 8.8 &  \\
+int[] mở rộng & \textbf{Cả phiên} & \num{3196} & 0.00 & 0.00 & 127.7 & 121.6 & 54.0 & HỢP LỆ \\
 \end{longtable}
