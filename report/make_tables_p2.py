@@ -770,7 +770,7 @@ def t11_jmh():
             cells.append(stack(q.r, q.ci_lo, q.ci_hi))
         rows.append(cells)
     rows.append("\\midrule")
-    rows.append(["Thí nghiệm chính (bộ đo của nghiên cứu)$^{b}$", f"{ab.loc[(4096, 30)].run5_geom_time_us:.0f}", f"{ab.loc[(524288, 30)].run5_geom_time_us:.0f}"] +
+    rows.append(["Bộ đo$^{b}$", f"{ab.loc[(4096, 30)].run5_geom_time_us:.0f}", f"{ab.loc[(524288, 30)].run5_geom_time_us:.0f}"] +
                 [f3(t08.loc[(n, 30)].r_run5) for n in [4096, 65536, 524288]])
     body = ("\\setlength{\\tabcolsep}{3pt}\n" +
             tabular("lccccc", ["Cấu hình", hc("Score $N{=}4096$", "$c{=}30$ (µs)"), hc("Score $N{=}524288$", "$c{=}30$ (µs)"),
@@ -808,7 +808,7 @@ def t12_memory():
 
 # ───────────────────────────────────────────────────────── phụ lục
 SESS_VI = {"S1": "Chính", "S2": "Phân bố khác", "DV2": "Doubling chính", "D3": "Kiểu khóa", "JMH": "JMH ban đầu",
-           "S6_run1": "JMH đầy đủ, lần 1", "S6_run2": "JMH đầy đủ, lần 2", "S6_run3": "JMH đầy đủ, lần 3", "S7": "int[] mở rộng"}
+           "S6_run1": "JMH lần 1", "S6_run2": "JMH lần 2", "S6_run3": "JMH lần 3", "S7": "int[] mở rộng"}
 F4_VI = {"H1": "$c^*$ và vùng gần tối ưu", "H2": "CUTOFF 10 nhanh hơn 7", "H3": "Lặp lại phép đo sơ bộ",
          "H4": "$r(c^*)$ tăng theo $N$", "H5": "$r(c^*) > 0.833$ (Integer[])", "H10": "M2 dự đoán thang mới",
          "H10b": "M2, $\\alpha$ hiệu chỉnh", "H17": "JMH ban đầu khớp bộ đo"}
