@@ -3,9 +3,8 @@
 scripts/analyze_t12.py — Phân tích giai đoạn 2b theo Hợp đồng T11 + Phụ lục A1–A3 (J1–J7, I1–I4, B1–B2).
 
 Tuân thủ:
-  - Hợp đồng: handoff/preregistration/T11_contract.md + T11_addendum.md (commit ff163ba, b4bc8fa)
-  - Định nghĩa đã chốt: handoff/tasks/T12_analysis.md §2 và T10_analysis.md §2
-  - Quy tắc A–E trong handoff/README.md
+  - Hợp đồng: preregistration/T11_contract.md + T11_addendum.md (commit ff163ba, b4bc8fa)
+  - Định nghĩa đã chốt: (đề bài nội bộ) §2 và T10_analysis.md §2
   - Nhãn đầu ra: [ĐK], [KP], [MT]
   - Bootstrap mặc định: B = 10 000, seed gốc = 20261118 (RNG riêng cho từng bảng, ghi trong run_log.txt)
   - KHÔNG phân tích Score/r của các thư mục results_jmh_v2_rejected_lowclock*/
@@ -342,7 +341,7 @@ def _run_phase2b_body(tables_dir: Path, B: int, base_seed: int) -> int:
     for k, v in seeds.items():
         print(f"  {k:<24s}: {v}")
 
-    refs = load_t11_references(PROJECT_ROOT / "handoff/preregistration/T11_reference_values.csv")
+    refs = load_t11_references(PROJECT_ROOT / "preregistration/T11_reference_values.csv")
 
     # ── 1. Nạp JMH v2 (chỉ phiên S6 lần 3 hợp lệ) & kiểm tra toàn vẹn (§1)
     print("\n" + "-" * 98)
@@ -913,9 +912,9 @@ def _run_phase2b_body(tables_dir: Path, B: int, base_seed: int) -> int:
 
     # B1, B2: HỦY D1 theo §3 hợp đồng
     add_v("B1", "OVERALL", "D1 branch mispredict (N=4096)", "D1 hủy theo §3 (AMD uProf chưa cài)",
-          "<= 0.5 * M(fresh)", "", "KHÔNG THỰC HIỆN", "handoff/CONTEXT.md")
+          "<= 0.5 * M(fresh)", "", "KHÔNG THỰC HIỆN", "ghi chép phiên đo")
     add_v("B2", "OVERALL", "D1 branch mispredict (N=524288)", "D1 hủy theo §3 (AMD uProf chưa cài)",
-          ">= 0.8 * M(fresh)", "", "KHÔNG THỰC HIỆN", "handoff/CONTEXT.md")
+          ">= 0.8 * M(fresh)", "", "KHÔNG THỰC HIỆN", "ghi chép phiên đo")
 
     df_verdicts = pd.DataFrame(v_rows)
     df_verdicts.to_csv(tables_dir / "h2b_verdicts.csv", index=False)

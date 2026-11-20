@@ -3,9 +3,9 @@
 scripts/predict_t09.py
 
 Tính toán và xuất các tệp dự đoán số cho Hợp đồng Đăng ký trước Giai đoạn 2 (T09):
-- handoff/preregistration/T09_predictions_m2.csv
-- handoff/preregistration/T09_predictions_doubling_v2.csv
-- handoff/preregistration/T09_hypotheses.csv
+- preregistration/T09_predictions_m2.csv
+- preregistration/T09_predictions_doubling_v2.csv
+- preregistration/T09_hypotheses.csv
 
 Tuân thủ Quy tắc A: in số tính toán, số đối chiếu Claude và sai lệch.
 """
@@ -42,7 +42,7 @@ def parse_args():
     parser.add_argument("--a1z-file", type=Path,
                         default=Path("results_doubling/analysis/tables/A1z_noise_interpretation.csv"),
                         help="File A1z_noise_interpretation.csv của doubling v1")
-    parser.add_argument("--out-dir", type=Path, default=Path("handoff/preregistration"),
+    parser.add_argument("--out-dir", type=Path, default=Path("preregistration"),
                         help="Thư mục xuất file đăng ký")
     parser.add_argument("--seed", type=int, default=20261117, help="Seed cố định")
     return parser.parse_args()
@@ -244,7 +244,7 @@ def main():
         print(f"{sc:<8s} {sinfo['alpha']:<16.6f} {sinfo['c_star']:<8d} {sinfo['r_star']:<10.4f} {sinfo['near_optimal_2pct']:<30s}")
 
     # ────────────────────────────────────────────────────────────────
-    # 4. Dự đoán Doubling v2: handoff/preregistration/T09_predictions_doubling_v2.csv
+    # 4. Dự đoán Doubling v2: preregistration/T09_predictions_doubling_v2.csv
     # ────────────────────────────────────────────────────────────────
     print("\n" + "-" * 80)
     print("DỰ ĐOÁN DOUBLING V2 (H11, H12)")
@@ -292,7 +292,7 @@ def main():
     print(df_db_pred[df_db_pred.k.isin([22, 23])].to_string(index=False))
 
     # ────────────────────────────────────────────────────────────────
-    # 5. Danh sách giả thuyết: handoff/preregistration/T09_hypotheses.csv
+    # 5. Danh sách giả thuyết: preregistration/T09_hypotheses.csv
     # ────────────────────────────────────────────────────────────────
     print("\n" + "-" * 80)
     print("XUẤT DANH SÁCH GIẢ THUYẾT H1 - H17 (T09_hypotheses.csv)")

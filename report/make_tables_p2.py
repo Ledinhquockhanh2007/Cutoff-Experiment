@@ -10,8 +10,8 @@ Nguồn (chỉ đọc):
   P2  = results_phase2/analysis/tables       (T10)
   P2B = results_phase2b/analysis/tables      (T12)
   V2  = results_final/analysis_v2/tables     (mô hình chi phí, bộ nhớ của giai đoạn khám phá)
-  PR  = handoff/preregistration              (mô tả giả thuyết)
-  report/_check/correctness_output.txt       (CorrectnessTest, chạy lại ở T14)
+  PR  = preregistration              (mô tả giả thuyết)
+  results_correctness/correctness_jdk25.txt       (CorrectnessTest, chạy lại ở T14)
   results_*/env_fork*.txt, raw_fork*.csv     (thiết kế và thời gian các phiên, bảng t03)
   git log                                    (hash commit; không gõ tay)
 
@@ -36,7 +36,7 @@ import make_tables as mt  # noqa: E402  (tiện ích định dạng: sc, pct, nu
 P2 = ROOT / "results_phase2" / "analysis" / "tables"
 P2B = ROOT / "results_phase2b" / "analysis" / "tables"
 V2 = ROOT / "results_final" / "analysis_v2" / "tables"
-PR = ROOT / "handoff" / "preregistration"
+PR = ROOT / "preregistration"
 OUT = ROOT / "report" / "tables"
 CHK = ROOT / "report" / "_check"
 CMD = "python report/make_tables_p2.py"
@@ -195,7 +195,7 @@ VI_KQ = {"PASS": "Đạt", "FAIL": "Không đạt"}
 
 
 def t01_correctness():
-    src = CHK / "correctness_output.txt"
+    src = ROOT / "results_correctness" / "correctness_jdk25.txt"
     txt = src.read_text(encoding="utf-8")
     jdk = re.search(r"^# java\.version: (.+)$", txt, re.M)
     rows = []
@@ -220,7 +220,7 @@ def t01_correctness():
     rows.append(f"\\multicolumn{{5}}{{p{{0.95\\linewidth}}}}{{\\footnotesize JDK: {jtxt}; chạy ngày {dtxt}.}} \\\\")
     write("t01_correctness",
           tabular("rXrrl", ["Nhóm", "Nội dung kiểm tra", "Số lần", "Số lỗi", "Kết quả"], rows, env="tabularx", width="\\linewidth"),
-          "report/_check/correctness_output.txt (output nguyên văn của CorrectnessTest, chạy lại ở T14)",
+          "results_correctness/correctness_jdk25.txt (output nguyên văn của CorrectnessTest, chạy lại ở T14)",
           note=f"JDK của lần chạy (dòng đầu tệp nguồn): {jdk[1] if jdk else 'không ghi trong tệp'}")
     if not jdk or not day or "# --- output nguyên văn ---" not in txt:
         raise SystemExit("DỪNG: correctness_output.txt thiếu dòng tiêu đề (# java.version / # Ngày chạy / # --- output nguyên văn ---)")
@@ -289,7 +289,7 @@ def t02_env():
           "results_run5_s1/env_fork1.txt (java.*, os.*, availableProcessors, physical_memory_total, jvm_input_arguments); "
           "results_doubling_v2/env_fork1.txt (cờ JVM doubling test chính); results_doubling/cpu_info.txt (CPU, L2, L3, con trỏ nén); "
           "results_final/env/{systeminfo,ram,power_scheme}.txt; lib/jmh-core-*.jar; scripts/requirements.txt; "
-          "Power Throttling: handoff/CONTEXT.md mục T11-run (khai báo người dùng, không có tệp đo)")
+          "Power Throttling: khai báo của người đo (không có tệp đo)")
     return len(rows)
 
 
@@ -303,9 +303,9 @@ def raw_stats(d: Path):
 def t03_design():
     sq2 = pd.read_csv(P2 / "p2_session_quality.csv").set_index(["session", "fork"])
     sq2b = pd.read_csv(P2B / "p2b_session_quality.csv").set_index(["session", "fork"])
-    c_t04 = f"{commit_of(r'T04-PREREG:')}, {commit_of(r'T04-PREREG-ADD:')}"
-    c_t09 = commit_of(r"T09-PREREG:")
-    c_t11 = f"{commit_of(r'T11-PREREG:')}, {commit_of(r'T11-PREREG-ADD:')}"
+    c_t04 = f"{commit_of(r'Kế hoạch doubling test sơ bộ: dự đoán')}, {commit_of(r'Kế hoạch doubling test sơ bộ: bổ sung')}"
+    c_t09 = commit_of(r"Kế hoạch các phép đo chính")
+    c_t11 = f"{commit_of(r'Kế hoạch JMH yếu tố đầy đủ')}, {commit_of(r'Kế hoạch JMH: bổ sung')}"
 
     ANA = {"Sơ bộ": None, "Chính": "results_phase2/analysis", "Bổ sung": "results_phase2b/analysis"}
     ANA_SESS = {"Run 3": "results_final/analysis, results_final/analysis_v2", "Run 4": "results_final/analysis",
@@ -370,7 +370,7 @@ def t03_design():
     write("t03_design", body,
           "raw_fork*.csv (số hàng, CUTOFF, fork, trial), env_fork*.txt (elapsed), results_jmh/jmh_results.csv (Samples), "
           "results_jmh_v2/jmh_v2*.json (rawData), P2/p2_session_quality.csv, P2B/p2b_session_quality.csv "
-          "(duration_s, pct_low_clock_lt110, status); hash: git log --grep tiêu đề T04-PREREG, T09-PREREG, T11-PREREG",
+          "(duration_s, pct_low_clock_lt110, status); hash: git log, lọc theo tiêu đề commit kế hoạch",
           note="Cột c: số CUTOFF trong lưới theo phân bố/kiểu (nhiều giá trị = khác nhau theo phân bố). Trial: số trial theo thang.\n"
                "Thời gian: tổng elapsed của các fork (env) hoặc duration_s của typeperf (JMH). Các phép đo sơ bộ: quy tắc typeperf chưa có.")
     drows = []
@@ -926,11 +926,12 @@ def ta_d3_full():
 
 
 def ta_prereg_commits():
-    pats = [("kế hoạch", r"T04-PREREG:"), ("kế hoạch", r"T04-PREREG-ADD:"), ("dữ liệu", r"T04-run:"),
-            ("kế hoạch", r"T09-PREREG:"), ("dữ liệu", r"T09 du lieu tho"),
-            ("phân tích", r"T10-code"), ("phân tích", r"T10: phan tich"), ("kế hoạch", r"T11-PREREG:"),
-            ("kế hoạch (phụ lục)", r"T11-PREREG-ADD:"), ("dữ liệu", r"T11-run: du lieu S7"), ("dữ liệu (loại)", r"T11-run: S6 lan 2"),
-            ("dữ liệu", r"T11-run: du lieu S6 lan 3"), ("phân tích", r"T12-code"), ("phân tích", r"T12: phan tich")]
+    pats = [("kế hoạch", r"Kế hoạch doubling test sơ bộ: dự đoán"), ("kế hoạch", r"Kế hoạch doubling test sơ bộ: bổ sung"),
+            ("dữ liệu", r"Dữ liệu doubling test sơ bộ"), ("kế hoạch", r"Kế hoạch các phép đo chính"),
+            ("dữ liệu", r"Dữ liệu thô các phép đo chính"), ("phân tích", r"Phân tích các phép đo chính"),
+            ("kế hoạch", r"Kế hoạch JMH yếu tố đầy đủ"), ("kế hoạch (bổ sung)", r"Kế hoạch JMH: bổ sung"),
+            ("dữ liệu", r"Dữ liệu int\[\] mở rộng"), ("dữ liệu (loại)", r"Lần đo JMH thứ hai"),
+            ("dữ liệu", r"Dữ liệu JMH yếu tố đầy đủ"), ("phân tích", r"Phân tích JMH yếu tố đầy đủ")]
     out = git("log", "--format=%h\t%ct\t%s", "--all")
     rows = []
     for kind, pat in pats:

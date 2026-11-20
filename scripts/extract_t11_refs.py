@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
 scripts/extract_t11_refs.py — Trích giá trị tham chiếu từ giai đoạn 2 và xuất các tệp đăng ký trước T11:
-  - handoff/preregistration/T11_reference_values.csv
-  - handoff/preregistration/T11_hypotheses.csv
+  - preregistration/T11_reference_values.csv
+  - preregistration/T11_hypotheses.csv
 
 Tuân thủ Quy tắc A (T11_code.md §5):
   - Đọc trực tiếp từ results_phase2/analysis/tables/ (p2_jmh.csv, p2_best.csv, p2_d3_best.csv).
@@ -24,7 +24,7 @@ import pandas as pd
 
 TOL_RULE_A = 5e-5
 
-# Số tham chiếu của Claude trong handoff/preregistration/T11_contract.md §5 (4 chữ số thập phân)
+# Số tham chiếu của Claude trong preregistration/T11_contract.md §5 (4 chữ số thập phân)
 CLAUDE_REF_R_T08 = {
     (4096, 7): 0.6144,
     (4096, 10): 0.5885,
@@ -239,7 +239,7 @@ def parse_args():
     )
     ap.add_argument("--tables-dir", type=Path, default=Path("results_phase2/analysis/tables"),
                     help="Thư mục chứa các bảng CSV giai đoạn 2 (mặc định: results_phase2/analysis/tables)")
-    ap.add_argument("--out-dir", type=Path, default=Path("handoff/preregistration"),
+    ap.add_argument("--out-dir", type=Path, default=Path("preregistration"),
                     help="Thư mục xuất T11_reference_values.csv và T11_hypotheses.csv")
     return ap.parse_args()
 

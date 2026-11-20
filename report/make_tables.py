@@ -397,7 +397,7 @@ def t6_doubling():
 
     write("t06_doubling", body,
           "DB/A1_pred_error_full.csv (e_k, abs_e_k, k_from = 19, 20, 21), DB/A1_pred_error_summary.csv (k_pass, total_k), DB/A3_step_test.csv (D_mean, D_hat_P3, reject_P3)",
-          note=f"e_k = ln R_hat - ln R_bar; ngưỡng đã đăng ký |e_k| <= 1.5% (PR: handoff/preregistration/T04_predictions.md, Phần E).\n{note_text}")
+          note=f"e_k = ln R_hat - ln R_bar; ngưỡng đã đăng ký |e_k| <= 1.5% (PR: preregistration/T04_predictions.md, Phần E).\n{note_text}")
 
 
 def ta04_doubling_full():
@@ -566,7 +566,7 @@ def ta06_run_conditions():
                      " / ".join(f"{x:.2f}" for x in free) if free else "--"])
     write("ta06_run_conditions", tabular("llccc", ["Lượt", "Ghim nhân", hc("Bắt đầu", "fork 1"), hc("Thời gian", "fork 1 / 2 / 3"), hc("RAM trống đầu", "fork (GB)")], rows),
           "results_run1, results, results_run3, results_run4, results_doubling: env_fork{1,2,3}.txt (start_time, elapsed, physical_memory_free_at_start); "
-          "cột ghim nhân: scripts/run_run4.bat, scripts/run_doubling.bat; dagger: handoff/CONTEXT.md (run 1, 2 không ghim; run 3 ghim nhân 5) vì không có tệp nguồn",
+          "cột ghim nhân: scripts/run_run4.bat, scripts/run_doubling.bat; dagger: ghi chép phiên đo (run 1, 2 không ghim; run 3 ghim nhân 5) vì không có tệp nguồn",
           note="GB = 1e9 B.")
 
 
@@ -582,7 +582,7 @@ def ta01_other_dist():
 
 
 def ta07_diag_c1():
-    src = ROOT / "report" / "report_outline_v3.md"
+    src = ROOT / "diag" / "diag_chain.md"
     lines = src.read_text(encoding="utf-8").splitlines()
     i0 = next(i for i, l in enumerate(lines) if "| Bước | Câu hỏi | Cách làm" in l)
     rows = []
@@ -607,7 +607,7 @@ def ta07_diag_c1():
         rows.append(t)
     write("ta07_diag_c1", "\\footnotesize\n" + tabular("cp{0.16\\linewidth}p{0.22\\linewidth}p{0.32\\linewidth}p{0.22\\linewidth}",
                                                        ["Bước", "Câu hỏi", "Cách làm", "Kết quả chính", "Kết luận"], rows),
-          "report/report_outline_v3.md, Phụ lục C, Bảng C1 (đã bỏ cột Fact; dòng 0 bỏ (S§10); dòng 4 cập nhật giả thuyết gói nguồn)")
+          "diag/diag_chain.md (bảng chuỗi chẩn đoán (đã bỏ cột Fact; dòng 0 bỏ (S§10); dòng 4 cập nhật giả thuyết gói nguồn)")
 
 
 def main():

@@ -15,9 +15,9 @@ Ba bộ dự đoán cho 9 CUTOFF {1, 4, 7, 8, 10, 16, 30, 32, 64}:
   - P3b: Biến thể P3 không có bước: α16 cho mọi k >= 15
 
 Đầu ra:
-  - handoff/preregistration/T04_predictions.csv (R_hat, b_hat cho k_from = 10..21)
-  - handoff/preregistration/T04_extrapolation.csv (Q_k = T(2^k)/T(2^19) cho k = 20, 21, 22)
-  - handoff/preregistration/T04_predictions.md (thuyết minh, kiểm chứng Quy tắc A, Phần E)
+  - preregistration/T04_predictions.csv (R_hat, b_hat cho k_from = 10..21)
+  - preregistration/T04_extrapolation.csv (Q_k = T(2^k)/T(2^19) cho k = 20, 21, 22)
+  - preregistration/T04_predictions.md (thuyết minh, kiểm chứng Quy tắc A, Phần E)
 """
 
 from __future__ import annotations
@@ -56,8 +56,8 @@ def parse_args():
     parser.add_argument("--coef-file", type=Path,
                         default=Path("results_final/analysis_v2/tables/cost_model_M2_coef.csv"),
                         help="File hệ số mô hình M2")
-    parser.add_argument("--out-dir", type=Path, default=Path("handoff/preregistration"),
-                        help="Thư mục đầu ra đăng ký (mặc định: handoff/preregistration)")
+    parser.add_argument("--out-dir", type=Path, default=Path("preregistration"),
+                        help="Thư mục đầu ra đăng ký (mặc định: preregistration)")
     parser.add_argument("--seed", type=int, default=20261030, help="Seed cố định")
     parser.add_argument("--addendum", action="store_true",
                         help="Chỉ sinh tệp addendum cho predictor P3c (T04c)")
@@ -476,9 +476,9 @@ def generate_addendum(args):
     """
     T04c: Bổ sung đăng ký dự đoán P3c (nội suy tuyến tính alpha)
     Xuất vào:
-      - handoff/preregistration/T04_predictions_addendum.csv
-      - handoff/preregistration/T04_extrapolation_addendum.csv
-      - handoff/preregistration/T04_addendum.md
+      - preregistration/T04_predictions_addendum.csv
+      - preregistration/T04_extrapolation_addendum.csv
+      - preregistration/T04_addendum.md
     KHÔNG sửa các file đã commit ở 0aa6ca4.
     """
     print("=" * 80)
@@ -709,7 +709,7 @@ Trước khi có dữ liệu đo, ba giả thuyết khoa học đưa ra các d�
 
 ## 5. Bổ sung Kế hoạch Phân tích (Phần E)
 
-Kế hoạch phân tích đã chốt tại Phần E của [T04_predictions.md](file:///d:/DSA/cutoff-experiment/handoff/preregistration/T04_predictions.md) được bổ sung như sau (bổ sung, không thay thế):
+Kế hoạch phân tích đã chốt tại Phần E của [T04_predictions.md](file:///d:/DSA/cutoff-experiment/preregistration/T04_predictions.md) được bổ sung như sau (bổ sung, không thay thế):
 - Predictor **P3c** được đưa vào đánh giá đầy đủ và bình đẳng cùng các predictor P1, P2, P2b, P3, P3b.
 - Tiêu chí đạt sai số dự đoán: $|e_k| = |\\ln \\hat{{R}}_k - \\ln \\bar{{R}}_k| \\le 1.5\\%$ áp dụng cho P3c trên mọi $k = 10..21$ và mọi CUTOFF.
 - Báo cáo RMSE của $e_k$ cho P3c trên toàn dải $k = 10..21$ và riêng vùng ngoại suy $k = 18..21$.
@@ -942,7 +942,7 @@ Dự đoán tỉ số tăng thời gian $R_k = T(2^{{k+1}}) / T(2^k)$ và số m
 
 ## 5. Phần E. KẾ HOẠCH PHÂN TÍCH (Chốt trước, nguyên văn)
 
-*(Sao chép nguyên văn từ đề bài `handoff/tasks/T04_doubling_prep.md`)*
+*(Sao chép nguyên văn từ đề bài `(đề bài nội bộ)`)*
 
 - **Đơn vị:** với mỗi (fork, N, c) lấy trung bình hình học của các trial của `time_ns` (đã là thời gian một lần sắp, K = 1). R_k theo fork = tỉ số hai ô cùng fork (cùng JVM nên mức JVM triệt tiêu); R̄_k = trung bình hình học của 3 fork.
 - **Sai số dự đoán:** $e_k = \\ln \\hat{{R}}_k - \\ln \\bar{{R}}_k$. "Đạt" nếu $|e_k| \\le 1.5\\%$ (xấp xỉ 3 lần sai số chuẩn kỳ vọng của $\\bar{{R}}_k$). Báo cáo bảng $e_k$ cho mọi predictor, CUTOFF và $k$; RMSE của $e_k$ trên $k = 10..21$ và riêng trên $k = 18..21$ (vùng ngoại suy); dự đoán tích lũy $Q_k$ cho $k = 20..22$ so với đo, kèm đúng 3 giá trị theo fork.

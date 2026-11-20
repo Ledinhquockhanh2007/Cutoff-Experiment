@@ -10,7 +10,7 @@ Quy ước:
   - time_ns ĐÃ LÀ thời gian của MỘT lần sắp xếp (K = 1 cố định), KHÔNG chia batch_k.
   - G(f, N, c) = trung bình hình học của time_ns qua các trial của (fork f, N, c).
   - R_k(f, c) = G(f, 2^(k+1), c) / G(f, 2^k, c); R_bar_k(c) = trung bình hình học qua 3 fork.
-  - Dự đoán đọc từ handoff/preregistration/ (không sửa file đăng ký).
+  - Dự đoán đọc từ preregistration/ (không sửa file đăng ký).
   - Mục A: KIỂM ĐỊNH ĐÃ ĐĂNG KÝ (A1-A6).
   - Mục B: KHÁM PHÁ (B1-B6).
 
@@ -84,8 +84,8 @@ def parse_args():
     parser = argparse.ArgumentParser(description="Phân tích Doubling Test T04b theo kế hoạch đã đăng ký")
     parser.add_argument("--data-dir", type=Path, default=Path("results_doubling"),
                         help="Thư mục chứa raw_fork*.csv (mặc định: results_doubling)")
-    parser.add_argument("--prereg-dir", type=Path, default=Path("handoff/preregistration"),
-                        help="Thư mục chứa file đăng ký dự đoán (mặc định: handoff/preregistration)")
+    parser.add_argument("--prereg-dir", type=Path, default=Path("preregistration"),
+                        help="Thư mục chứa file đăng ký dự đoán (mặc định: preregistration)")
     parser.add_argument("--results-final", type=Path, default=Path("results_final"),
                         help="Thư mục results_final để đối chiếu tái lập (mặc định: results_final)")
     parser.add_argument("--out-dir", type=Path, default=Path("results_doubling/analysis"),

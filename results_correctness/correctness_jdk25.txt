@@ -1,0 +1,25 @@
+# Lệnh: java -ea -cp build CorrectnessTest   (build biên dịch từ src/*.java tại commit 1bdc443)
+# java.version: openjdk version "25.0.4.1" 2026-08-18 LTS; máy đo (scripts/run_correctness.bat)
+# Ngày chạy: 2026-11-19T00:27:54Z
+# --- output nguyên văn ---
+GROUP                                                                  PASS  FAIL
+00. JVM runs with -ea                                                     1     0  PASS
+01. DataGenerator: values, encoding, determinism, plan                  266     0  PASS
+02. isSorted (N=0..300 x cutoff=1..70 x 5 distributions)             105350     0  PASS
+03. output is a permutation of input (vs Arrays.sort)                105350     0  PASS
+04. MergeCutoff == MergeCutoffCounted (same objects, same order)     105350     0  PASS
+05. stability (Item(key, idx))                                       126420     0  PASS
+06. cutoff < 1 -> IllegalArgumentException                               32     0  PASS
+07. 1/2 N lgN <= C <= N lgN (cutoff=1, N=2^k)                            85     0  PASS
+08. S = N(lgN - m) (N=2^k, cutoff=2^m, m<k)                             403     0  PASS
+09. S = simulated recursion tree (independent)                       105350     0  PASS
+10. A = 4S + 2C + 4E                                                 105668     0  PASS
+11. E = inversions of original array on leaves (independent)         105350     0  PASS
+12. insertion alone: sorted / reversed, k=1..50                         100     0  PASS
+13. no unexpected exception                                          111991     0  PASS
+14. MergeCutoff (timed version) has same tree: compares match        105350     0  PASS
+15. Extended grid up to 4096 (sorted, nearly_sorted, reversed)          363     0  PASS
+16. MergeCutoffInt: identical output and compare count vs MergeCutoff     6397     0  PASS
+17. MergeCutoffInt extended grid (56..256, boundary & scale N)          378     0  PASS
+
+TOTAL: 984204 checks, 0 failed -> PASS  (6.9 s)

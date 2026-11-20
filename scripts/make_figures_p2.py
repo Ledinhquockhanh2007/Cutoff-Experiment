@@ -2,10 +2,10 @@
 """
 scripts/make_figures_p2.py: hình báo cáo bản 2 (T13; dữ liệu chính là giai đoạn xác nhận và chẩn đoán).
 
-Đề bài: handoff/tasks/T13_figures.md. Dàn ý: report/report_outline_final.md.
+Đề bài: (đề bài nội bộ) Dàn ý: report/report_outline_final.md.
 - Dùng lại set_style, COLORS, save_fig_bundle của scripts/make_figures.py (import, cùng font/cỡ/dpi, pdf.fonttype 42).
 - Số liệu đọc từ results_phase2/analysis/tables (P2), results_phase2b/analysis/tables (P2B),
-  handoff/preregistration (PR); đường theo fork (figA11) và typeperf (figA10) qua CHÍNH các hàm của
+  preregistration (PR); đường theo fork (figA11) và typeperf (figA10) qua CHÍNH các hàm của
   scripts/analyze_t10.py và scripts/session_quality.py (import, không viết lại).
 - KHÔNG có bước ngẫu nhiên (mọi CI lấy từ bảng P2/P2B, đã tính với seed ghi trong bảng/run_log),
   nên không cần seed; tham số --seed chỉ để giữ giao diện chung và không được dùng.
@@ -42,10 +42,10 @@ from scripts import make_figures as mf
 
 P2 = PROJECT_ROOT / "results_phase2" / "analysis" / "tables"
 P2B = PROJECT_ROOT / "results_phase2b" / "analysis" / "tables"
-PR = PROJECT_ROOT / "handoff" / "preregistration"
+PR = PROJECT_ROOT / "preregistration"
 P2_REL = "results_phase2/analysis/tables"
 P2B_REL = "results_phase2b/analysis/tables"
-PR_REL = "handoff/preregistration"
+PR_REL = "preregistration"
 
 MM = 1 / 25.4
 W170 = 170 * MM
@@ -451,7 +451,7 @@ def make_fig06(out: Path):
 
 # ───────────────────────────────────────────────────────────── fig08
 
-PRED_BANDS = {  # từ handoff/preregistration/T09_hypotheses.csv (cột decision_rule)
+PRED_BANDS = {  # từ preregistration/T09_hypotheses.csv (cột decision_rule)
     "reversed": ("H6", 6, 16),
     "few_distinct": ("H7", 17, 48),
     "nearly_sorted": ("H9", 128, 1024),

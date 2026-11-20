@@ -33,7 +33,8 @@ bin/
 .idea/
 build/
 build_mut/
-data/
+data/*
+!data/manifest.csv
 data.zip
 data_doubling/*
 !data_doubling/manifest.csv
@@ -55,3 +56,12 @@ __pycache__/
 .venv/
 *.aux
 *.log
+
+### Tệp làm việc, không đưa lên repo ###
+report/_check/
+report/_preview/
+report/figures_updated/
+report/legacy/
+handoff/
+AGENTS.md
+*.iml

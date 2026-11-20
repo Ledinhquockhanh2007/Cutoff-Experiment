@@ -1,4 +1,4 @@
-% Nguồn: raw_fork*.csv (số hàng, CUTOFF, fork, trial), env_fork*.txt (elapsed), results_jmh/jmh_results.csv (Samples), results_jmh_v2/jmh_v2*.json (rawData), P2/p2_session_quality.csv, P2B/p2b_session_quality.csv (duration_s, pct_low_clock_lt110, status); hash: git log --grep tiêu đề T04-PREREG, T09-PREREG, T11-PREREG
+% Nguồn: raw_fork*.csv (số hàng, CUTOFF, fork, trial), env_fork*.txt (elapsed), results_jmh/jmh_results.csv (Samples), results_jmh_v2/jmh_v2*.json (rawData), P2/p2_session_quality.csv, P2B/p2b_session_quality.csv (duration_s, pct_low_clock_lt110, status); hash: git log, lọc theo tiêu đề commit kế hoạch
 % Lệnh sinh: python report/make_tables_p2.py
 % Sinh tự động, KHÔNG sửa tay (sửa make_tables_p2.py rồi chạy lại).
 % Cột c: số CUTOFF trong lưới theo phân bố/kiểu (nhiều giá trị = khác nhau theo phân bố). Trial: số trial theo thang.
@@ -10,16 +10,16 @@ Nhóm & Phiên & \makecell{{Kế hoạch} \\ {(commit)}} & \makecell{{Phân bố
 \midrule
 Sơ bộ & Run 3 & không & 5 phân bố; random 3 thang, khác $2^{16}$ & 35/13 & 3 & 10/5 & \num{81720} & 1:15 & — \\
 Sơ bộ & Run 4 & không & random $2^{12}$ & 35 & 3 & 10 & \num{25200} & 0:01 & — \\
-Sơ bộ & Doubling test sơ bộ & 0aa6ca4, a46dc4d & random, $N=2^{10..22}$ & 9 & 3 & 10/5 & \num{2700} & 0:09 & — \\
-Chính & Thí nghiệm chính & c3e2b7f & random, 5 thang & 35 & 5 & 10/5 & \num{168000} & 2:54 & ĐÁNH DẤU (13.0\%) \\
-Chính & Các phân bố khác & c3e2b7f & 4 phân bố $\times$ 3 thang & 24/15 & 5 & 5 & \num{140400} & 2:03 & HỢP LỆ \\
-Chính & Doubling test chính & c3e2b7f & random, $N=2^{10..24}$ & 9 & 5 & 10/5/3 & \num{4590} & 0:58 & HỢP LỆ \\
-Chính & Kiểu khóa & c3e2b7f & random, 3 thang $\times$ 3 kiểu khóa & 37 & 3 & 10/5 & \num{199800} & 3:07 & HỢP LỆ \\
-Chính & JMH ban đầu & c3e2b7f & random, 3 $N$ $\times$ 4 $c$ & 12 cấu hình & 3 & 10 vòng & \num{360} vòng & 0:09 & HỢP LỆ \\
-Bổ sung & JMH yếu tố đầy đủ lần 1 & ff163ba, b4bc8fa & (bị loại, không phân tích) & — & — & — & — & 1:08 & LOẠI (54.3\%) \\
-Bổ sung & JMH yếu tố đầy đủ lần 2 & ff163ba, b4bc8fa & (bị loại, không phân tích) & — & — & — & — & 1:09 & LOẠI (77.3\%) \\
-Bổ sung & JMH yếu tố đầy đủ lần 3 & ff163ba, b4bc8fa & random, 3 $N$ $\times$ 4 $c$ & 72 cấu hình & 3 & 10 vòng & \num{2160} vòng & 1:06 & HỢP LỆ \\
-Bổ sung & int[] mở rộng & ff163ba, b4bc8fa & random int[], 3 thang & 43 & 6 & 10/5 & \num{154800} & 0:54 & HỢP LỆ \\
+Sơ bộ & Doubling test sơ bộ & a8eded7, e95632e & random, $N=2^{10..22}$ & 9 & 3 & 10/5 & \num{2700} & 0:09 & — \\
+Chính & Thí nghiệm chính & dd568ea & random, 5 thang & 35 & 5 & 10/5 & \num{168000} & 2:54 & ĐÁNH DẤU (13.0\%) \\
+Chính & Các phân bố khác & dd568ea & 4 phân bố $\times$ 3 thang & 24/15 & 5 & 5 & \num{140400} & 2:03 & HỢP LỆ \\
+Chính & Doubling test chính & dd568ea & random, $N=2^{10..24}$ & 9 & 5 & 10/5/3 & \num{4590} & 0:58 & HỢP LỆ \\
+Chính & Kiểu khóa & dd568ea & random, 3 thang $\times$ 3 kiểu khóa & 37 & 3 & 10/5 & \num{199800} & 3:07 & HỢP LỆ \\
+Chính & JMH ban đầu & dd568ea & random, 3 $N$ $\times$ 4 $c$ & 12 cấu hình & 3 & 10 vòng & \num{360} vòng & 0:09 & HỢP LỆ \\
+Bổ sung & JMH yếu tố đầy đủ lần 1 & 588c22a, e84fc1f & (bị loại, không phân tích) & — & — & — & — & 1:08 & LOẠI (54.3\%) \\
+Bổ sung & JMH yếu tố đầy đủ lần 2 & 588c22a, e84fc1f & (bị loại, không phân tích) & — & — & — & — & 1:09 & LOẠI (77.3\%) \\
+Bổ sung & JMH yếu tố đầy đủ lần 3 & 588c22a, e84fc1f & random, 3 $N$ $\times$ 4 $c$ & 72 cấu hình & 3 & 10 vòng & \num{2160} vòng & 1:06 & HỢP LỆ \\
+Bổ sung & int[] mở rộng & 588c22a, e84fc1f & random int[], 3 thang & 43 & 6 & 10/5 & \num{154800} & 0:54 & HỢP LỆ \\
 \bottomrule
 \end{tabular}
 \par\smallskip\raggedright\footnotesize Ghi chú: ngoài lần doubling test sơ bộ, các phép đo sơ bộ không có kế hoạch ghi trước khi đo; các lựa chọn hậu nghiệm được kiểm lại ở các phép đo chính. Thư mục dữ liệu và phân tích của từng phiên: Bảng~\ref{tab:sessions_dirs} (phụ lục A).

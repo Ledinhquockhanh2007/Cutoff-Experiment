@@ -3,9 +3,8 @@
 scripts/analyze_t10.py — Phân tích giai đoạn 2 theo Hợp đồng đăng ký trước T09 (H1–H17, H10b).
 
 Tuân thủ:
-  - Hợp đồng: handoff/preregistration/T09_contract.md (commit c3e2b7f)
-  - Định nghĩa đã chốt: handoff/tasks/T10_analysis.md §2
-  - Quy tắc A–E trong handoff/README.md
+  - Hợp đồng: preregistration/T09_contract.md (commit c3e2b7f)
+  - Định nghĩa đã chốt: (đề bài nội bộ) §2
   - Nhãn đầu ra: [ĐK] (kiểm định đã đăng ký), [KP] (khám phá), [MT] (mô tả)
   - Bootstrap mặc định: B = 10 000, seed gốc = 20261117 (mỗi bảng có RNG riêng, ghi vào run_log.txt)
 
@@ -870,7 +869,7 @@ def run_self_check(B: int = DEFAULT_B) -> int:
 
     # ── Check 4: Tái tính 3 dòng ngẫu nhiên mỗi thang mới của T09_predictions_m2.csv
     print("\n[Check 4] Tái tính 3 dòng bất kỳ mỗi thang mới (2^14, 2^18) từ T09_predictions_m2.csv (dung sai 1e-12)")
-    pred_m2 = pd.read_csv(PROJECT_ROOT / "handoff/preregistration/T09_predictions_m2.csv")
+    pred_m2 = pd.read_csv(PROJECT_ROOT / "preregistration/T09_predictions_m2.csv")
     coef = pd.read_csv(rf_dir / "analysis_v2/tables/cost_model_M2_coef.csv").set_index("parameter")["coef"].to_dict()
     w1, w2, w3, beta = coef["ML_b1"], coef["ML_b2"], coef["ML_b3"], coef["exchanges"]
     a12, a16, a19 = coef["ML_b456_12"], coef["ML_b456_16"], coef["ML_b456_19"]
@@ -1008,8 +1007,8 @@ def _run_phase2_body(tables_dir: Path, B: int, base_seed: int, t11_fixes: bool =
 
     # Đối chiếu hệ số M2 và GĐ1 (Quy tắc A)
     gd1_r_path = PROJECT_ROOT / "results_final/analysis/tables/r_by_cutoff.csv"
-    pred_m2_path = PROJECT_ROOT / "handoff/preregistration/T09_predictions_m2.csv"
-    pred_dv2_path = PROJECT_ROOT / "handoff/preregistration/T09_predictions_doubling_v2.csv"
+    pred_m2_path = PROJECT_ROOT / "preregistration/T09_predictions_m2.csv"
+    pred_dv2_path = PROJECT_ROOT / "preregistration/T09_predictions_doubling_v2.csv"
     coef_m2_path = PROJECT_ROOT / "results_final/analysis_v2/tables/cost_model_M2_coef.csv"
     jmh_path = PROJECT_ROOT / "results_jmh/jmh_results.csv"
 
